@@ -51,10 +51,10 @@ const loginQuery = async (username, password) => {
         const result = await client.query(query, [username]);
         if (result.rows.length > 0) {
             const user = result.rows[0];
-            const isValidPassword = await bcrypt.compare(password, user.password);
+            const isValidPassword = await bcrypt.compare(password, user.password.slice(0,60));
 
             if (isValidPassword) {
-                return user;
+                return user; // { username , password }
             } else {
                 throw { code: 404, message: 'Erro ao tentar fazer login, tente alterar login e/ou senha.' };
             }

@@ -35,9 +35,9 @@ const checkUsername = async (req, res, next) => {
 };
 
 const checkEmail = async (req, res, next) => {
-    const email = req.params.username;
+    const email = req.params.email;
     try {
-        const exists = await userRepository.checkUsernameExists(email);
+        const exists = await userRepository.checkEmailExists(email);
         res.status(200).json({ exists });
     } catch (error) {
         next(error);
@@ -53,6 +53,7 @@ const login = async (req, res) => {
         const sessionToken = jwt.sign({ user }, SECRET_KEY, { expiresIn: SESSION_DURATION });
 
         // Envia o token JWT como resposta ao cliente
+        res.cookie('session_id', sessionToken, { maxAge: 900000, httpOnly: true })
         res.status(200).json({ sessionToken });
     } catch (error) {
         console.error('Erro ao tentar fazer login:', error);

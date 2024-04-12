@@ -15,7 +15,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', async function () {
-        const response = await fetch('/api/login', {
+        const response = await fetch('/api/user/login', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -33,7 +33,7 @@
                 }
 
             })
-            window.location.href = "/";
+            window.location.href = "/login";
         }
 
         else {
@@ -43,14 +43,14 @@
         const exitButton = document.querySelector('#exit');
 
         exitButton.onclick = function () {
-            fetch('/api/login', {
+            fetch('/api/user/login', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
                 }
 
             })
-            window.location.href = "/";
+            window.location.href = "/login";
         }
     });
 </script>
