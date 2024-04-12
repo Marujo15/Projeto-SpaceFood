@@ -14,14 +14,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/login', (req, res) => {
   res.clearCookie('session_id');
-  res.sendFile(path.join(__dirname, 'public/login/index.html'));
+  res.sendFile(path.join(""));
 });
 
 app.get('/register', function(req, res) {
   res.sendFile(path.join(__dirname, 'public/register/index.html'));
 });
 
-app.use('/home', (req, res) => {
+app.get('/home', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/home/index.html'));
 });
 
