@@ -15,7 +15,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', async function () {
-        const response = await fetch('/api/login', {
+        const response = await fetch('/api/user/login', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -39,20 +39,19 @@
         else {
             document.getElementById('username').textContent = data.name;
         }
-
-        const exitButton = document.querySelector('#exit');
-
-        exitButton.onclick = function () {
-            fetch('/api/login', {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-
-            })
-            window.location.href = "/";
-        }
     });
+
+    const exitButton = document.querySelector('#exit');
+
+    exitButton.addEventListener('click', () => {
+        fetch('/api/user/login', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        window.location.href = "/";
+    })
 </script>
 
 </html>
