@@ -1,0 +1,197 @@
+:root {
+    --B1: #1B1B1B;
+    --B2: #2A2A2A;
+    --B3: #EAE7D3;
+    --B4: #F6F3DE;
+    --C1: #DC1F1F;
+    --C2: #B81E19;
+    --C3: #EE4510;
+    --C4: #FF6A00;
+    --C5: #FF7614;
+    --C6: #FF8228;
+    --C7: #6EDA53;
+
+    --star: #C3AC98;
+}
+
+.roboto-3 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.roboto {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.roboto-5 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.roboto-7 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.roboto-9 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 900;
+    font-style: normal;
+}
+
+
+.kaushan {
+    font-family: "Kaushan Script", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* --- Login Page --- */
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100dvh;
+    width: 100%;
+    background: var(--B4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    user-select: none;          
+}
+
+/* Panets + stars */
+.fundo{
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 100dvh;
+    overflow: hidden;
+    z-index: -1;
+}
+
+img{
+    position: absolute;
+    height: 100dvh;
+    overflow: hidden;
+}
+
+.stars{
+    scale: 1.1;
+    top: 36px;
+    right: 140px;
+}
+
+.planeta1{
+    scale: 0.5;
+    width: 100%;
+    left: 600px;
+    bottom: 200px;
+}
+
+.planeta2{
+    scale: 0.5;
+    width: 100%;
+    right: 600px;
+    top: 200px;
+}
+
+/* Wlecome + Logo */
+.text-div{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 380px;
+    height: 250px;
+}
+
+.txt-sp1{
+    font-size: 35px;
+    color: var(--B2);
+    width: 170px;
+    position: absolute;
+    left: 120px;
+}
+
+.txt-sp2{
+    font-size: 145px;
+    color: var(--C1);
+    position: absolute;
+    top: 20px;
+}
+
+.txt-sp3{
+    font-size: 45px;
+    color: var(--C4);
+    position: absolute;
+    left: 140px;
+    top: 185px;
+}
+
+/* Login display + Inputs */
+.login-display{
+    background: var(--B3);
+    display: flex;
+    width: 650px;
+    height: 380px;
+    border-radius: 30px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+}
+
+form{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    width: 100%;
+    height: 100%;
+
+    margin-top: 50px;
+}
+
+#username-input, #password-input, #name-input, #email-input, #confirm-password-input{
+    height: 40px;
+    width: 80%;
+    font-size: 20px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.3);
+    outline: none;
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+
+#submit-button{
+    margin-top: 15px;
+    height: 40px;
+    width: 130px;
+    background: var(--C6);
+    border: none;
+    border-radius: 15px;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 300ms ease;
+}
+
+#submit-button:hover{
+    scale: 1.03;
+    background: var(--C5);
+}
