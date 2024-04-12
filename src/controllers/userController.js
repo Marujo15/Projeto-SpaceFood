@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { SECRET_KEY, SESSION_DURATION } = require('../config');
 const userService = require('../service/userService');
+const userRepository = require('../repository/userRepository')
 
 const getLogin = async (req, res) => {
     const user = req.user
@@ -23,6 +24,25 @@ const registerUser = async (req, res) => {
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 };
+const checkUsername = async (req, res, next) => {
+    const username = req.params.username;
+    try {
+        const exists = await userRepository.checkUsernameExists(username);
+        res.status(200).json({ exists });
+    } catch (error) {
+        next(error);
+    }
+};
+
+const checkEmail = async (req, res, next) => {
+    const email = req.params.username;
+    try {
+        const exists = await userRepository.checkUsernameExists(email);
+        res.status(200).json({ exists });
+    } catch (error) {
+        next(error);
+    }
+};
 
 const login = async (req, res) => {
     try {
@@ -42,6 +62,8 @@ const login = async (req, res) => {
 
 module.exports = {
     registerUser,
+    checkUsername,
+    checkEmail,
     login,
     getLogin,
     clearCookies,

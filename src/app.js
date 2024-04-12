@@ -14,7 +14,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/login', (req, res) => {
   res.clearCookie('session_id');
-  res.sendFile(path.join(""));
+  res.sendFile(path.join(__dirname, 'public/login/index.html'));
 });
 
 app.get('/register', function(req, res) {
