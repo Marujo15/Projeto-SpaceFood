@@ -2,6 +2,16 @@ const jwt = require('jsonwebtoken');
 const { SECRET_KEY, SESSION_DURATION } = require('../config');
 const userService = require('../service/userService');
 
+const getLogin = async (req, res) => {
+    const user = req.user
+    return res.json(user)
+}
+
+const clearCookies = (req, res) => {
+    res.clearCookie('session_id')
+    res.status(200).json({ success: true })
+}
+
 const registerUser = async (req, res) => {
     try {
         const { name, username, email, password } = req.body;
@@ -33,4 +43,6 @@ const login = async (req, res) => {
 module.exports = {
     registerUser,
     login,
+    getLogin,
+    clearCookies,
 };
