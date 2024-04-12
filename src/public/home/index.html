@@ -33,11 +33,24 @@
                 }
 
             })
-            window.location.href = "/";
+            window.location.href = "/login";
         }
 
         else {
             document.getElementById('username').textContent = data.name;
+        }
+
+        const exitButton = document.querySelector('#exit');
+
+        exitButton.onclick = function () {
+            fetch('/api/user/login', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            
+            window.location.href = "/login";
         }
     });
 

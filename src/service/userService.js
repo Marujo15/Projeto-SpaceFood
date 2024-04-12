@@ -75,7 +75,8 @@ const loginService = async (username, password) => {
             error.status = 400;
             throw error;
         }
-        await userRepository.loginQuery( username, password);
+
+        return await userRepository.loginQuery(username, password);
     } catch (error) {
         error.status = error.status || 500;
         throw error;
