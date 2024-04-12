@@ -21,7 +21,7 @@ app.get('/register', function(req, res) {
   res.sendFile(path.join(__dirname, 'public/register/index.html'));
 });
 
-app.use('/home', (req, res) => {
+app.get('/home', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/home/index.html'));
 });
 
