@@ -3,6 +3,16 @@ const { SECRET_KEY, SESSION_DURATION } = require('../config');
 const userService = require('../service/userService');
 const userRepository = require('../repository/userRepository')
 
+const getLogin = async (req, res) => {
+    const user = req.user
+    return res.json(user)
+}
+
+const clearCookies = (req, res) => {
+    res.clearCookie('session_id')
+    res.status(200).json({ success: true })
+}
+
 const registerUser = async (req, res) => {
     try {
         const { name, username, email, password } = req.body;
@@ -55,4 +65,6 @@ module.exports = {
     checkUsername,
     checkEmail,
     login,
+    getLogin,
+    clearCookies,
 };
