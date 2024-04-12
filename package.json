@@ -1,7 +1,6 @@
 {
   "name": "spacefood",
   "version": "1.0.0",
-  "description": "",
   "main": "src/app.js",
   "scripts": {
     "start": "node ./src/app.js"
@@ -15,5 +14,7 @@
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.11.5"
-  }
+  },
+  "keywords": [],
+  "description": ""
 }
