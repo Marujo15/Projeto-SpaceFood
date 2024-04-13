@@ -5,7 +5,7 @@ const validator = require('../utils/userValidator');
 
 const getLogin = async (req, res) => {
     const user = req.user
-    return res.json(user)
+    return res.json(user);
 }
 
 const clearCookies = (req, res) => {
