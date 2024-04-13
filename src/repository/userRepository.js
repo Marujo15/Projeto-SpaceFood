@@ -16,7 +16,7 @@ const checkUsernameExists = async (username) => {
     try {
         const client = await connectToDatabase();
         const result = await client.query(query, [username]);
-        return result.rows[0].count > 0;
+        return result.rows;
     } catch (error) {
         console.error("Erro ao verificar se existe o nome de usuário:", error);
         throw error;
@@ -28,14 +28,14 @@ const checkEmailExists = async (email) => {
     try {
         const client = await connectToDatabase();
         const result = await client.query(query, [email]);
-        return result.rows[0].count > 0;
+        return result.rows;
     } catch (error) {
         console.error("Erro ao verificar se existe o email :", error);
         throw error;
     }
 };
 
-const loginQuery = async (username, password) => {
+const loginQuery = async (username) => {
     const query = 'SELECT * FROM users WHERE username = $1';
 
     try {

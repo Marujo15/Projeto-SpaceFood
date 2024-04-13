@@ -74,22 +74,58 @@ const registerUser = async (req, res) => {
 };
 
 const checkUsername = async (req, res, next) => {
-    const username = req.params.username;
     try {
-        const exists = await userRepository.checkUsernameExists(username);
+        const username = req.params.username;
+
+        if (validator.isEmpty(username)) {
+            const error = new Error("O nome de usuário não pode ser vazio.");
+            error.status = 400;
+            throw error;
+        }
+        if (validator.hasSpace(username)) {
+            const error = new Error("O nome de usuário não pode conter espaços.");
+            error.status = 400;
+            throw error;
+        }
+        if (!validator.usernameSize(username)) {
+            const error = new Error("O nome de usuário não pode ser maior que 20 caracteres.");
+            error.status = 422;
+            throw error;
+        }
+
+        const exists = await userService.checkUsernameExistsService(username);
+
         res.status(200).json({ exists });
     } catch (error) {
-        next(error);
+        res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 };
 
-const checkEmail = async (req, res, next) => {
-    const email = req.params.email;
+const checkEmail = async (req, res) => {
     try {
-        const exists = await userRepository.checkEmailExists(email);
+        const email = req.params.email;
+
+        if (validator.isEmpty(email)) {
+            const error = new Error("O email não pode estar vazio.");
+            error.status = 400;
+            throw error;
+        }
+
+        if (!validator.isEmail(email)) {
+            const error = new Error("O email não é válido.");
+            error.status = 400;
+            throw error;
+        }
+        if (!validator.emailSize(email)) {
+            const error = new Error("O email não pode ser maior que 100 caracteres.");
+            error.status = 422;
+            throw error;
+        }
+
+        const exists = await userService.checkEmailExistsService(email);
         res.status(200).json({ exists });
     } catch (error) {
-        next(error);
+        res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 };
 

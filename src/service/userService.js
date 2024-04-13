@@ -20,9 +20,47 @@ const registerUserService = async (name, username, email, password) => {
     }
 };
 
+const checkEmailExistsService = async (email) => {
+    try {
+        const result = await userRepository.checkEmailExists(email);
+
+        if (result[0].count > 0 ) {
+            const error = new Error("Este email já está em uso.");
+            error.status = 409;
+            throw error;
+        }
+
+        return false;
+
+    } catch (error) {
+        error.message = error.message || "Ocorreu um erro interno.";
+        error.status = error.status || 500;
+        throw error;
+    }
+};
+
+const checkUsernameExistsService = async (username) => {
+    try {
+        const result = await userRepository.checkUsernameExists(username);
+
+        if (result[0].count > 0 ) {
+            const error = new Error("Este nome de usuário já está em uso.");
+            error.status = 409;
+            throw error;
+        }
+
+        return false;
+
+    } catch (error) {
+        error.message = error.message || "Ocorreu um erro interno.";
+        error.status = error.status || 500;
+        throw error;
+    }
+};
+
 const loginService = async (username, password) => {
     try {
-        const result = await userRepository.loginQuery(username, password);
+        const result = await userRepository.loginQuery(username);
 
         if (result.rows.length > 0) {
             const user = result.rows[0];
@@ -49,5 +87,7 @@ const loginService = async (username, password) => {
 
 module.exports = {
     registerUserService,
+    checkEmailExistsService,
+    checkUsernameExistsService,
     loginService,
 }
