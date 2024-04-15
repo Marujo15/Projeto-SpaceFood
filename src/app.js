@@ -13,8 +13,7 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/assets/profile', express.static(path.join(__dirname, 'uploads', 'profile')));
-app.use('/assets/recipe', express.static(path.join(__dirname, 'uploads', 'recipe')));
+app.use('/assets', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/login', (req, res) => {
   res.clearCookie('session_id');

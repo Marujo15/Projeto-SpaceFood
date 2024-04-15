@@ -1,17 +1,37 @@
 const recipeService = require('../service/recipeService');
 const validator = require('../utils/recipeValidator');
+const jwt = require('jsonwebtoken');
+const config = require('../config');
+
+const getAllRecipes = async (req, res) => {
+    try {
+        const recipes = await recipeService.getAllRecipesService();
+        res.status(200).json({ data: recipes, status: 200 });
+    } catch (error) {
+        res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
+    }
+}
+
+const getRecipeDetailed = async (req, res) => {
+    try {
+        const recipeid = req.params.recipe_id;
+        const recipe = await recipeService.getRecipeDetailedService(recipeid);
+        res.status(200).json({ data: recipe, status: 200 });
+    } catch (error) {
+        res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
+    }
+}
 
 const createRecipe = async (req, res) => {
     try {
-        /*if (!req.file) {
+        if (!req.file) {
             const error = new Error("Nenhuma imagem foi enviada.");
             error.status = 400;
             throw error;
-        } */
+        }
 
         const { name, ingredient, step, category } = req.body;
-        //const image = req.file.filename;
-        const image = "teste.jpg";
+        const image = req.file.filename;
 
         if (validator.isEmpty(name)) {
             const error = new Error("A receita deve ter um nome.");
@@ -103,7 +123,9 @@ const createRecipe = async (req, res) => {
             }
         });
 
-        const login = req.cookies.session_id;
+        let login = req.cookies.session_id;
+        login = jwt.verify(login, config.SECRET_KEY);
+        login = login.user.id;
 
         await recipeService.createRecipeService(name, ingredient, step, category, image, login);
 
@@ -114,5 +136,7 @@ const createRecipe = async (req, res) => {
 };
 
 module.exports = {
+    getAllRecipes,
+    getRecipeDetailed,
     createRecipe,
 }
