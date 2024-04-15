@@ -73,5 +73,3 @@ buttonSubmit.addEventListener("click", async (e) => {
   }
 
 });
-
-
