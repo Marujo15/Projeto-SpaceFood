@@ -1,18 +1,17 @@
-const { Client } = require("pg");
+const { Pool } = require("pg");
 const config = require('../config');
 
+const pool = new Pool({
+  user: config.DB_USER,
+  host: config.DB_HOST,
+  database: config.DB_NAME,
+  password: config.DB_PASSWORD,
+  port: 5432,
+});
 
 async function connectToDatabase() {
-  const client = new Client({
-    user: config.DB_USER,
-    host: config.DB_HOST,
-    database: config.DB_NAME,
-    password: config.DB_PASSWORD,
-    port: 5432,
-  });
-
   try {
-    await client.connect();
+    const client = await pool.connect();
     console.log('Conexão bem sucedida!');
     return client;
   } catch (error) {

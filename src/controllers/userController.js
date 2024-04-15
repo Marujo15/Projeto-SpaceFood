@@ -1,12 +1,11 @@
 const jwt = require('jsonwebtoken');
 const { SECRET_KEY, SESSION_DURATION } = require('../config');
 const userService = require('../service/userService');
-const userRepository = require('../repository/userRepository')
 const validator = require('../utils/userValidator');
 
 const getLogin = async (req, res) => {
     const user = req.user
-    return res.json(user)
+    return res.json(user);
 }
 
 const clearCookies = (req, res) => {
