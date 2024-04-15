@@ -13,7 +13,7 @@ const getAllRecipesQuery = async() => {
 const getRecipeDetailedQuery = async(recipe_id) => {
     const client = await connectToDatabase();
     try {
-        const result = await client.query('SELECT recipe.id AS recipe_id, recipe.name AS recipe_name, recipe.image AS recipe_image, recipe.created_at AS recipe_date, ingredient.ingredients AS ingredients, preparation_method.steps AS preparation_method FROM recipe INNER JOIN (SELECT recipe_id, ARRAY_AGG(name) AS ingredients FROM ingredient GROUP BY recipe_id) AS ingredient ON recipe.id = ingredient.recipe_id INNER JOIN (SELECT recipe_id, ARRAY_AGG(step) AS steps FROM preparation_method GROUP BY recipe_id) AS preparation_method ON recipe.id = preparation_method.recipe_id WHERE recipe.id = $1', [recipe_id]);
+        const result = await client.query('SELECT recipe.id AS recipe_id, recipe.name AS recipe_name, recipe.image AS recipe_image, recipe.created_at AS recipe_date, ingredient.ingredients AS ingredients, preparation_method.steps AS preparation_method, category.name AS categories FROM recipe INNER JOIN (SELECT recipe_id, ARRAY_AGG(name) AS ingredients FROM ingredient GROUP BY recipe_id) AS ingredient ON recipe.id = ingredient.recipe_id INNER JOIN (SELECT recipe_id, ARRAY_AGG(step) AS steps FROM preparation_method GROUP BY recipe_id) AS preparation_method ON recipe.id = preparation_method.recipe_id INNER JOIN (SELECT recipe_id, ARRAY_AGG(name) AS name FROM category GROUP BY recipe_id) AS category ON recipe.id = category.recipe_id WHERE recipe.id = $1', [recipe_id]);
         return result.rows[0];
     } catch (error) {
         throw error;
