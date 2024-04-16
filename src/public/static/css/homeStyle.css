@@ -1,0 +1,246 @@
+:root {
+    --B1: #1B1B1B;
+    --B2: #2A2A2A;
+    --B3: #EAE7D3;
+    --B4: #F6F3DE;
+    --C1: #DC1F1F;
+    --C2: #B81E19;
+    --C3: #EE4510;
+    --C4: #FF6A00;
+    --C5: #FF7614;
+    --C6: #FF8228;
+    --C7: #6EDA53;
+
+    --star: #C3AC98;
+}
+
+.roboto-3 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.roboto {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.roboto-5 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.roboto-7 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.roboto-9 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 900;
+    font-style: normal;
+}
+
+
+.kaushan {
+    font-family: "Kaushan Script", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* --- Home Page --- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: grid;
+    height: 100dvh;
+    width: 100%;
+    grid-template-rows: 80px 1fr;
+}
+
+.aside-main {
+    display: grid;
+    grid-row: 2;
+    grid-template-columns: 200px 1fr;
+}
+
+/* --- Header --- */
+header {
+    background: var(--B4);
+    display: grid;
+    width: 100%;
+    grid-template-columns: 200px 1fr;
+}
+
+.header-logo {
+    grid-column: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.logo-space{
+    color: var(--C1);
+}
+
+.logo-food{
+    color: var(--C5);
+}
+
+.header-buttons {
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.header-button-following, .header-button-all{
+    background: none;
+    font-size: 16px;
+    height: 100%;
+    width: 100px;
+    border: none;
+    padding: 0 10px;
+    cursor: pointer;
+    transition: all 300ms ease;
+    border-bottom: 3px solid transparent;
+}
+
+.header-button-following:hover, .header-button-all:hover{
+    background: var(--B3);
+    border-bottom: 3px solid var(--C1);
+}
+
+.selected{
+    border-bottom: 3px solid var(--C5);
+}
+
+/* --- Main --- */
+main {
+    background: var(--B3);
+    grid-column: 2;
+}
+
+/* --- Aside --- */
+aside {
+    background: var(--B4);
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.abas {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 40%;
+    justify-content: space-evenly;
+    margin-top: 20%;
+}
+
+.abas i {
+    color: var(--B1);
+    font-size: 18px;
+}
+
+.aba-button {
+    cursor: pointer;
+    background: none;
+    height: 100%;
+    border: none;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    margin: 15px 20px;
+    padding-left: 20px;
+    border-radius: 100px;
+    transition: all 300ms ease;
+}
+
+.aba-button:hover{
+    background: rgba(238, 69, 16, 0.15);
+}
+
+.button-write {
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-write button {
+    background: var(--C6);
+    color: white;
+    border-radius: 10px;
+    border: none;
+    height: 40px;
+    width: 80%;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 300ms ease;
+}
+
+.button-write button:hover{
+    scale: 1.05;
+    background: var(--C4);
+}
+
+.button-user-div {
+    height: 30%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-user {
+    height: 30%;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--B3);
+    border: 1px solid var(--B1);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 300ms ease;
+}
+
+.button-user:hover{
+    background: rgba(238, 69, 16, 0.15);
+}
+
+.button-user img, .button-user div{
+    margin: 0 10px;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#user-name {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    color: var(--B1);
+}
+
+#user-username {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    color: var(--B2);
+}

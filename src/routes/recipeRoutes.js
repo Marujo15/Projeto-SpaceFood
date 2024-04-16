@@ -18,6 +18,6 @@ const upload = multer({
 
 router.get('/', authMiddleware, recipeController.getAllRecipes);
 router.get('/:recipe_id', authMiddleware, recipeController.getRecipeDetailed);
-router.post('/create', authMiddleware, upload.single('file'), recipeController.createRecipe);
+ router.post('/create', authMiddleware, upload.single('file'), recipeController.createRecipe);
 
 module.exports = router;
