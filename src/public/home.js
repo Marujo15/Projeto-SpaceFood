@@ -1,3 +1,4 @@
+const homeContent = `
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,11 +49,31 @@
                 headers: {
                     'Content-Type': 'application/json'
                 }
-
             })
+            
             window.location.href = "/login";
         }
     });
+
+    const exitButton = document.querySelector('#exit');
+
+    exitButton.addEventListener('click', () => {
+        fetch('/api/user/login', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        window.location.href = "/";
+    })
 </script>
 
 </html>
+`
+
+const homePage =  (req, res) => {
+    res.setHeader('Content-Type', 'text/html')
+    res.send(homeContent)
+}
+
+module.exports = homePage

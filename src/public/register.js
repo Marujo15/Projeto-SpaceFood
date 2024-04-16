@@ -1,3 +1,4 @@
+const registerContent = `
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -10,15 +11,15 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Roboto:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./static/css/registerStyle.css">
     <title>SpaceFood</title>
 </head>
 
 <body>
     <div class="fundo">
-        <img class="stars" src="../svg/stars.svg">
-        <img class="planeta1" src="../svg/planeta.svg">
-        <img class="planeta2" src="../svg/planeta2.svg">
+        <img class="stars" src="./static/SVG/stars.svg">
+        <img class="planeta1" src="./static/SVG/planeta.svg">
+        <img class="planeta2" src="./static/SVG/planeta2.svg">
     </div>
 
     <header class="text-div">
@@ -40,5 +41,13 @@
         </form>
     </main>
 </body>
-<script src="script.js"></script>
+<script src="./static/js/registerScript.js"></script>
 </html>
+`
+
+const registerPage =  (req, res) => {
+    res.setHeader('Content-Type', 'text/html')
+    res.send(registerContent)
+}
+
+module.exports = registerPage
