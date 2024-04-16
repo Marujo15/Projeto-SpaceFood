@@ -7,6 +7,8 @@ const getAllRecipesQuery = async() => {
         return result.rows;
     } catch (error) {
         throw error;
+    } finally {
+        client.release();
     }
 }
 
@@ -17,6 +19,8 @@ const getRecipeDetailedQuery = async(recipe_id) => {
         return result.rows[0];
     } catch (error) {
         throw error;
+    } finally {
+        client.release();
     }
 }
 
