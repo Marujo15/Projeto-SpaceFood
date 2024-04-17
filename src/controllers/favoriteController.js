@@ -17,7 +17,7 @@ const getFavorites = async(req, res) => {
 
 const addFavorite = async (req, res) => {
     try {
-        const recipeId = req.body.recipe_id;
+        const recipeId = req.params.recipe_id;
         let user_id = req.cookies.session_id;
         user_id = jwt.verify(user_id, config.SECRET_KEY);
         user_id = user_id.user.id;
