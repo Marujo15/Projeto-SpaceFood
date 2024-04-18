@@ -24,6 +24,18 @@ const getRecipeDetailedQuery = async(recipe_id) => {
     }
 }
 
+const searchRecipeQuery = async(recipe_name) => {
+    const client = await connectToDatabase();
+    try {
+        const result = await client.query(`SELECT recipe.id AS recipe_id, recipe.name AS recipe_name, recipe.image AS recipe_image, recipe.created_at AS recipe_date, users.id AS user_id, users.name AS name_user, users.image AS user_image FROM recipe INNER JOIN users ON recipe.user_id = users.id WHERE LOWER(recipe.name) LIKE '%' || $1 || '%'`, [recipe_name]);
+        return result.rows;
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
 const createRecipeQuery = async (name, ingredients, steps, category, image, login) => {
     const client = await connectToDatabase();
     try {
@@ -77,5 +89,6 @@ const createRecipeQuery = async (name, ingredients, steps, category, image, logi
 module.exports = {
     getAllRecipesQuery,
     getRecipeDetailedQuery,
+    searchRecipeQuery,
     createRecipeQuery,
 }

@@ -22,6 +22,17 @@ const getRecipeDetailed = async (req, res) => {
     }
 }
 
+const searchRecipes = async (req, res) => {
+    try {
+        const recipe = req.query.recipe_name.toLowerCase().trim();
+        console.log(recipe);
+        const recipes = await recipeService.searchRecipeService(recipe);
+        res.status(200).json({ data: recipes, status: 200 });
+    } catch (error) {
+        res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
+    }
+}
+
 const createRecipe = async (req, res) => {
     try {
         if (!req.file) {
@@ -138,5 +149,6 @@ const createRecipe = async (req, res) => {
 module.exports = {
     getAllRecipes,
     getRecipeDetailed,
+    searchRecipes,
     createRecipe,
 }

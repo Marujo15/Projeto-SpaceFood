@@ -17,6 +17,7 @@ const upload = multer({
 });
 
 router.get('/', authMiddleware, recipeController.getAllRecipes);
+router.get('/search', authMiddleware, recipeController.searchRecipes);
 router.get('/:recipe_id', authMiddleware, recipeController.getRecipeDetailed);
 router.post('/create', authMiddleware, upload.single('file'), recipeController.createRecipe);
 
