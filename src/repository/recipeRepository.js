@@ -7,6 +7,8 @@ const getAllRecipesQuery = async() => {
         return result.rows;
     } catch (error) {
         throw error;
+    } finally {
+        client.release();
     }
 }
 
@@ -17,6 +19,8 @@ const getRecipeDetailedQuery = async(recipe_id) => {
         return result.rows[0];
     } catch (error) {
         throw error;
+    } finally {
+        client.release();
     }
 }
 
@@ -24,7 +28,7 @@ const createRecipeQuery = async (name, ingredients, steps, category, image, logi
     const client = await connectToDatabase();
     try {
         await client.query('BEGIN');
-        const recipeInsertResult = await client.query('INSERT INTO recipe (name, image, user_id) VALUES ($1, $2, $3) RETURNING id', [name, image, login]);
+        const recipeInsertResult = await client.query('INSERT INTO recipe (name, image, user_id, created_at) VALUES ($1, $2, $3, DEFAULT) RETURNING id', [name, image, login]);
         
         const recipeId = recipeInsertResult.rows[0].id;
 

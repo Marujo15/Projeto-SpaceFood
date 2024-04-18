@@ -7,7 +7,7 @@ const multer = require('multer');
 
 const upload = multer({
     storage: multer.diskStorage({
-        destination: 'src/uploads/recipe/',
+        destination: 'src/uploads/',
         filename: (req, file, cb) => {
             const ext = file.originalname.split('.').pop();
             const filename = `${uuidv4()}.${ext}`;
