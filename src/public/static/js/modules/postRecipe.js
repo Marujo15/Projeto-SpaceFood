@@ -1,5 +1,10 @@
 function createRecipeCard() {
 
+    const modal = document.getElementById('recipeModal');
+    const modalContent = document.getElementById('recipe-content');
+    const errorMessage = document.getElementById('error-message');
+    const closeModal = document.getElementById('closeModal');
+
     const divPost = document.createElement("div");
     const divTitle = document.createElement("div");
     const divCategory = document.createElement("div");
@@ -10,8 +15,6 @@ function createRecipeCard() {
     const divImage = document.createElement("div");
     const divButton = document.createElement("div");
     const divContent = document.createElement("div");
-    const divIngredients = document.createElement("div");
-    const divPreparationMathod = document.createElement("div");
     const divButtomIngredientMethodo = document.createElement("div");
     const textTitle = document.createElement("p");
     const inputTitleRcipe = document.createElement("input");
@@ -35,9 +38,7 @@ function createRecipeCard() {
     const listIngredient = document.createElement("ul");
     const listStep = document.createElement("ul");
 
-    const modal = document.getElementById('recipeModal');
-    const modalContent = document.getElementById('recipe-content');
-    const errorMessage = document.getElementById('error-message');
+    closeModal.style.display = "none";
 
     divPost.id = "div-post";
 
@@ -54,7 +55,7 @@ function createRecipeCard() {
     div.appendChild(inputTitleRcipe);
     div.appendChild(divCategory);
     inputTitleRcipe.placeholder = "Nome da receita...";
-    inputTitleRcipe.id = "title";
+    inputTitleRcipe.id = "recipe-name";
 
     divCategory.appendChild(inputCategory);
     divCategory.appendChild(buttonCategory);
@@ -76,6 +77,7 @@ function createRecipeCard() {
     divRecipe.appendChild(divElement);
     divRecipe.appendChild(divButton);
 
+    //div dos botões de ingrediente e passos
     divButtomIngredientMethodo.appendChild(btnIngredient);
     divButtomIngredientMethodo.appendChild(btnStep);
     btnIngredient.innerText = "Ingredientes";
@@ -84,7 +86,9 @@ function createRecipeCard() {
     btnStep.id = "button-preparation-method";
 
     divElement.appendChild(divElementIngredient);
-    divElement.appendChild(divAddStep);
+    divElement.appendChild(divElementStep);
+
+    divElement.id = "element";
 
     divElementIngredient.appendChild(divAddIngredient);
     divElementIngredient.appendChild(listIngredient);
@@ -120,12 +124,18 @@ function createRecipeCard() {
     buttonAddRecipe.innerText = "Postar";
     buttonAddRecipe.id = "button-add";
 
-    modal.style.display = "flex";
     modalContent.innerHTML = "";
     modalContent.appendChild(divPost);
+    console.log("modalContent post:", modalContent);
+    console.log("modal post:", modal);
+    modal.appendChild(modalContent);
+    
+    modal.style.display = "block";
 
-    divElementStep.style.display = "none";
-    divElementIngredient.style.display = "flex";
+    console.log("divElement", divElement);
+    console.log("divElementStep:", divElementStep);
+
+ 
 
     btnIngredient.addEventListener("click", () => {
         divElementStep.style.display = "none";
@@ -140,26 +150,36 @@ function createRecipeCard() {
     const categories = [];
     buttonCategory.addEventListener("click", () => {
         categories.push(inputCategory.value);
+        const category = document.createElement("p");
+        category.innerText += " " + inputCategory.value;
+        divTag.appendChild(category);
     })
 
     const ingredient = [];
     buttonAddIngredient.addEventListener("click", () => {
         ingredient.push(inputAddIngredient.value);
+        const list = document.createElement("li");
+        list.innerText = inputAddIngredient.value;
+        listIngredient.appendChild(list);
     });
 
     const step = [];
     buttonAddStep.addEventListener("click", () => {
         step.push(inputAddStep.value);
+        const list = document.createElement("li");
+        list.innerText = inputAddStep.value;
+        listStep.appendChild(list);
     });
 
     buttonAddRecipe.addEventListener("click", async () => {
-        const title = inputTitleRcipe.value;
-
+        const recipeName = inputTitleRcipe.value;
+console.log("btn salvar");
         const recipeData = {
-            "name": title,
+            "name": recipeName,
             "ingredient": ingredient,
             "step": step,
             "category": categories,
+            "image": "",
         };
 
         try {
@@ -170,6 +190,7 @@ function createRecipeCard() {
                 },
                 body: JSON.stringify(recipeData)
             });
+
             if (!response.ok) {
                 throw new Error('Erro ao cadastrar receita');
             }
@@ -182,8 +203,9 @@ function createRecipeCard() {
             console.error('Erro ao cadastrar receita:', error.message);
 
             errorMessage.style.display = "flex";
-            errorMessage.innerText = "Erro ao carregar os detalhes da receita. Por favor, tente novamente mais tarde"
+            errorMessage.innerText = "Erro ao cadastrar receita";
 
+            modal.appendChild(errorMessage);
             return error;
         }
 

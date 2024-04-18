@@ -1,17 +1,31 @@
-async function recipesDetails(recipe_id, name, title) {
+async function recipesDetails(recipe_id, recipe_name, name_user) {
     const modal = document.getElementById('recipeModal');
     const modalContent = document.getElementById('recipe-content');
     const errorMessage = document.getElementById('error-message');
+    const closeModal = document.getElementById('closeModal');
+    closeModal.style.display = "flex";
+
+    modal.style.border = "solid 2px pink";
+
+    closeModal.addEventListener('click', () => {
+        const modal = document.getElementById('recipeModal');
+        modal.style.display = 'none';
+    });
 
     try {
-        const response = await fetch(`/api/recipe/recipe_id/${recipe_id}`);
+        console.log("try");
+
+        const response = await fetch(`/api/recipe/${recipe_id}`);
+        console.log("response", response);
+
         const data = await response.json();
+        console.log("data", data);
 
         if (!response.ok) {
             throw new Error('Erro ao tentar recuperar os dados da receita');
         }
 
-        modal.innerHTML = '';
+        modalContent.innerHTML = '';
         modal.style.display = "flex";
 
         const divCard = document.createElement("div");
@@ -36,6 +50,7 @@ async function recipesDetails(recipe_id, name, title) {
         const divInfo = document.createElement("div");
         const divUser = document.createElement("div");
         const divTags = document.createElement("div");
+        const tags = document.createElement("p");
         const divRecipe = document.createElement("div");
         const divImageRecipe = document.createElement("div");
         const divIngredients = document.createElement("div");
@@ -50,17 +65,17 @@ async function recipesDetails(recipe_id, name, title) {
 
         divTitle.append(recipeTitle);
         recipeTitle.id = "recipe-title";
-        recipeTitle.innerText = title;
+        recipeTitle.innerText = recipe_name;
 
         divInfo.append(divUser);
         divInfo.append(divTags);
-        divInfo.id = "tags";
+        divTags.id = "tags";
 
         divUser.appendChild(imgUser);
         divUser.appendChild(username);
         imgUser.id = "user-image"; //ainda não vi como fazer
         username.id = "username";
-        username.innerText = name;
+        username.innerText = name_user;
 
         divRecipe.appendChild(divImageRecipe);
         divRecipe.appendChild(divIngredients);
@@ -104,29 +119,40 @@ async function recipesDetails(recipe_id, name, title) {
         textLike.innerText = "Curtir";
         divLike.addEventListener("click", () => { });
 
-        recipeTitle.innerText = data.name;
+        recipeTitle.innerText = recipe_name;
 
-        data.ingredient.forEach(ingredient => {
+        const recipe = data.data;
+        console.log("divCard: ", divCard);
+        console.log("recipe: ", recipe);
+
+
+        recipe.ingredient_names.forEach(ingredient => {
             const element = document.createElement("li");
             element.innerText = ingredient;
             listIngredient.appendChild(element);
         });
+        console.log("for 1 ");
 
-        data.step.forEach(step => {
+        recipe.preparation_steps.forEach(step => {
             const element = document.createElement("li");
             element.innerText = step;
             listPreparationMathod.appendChild(element);
         });
 
-        data.category.forEach(category => {
-            const element = document.createElement("li");
-            element.innerText = category;
-            listIngredient.appendChild(element);
-        });
+        // recipe.category_names.forEach(category => {
+        //     tags.innerText += " " + category;
+        //     divTags.appendChild(tags);
+        // });
 
         imgRecipe.src = "";//ainda não vi como fazer
 
+        modalContent.style.display = "block";
         modalContent.appendChild(divCard);
+        console.log("modalContent: ", modalContent);
+
+        modal.appendChild(closeModal);
+        modal.appendChild(modalContent);
+
         return divCard;
 
     } catch (error) {
@@ -134,7 +160,7 @@ async function recipesDetails(recipe_id, name, title) {
 
         errorMessage.style.display = "flex";
         errorMessage.innerText = "Erro ao carregar os detalhes da receita. Por favor, tente novamente mais tarde"
-        
+
         return error;
     }
 }
