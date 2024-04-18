@@ -65,17 +65,15 @@ const homeContent = `
 
         <main class="posts">
 
-            <div id="recipeModal" class="modal" style="display: none;>
-                <div id="recipe-content" class="modal-content">
-
+            <div id="recipeModal" class="modal" style="display: none;">
+                <button id="closeModal" class="close-modal">X</button>
+                <div id="recipe-content" class="modal-content"></div>
                 <div id="error-message" class="error-message" style="display: none;"></div>
-                
-                </div>
             </div>
         </main>
     </div>
 </body>
-<script src="./static/js/homeScript.js"></script>
+<script type="module" src="./static/js/homeScript.js"></script>
 
 </html>
 `
