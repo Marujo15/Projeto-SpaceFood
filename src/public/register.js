@@ -17,9 +17,9 @@ const registerContent = `
 
 <body>
     <div class="fundo">
-        <img class="stars" src="./static/SVG/stars.svg">
-        <img class="planeta1" src="./static/SVG/planeta.svg">
-        <img class="planeta2" src="./static/SVG/planeta2.svg">
+        <img class="stars" src="./static/svg/stars.svg">
+        <img class="planeta1" src="./static/svg/planeta.svg">
+        <img class="planeta2" src="./static/svg/planeta2.svg">
     </div>
 
     <header class="text-div">
