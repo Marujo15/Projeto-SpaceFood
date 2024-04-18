@@ -1,5 +1,5 @@
-const { createRecipeCard } = require("../../modules/postRecipe");
-const { generateRecipeCards, recipesData } = require("../../modules/recipesCard");
+import { createRecipeCard } from "./modules/postRecipe.js";
+import { generateRecipeCards, recipesData } from "./modules/recipesCard.js";
 
 const feed = document.querySelector("main");
 const btnHome = document.getElementById("home");
