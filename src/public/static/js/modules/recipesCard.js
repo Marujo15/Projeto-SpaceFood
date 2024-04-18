@@ -32,7 +32,7 @@ function generateRecipeCards(recipesData, quantity, feed) {
         const recipeTitle = document.createElement("p");
         const imgRecipe = document.createElement("img");
         const divSave = document.createElement("div");
-        const imgSave = document.createElement("div");
+        const imgSave = document.createElement("img");
         const textSave = document.createElement("p");
         const divComment = document.createElement("div");
         const imgComemnt = document.createElement("img");
@@ -67,7 +67,8 @@ function generateRecipeCards(recipesData, quantity, feed) {
 
         divSave.appendChild(imgSave);
         divSave.appendChild(textSave);
-        imgSave.src = ""; //por o caminho do icon 
+        imgSave.src = "../static/svg/bookmark.svg";
+        imgSave.style.width = "20px";
         textSave.innerText = "Salvar";
         divSave.addEventListener("click", () => {
             console.log("Salvando receita ", recipe.recipe_name);
@@ -75,7 +76,8 @@ function generateRecipeCards(recipesData, quantity, feed) {
 
         divComment.appendChild(imgComemnt);
         divComment.appendChild(textComment);
-        imgComemnt.src = ""; //por o caminho do icon 
+        imgComemnt.src = "../static/svg/comment.svg";  
+        imgComemnt.style.width = "20px";
         textComment.innerText = "Comentários";
         divComment.addEventListener("click", () => {
             console.log("Comentar receita ", recipe.recipe_name);
@@ -83,7 +85,8 @@ function generateRecipeCards(recipesData, quantity, feed) {
 
         divLike.appendChild(imgLike);
         divLike.appendChild(textLike);
-        imgLike.src = ""; //por o caminho do icon 
+        imgLike.src = "../static/svg/like.svg"; 
+        imgLike.style.width = "20px";
         textLike.innerText = "Curtir";
         divLike.addEventListener("click", () => {
             console.log("Curtir receita ", recipe.recipe_name);

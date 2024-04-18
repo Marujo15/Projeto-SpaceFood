@@ -38,7 +38,7 @@ async function recipesDetails(recipe_id, recipe_name, name_user) {
         const titlePreparationMathod = document.createElement("p");
         const listPreparationMathod = document.createElement("ul");
         const divSave = document.createElement("div");
-        const imgSave = document.createElement("div");
+        const imgSave = document.createElement("img");
         const textSave = document.createElement("p");
         const divComment = document.createElement("div");
         const imgComemnt = document.createElement("img");
@@ -103,19 +103,22 @@ async function recipesDetails(recipe_id, recipe_name, name_user) {
 
         divSave.appendChild(imgSave);
         divSave.appendChild(textSave);
-        imgSave.src = ""; //por o caminho do icon 
+        imgSave.src = "../static/svg/bookmark.svg";  
+        imgSave.style.width = "20px";
         textSave.innerText = "Salvar";
         divSave.addEventListener("click", () => { });
 
         divComment.appendChild(imgComemnt);
         divComment.appendChild(textComment);
-        imgComemnt.src = ""; //por o caminho do icon 
+        imgComemnt.src = "../static/svg/comment.svg";  
+        imgComemnt.style.width = "20px";
         textComment.innerText = "Comentários";
         divComment.addEventListener("click", () => { });
 
         divLike.appendChild(imgLike);
         divLike.appendChild(textLike);
-        imgLike.src = ""; //por o caminho do icon 
+        imgLike.src = "../static/svg/like.svg";  
+        imgLike.style.width = "20px"; 
         textLike.innerText = "Curtir";
         divLike.addEventListener("click", () => { });
 
