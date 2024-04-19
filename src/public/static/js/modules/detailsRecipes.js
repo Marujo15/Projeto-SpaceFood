@@ -1,4 +1,4 @@
-async function recipesDetails(recipe_id, recipe_name, name_user) {
+async function recipesDetails(recipe_id, recipe_name, name_user, recipeData) {
     const modal = document.getElementById('recipeModal');
     const modalContent = document.getElementById('recipe-content');
     const errorMessage = document.getElementById('error-message');
@@ -108,7 +108,26 @@ async function recipesDetails(recipe_id, recipe_name, name_user) {
         imgSave.src = "../static/svg/bookmark.svg";
         imgSave.style.width = "20px";
         textSave.innerText = "Salvar";
-        divSave.addEventListener("click", () => { });
+        divSave.addEventListener("click", async (event) => {
+            event.stopPropagation();
+            console.log("Salvando receita ", recipe_name);
+            try {
+                const response = await fetch(`/api/favorite/${recipe_id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(recipeData)
+                });
+                if (!response.ok) {
+                    const error = await response.json();
+                    console.log(error.error);
+                }
+            } catch (error) {
+                console.error('Erro ao tentar salvar receita:', error.message);
+                alert('Erro ao tentar salvar receita', error.message);
+            }
+        });
 
         divComment.appendChild(imgComemnt);
         divComment.appendChild(textComment);
@@ -153,7 +172,6 @@ async function recipesDetails(recipe_id, recipe_name, name_user) {
 
         modalContent.style.display = "block";
         modalContent.appendChild(divCard);
-        console.log("modalContent: ", modalContent);
 
         modal.appendChild(closeModal);
         modal.appendChild(modalContent);
