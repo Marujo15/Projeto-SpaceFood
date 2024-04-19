@@ -1,3 +1,5 @@
+import { generateComments } from "./comment.js";
+
 async function recipesDetails(recipe_id, recipe_name, name_user, recipeData) {
     const modal = document.getElementById('recipeModal');
     const modalContent = document.getElementById('recipe-content');
@@ -134,7 +136,12 @@ async function recipesDetails(recipe_id, recipe_name, name_user, recipeData) {
         imgComemnt.src = "../static/svg/comment.svg";
         imgComemnt.style.width = "20px";
         textComment.innerText = "Comentários";
-        divComment.addEventListener("click", () => { });
+        divComment.addEventListener("click", (event) => {
+            event.stopPropagation();
+            console.log("Comentar receita ", recipe.recipe_name);
+            console.log("recipeData ", recipe);
+            generateComments(recipe, divCard);
+        });
 
         divLike.appendChild(imgLike);
         divLike.appendChild(textLike);

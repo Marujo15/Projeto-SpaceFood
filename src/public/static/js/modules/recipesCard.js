@@ -58,9 +58,11 @@ function generateRecipeCards(recipesData, quantity, feed) {
         const divUser = document.createElement("div");
         const divRecipe = document.createElement("div");
         const divButtons = document.createElement("div");
+        const divDetails = document.createElement("div");
 
-        divCard.append(divUser);
-        divCard.append(divRecipe);
+        divDetails.appendChild(divUser);
+        divDetails.appendChild(divRecipe);
+        divCard.append(divDetails);
         divCard.append(divButtons);
 
         divCard.classList.add(`post-div`)
@@ -145,10 +147,10 @@ function generateRecipeCards(recipesData, quantity, feed) {
         username.innerText = recipe.name_user;
         recipeTitle.innerText = recipe.recipe_name;
         if (recipe.recipe_image !== "") {
-            imgRecipe.src = `../assets/uploads/recipe/${}`;
+            imgRecipe.src = `../assets/uploads/recipe/${recipe.recipe_id}`;
         }
 
-        divCard.addEventListener("click", () => {
+        divDetails.addEventListener("click", () => {
             modalContent.innerHTML = "";
             recipesDetails(recipe.recipe_id, recipe.recipe_name, recipe.name_user, recipe);
 

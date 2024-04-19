@@ -43,6 +43,7 @@ function generateComments(recipe, card) {
                 const error = await response.json();
                 console.log(error.error);
             }
+            getComments(recipe.recipe_id);
         } catch (error) {
             console.error('Erro ao tentar publicar comentário:', error.message);
             alert('Erro ao tentar publicar comentário', error.message);
