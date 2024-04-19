@@ -1,7 +1,7 @@
 const { connectToDatabase } = require("../database/postgresql");
 
 const registerUserQuery = async (name, username, email, password) => {
-    const query = "INSERT INTO users (name, username, email, password) VALUES ($1, $2, $3, $4)"
+    const query = "INSERT INTO users (name, username, email, password, created_at) VALUES ($1, $2, $3, $4, DEFAULT)"
     const client = await connectToDatabase();
     try {
         await client.query(query, [name, username, email, password]);
