@@ -1,5 +1,5 @@
+import { generateComments } from "./comment.js";
 import { recipesDetails } from "./detailsRecipes.js";
-//const modal = document.getElementById('recipeModaL');
 const modalContent = document.getElementById('recipe-content');
 const errorMessage = document.getElementById('error-message');
 
@@ -8,6 +8,23 @@ async function recipesData() {
         const response = await fetch(`/api/recipe/`);
         const data = await response.json();
         console.log("data:", data);
+
+        if (!response.ok) {
+            throw new Error('Erro ao tentar recuperar os dados da receita');
+        }
+        return data;
+
+    } catch (error) {
+        console.error('Erro ao recuperar dados da receita:', error.message);
+        errorMessage.innerText = error.message;
+    }
+}
+
+async function recipeFavoriteData() {
+    try {
+        const response = await fetch(`/api/favorite/`);
+        const data = await response.json();
+        console.log("data fav:", data);
 
         if (!response.ok) {
             throw new Error('Erro ao tentar recuperar os dados da receita');
@@ -49,7 +66,7 @@ function generateRecipeCards(recipesData, quantity, feed) {
         divUser.appendChild(imgUser);
         divUser.appendChild(username);
         imgUser.id = "user-image"; //ainda não fizemos a parte de upload de imagens
-        username.id = "username"; 
+        username.id = "username";
 
         divRecipe.appendChild(recipeTitle);
         divRecipe.appendChild(imgRecipe);
@@ -68,40 +85,61 @@ function generateRecipeCards(recipesData, quantity, feed) {
         imgSave.src = "../static/svg/bookmark.svg";
         imgSave.style.width = "20px";
         textSave.innerText = "Salvar";
-        divSave.addEventListener("click", () => {
+        divSave.addEventListener("click", async (event) => {
+            event.stopPropagation();
             console.log("Salvando receita ", recipe.recipe_name);
-         });
+            try {
+                const response = await fetch(`/api/favorite/${recipe.recipe_id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(recipesData)
+                });
+                if (!response.ok) {
+                    const error = await response.json();
+                    console.log(error.error);
+                }
+            } catch (error) {
+                console.error('Erro ao tentar salvar receita:', error.message);
+                alert('Erro ao tentar salvar receita', error.message);
+            }
+        });
 
         divComment.appendChild(imgComemnt);
         divComment.appendChild(textComment);
-        imgComemnt.src = "../static/svg/comment.svg";  
+        imgComemnt.src = "../static/svg/comment.svg";
         imgComemnt.style.width = "20px";
         textComment.innerText = "Comentários";
-        divComment.addEventListener("click", () => {
+        divComment.addEventListener("click", (event) => {
+            event.stopPropagation();
             console.log("Comentar receita ", recipe.recipe_name);
-         });
+            console.log("recipeData ", recipe);
+            generateComments(recipe, divCard);
+        });
 
         divLike.appendChild(imgLike);
         divLike.appendChild(textLike);
-        imgLike.src = "../static/svg/like.svg"; 
+        imgLike.src = "../static/svg/like.svg";
         imgLike.style.width = "20px";
         textLike.innerText = "Curtir";
-        divLike.addEventListener("click", () => {
+        divLike.addEventListener("click", (event) => {
+            event.stopPropagation();
             console.log("Curtir receita ", recipe.recipe_name);
-         });
+        });
 
 
         imgUser.src = ""; //recipe.user_image
         username.innerText = recipe.name_user;
         recipeTitle.innerText = recipe.recipe_name;
-        if(recipe.recipe_image!==""){
+        if (recipe.recipe_image !== "") {
             imgRecipe.src = `../assets/uploads/recipe/${recipe.recipe_image}`;
         }
 
         divCard.addEventListener("click", () => {
             modalContent.innerHTML = "";
-            recipesDetails(recipe.recipe_id, recipe.recipe_name, recipe.name_user);
-            
+            recipesDetails(recipe.recipe_id, recipe.recipe_name, recipe.name_user, recipe);
+
         });
         divCard.style.border = "solid 2px pink";
         feed.appendChild(divCard);
@@ -109,4 +147,4 @@ function generateRecipeCards(recipesData, quantity, feed) {
 
 }
 
-export { generateRecipeCards, recipesData };
+export { generateRecipeCards, recipesData, recipeFavoriteData };
