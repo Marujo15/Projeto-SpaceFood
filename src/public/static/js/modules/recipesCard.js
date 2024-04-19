@@ -48,16 +48,21 @@ function generateRecipeCards(recipesData, quantity, feed) {
         divCard.append(divRecipe);
         divCard.append(divButtons);
 
+        divCard.classList.add(`post-div`)
+
+        divUser.classList.add("post-div-perfil")
         divUser.appendChild(imgUser);
         divUser.appendChild(username);
-        imgUser.id = "user-image"; //ainda não fizemos a parte de upload de imagens
-        username.id = "username"; //vai pegar do banco
+        imgUser.id = "user-image";
+        username.id = "username";
 
+        divRecipe.classList.add("post-div-title");
         divRecipe.appendChild(recipeTitle);
         divRecipe.appendChild(imgRecipe);
-        recipeTitle.id = "recipe-title"; //vai pegar do banco
-        imgRecipe.id = "recipe-image"; //ainda não tem 
+        recipeTitle.id = "recipe-title";
+        imgRecipe.id = "recipe-image";
 
+        divButtons.classList.add("post-div-buttons");
         divButtons.appendChild(divSave);
         divButtons.appendChild(divComment);
         divButtons.appendChild(divLike);
@@ -72,38 +77,37 @@ function generateRecipeCards(recipesData, quantity, feed) {
         textSave.innerText = "Salvar";
         divSave.addEventListener("click", () => {
             console.log("Salvando receita ", recipe.recipe_name);
-         });
+        });
 
         divComment.appendChild(imgComemnt);
         divComment.appendChild(textComment);
-        imgComemnt.src = "../static/svg/comment.svg";  
+        imgComemnt.src = "../static/svg/comment.svg";
         imgComemnt.style.width = "20px";
         textComment.innerText = "Comentários";
         divComment.addEventListener("click", () => {
             console.log("Comentar receita ", recipe.recipe_name);
-         });
+        });
 
         divLike.appendChild(imgLike);
         divLike.appendChild(textLike);
-        imgLike.src = "../static/svg/like.svg"; 
+        imgLike.src = "../static/svg/like.svg";
         imgLike.style.width = "20px";
         textLike.innerText = "Curtir";
         divLike.addEventListener("click", () => {
             console.log("Curtir receita ", recipe.recipe_name);
-         });
+        });
 
 
-        imgUser.src = ""; //recipe.user_image
+        imgUser.src = ""; //
         username.innerText = recipe.name_user;
         recipeTitle.innerText = recipe.recipe_name;
-        imgRecipe.src = ""; //recipe.recipe_image
+        imgRecipe.src = ""; //
 
         divCard.addEventListener("click", () => {
             modalContent.innerHTML = "";
             recipesDetails(recipe.recipe_id, recipe.recipe_name, recipe.name_user);
-            
+
         });
-        divCard.style.border = "solid 2px pink";
         feed.appendChild(divCard);
     }
 

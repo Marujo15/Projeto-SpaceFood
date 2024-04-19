@@ -5,8 +5,6 @@ async function recipesDetails(recipe_id, recipe_name, name_user) {
     const closeModal = document.getElementById('closeModal');
     closeModal.style.display = "flex";
 
-    modal.style.border = "solid 2px pink";
-
     closeModal.addEventListener('click', () => {
         const modal = document.getElementById('recipeModal');
         modal.style.display = 'none';
