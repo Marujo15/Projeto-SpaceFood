@@ -34,9 +34,9 @@ const getRecipeDetailedService = async(recipe_id) => {
     }
 }
 
-const searchRecipeService = async(recipe_name) => {
+const searchRecipeService = async(recipe_name, categories) => {
     try {
-        const result = await recipeRepository.searchRecipeQuery(recipe_name);
+        const result = await recipeRepository.searchRecipeQuery(recipe_name, categories);
 
         if(result.length === 0 ) {
             const error = new Error("Sem resultados.");
