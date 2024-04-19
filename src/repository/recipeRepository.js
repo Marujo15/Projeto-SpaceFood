@@ -27,11 +27,11 @@ const getRecipeDetailedQuery = async (recipe_id) => {
 const searchRecipeQuery = async (recipe_name, categories) => {
     const client = await connectToDatabase();
     try {
-        let query = `SELECT recipe.id AS recipe_id, recipe.name AS recipe_name, recipe.image AS recipe_image, recipe.created_at AS recipe_date, users.id AS user_id, users.name AS name_user, users.image AS user_image FROM recipe INNER JOIN users ON recipe.user_id = users.id WHERE LOWER(recipe.name) LIKE '%' || $1 || '%'`
+        let query = `SELECT recipe.id AS recipe_id, recipe.name AS recipe_name, recipe.image AS recipe_image, recipe.created_at AS recipe_date, users.id AS user_id, users.name AS name_user, users.image AS user_image FROM recipe INNER JOIN users ON recipe.user_id = users.id WHERE UNACCENT(LOWER(recipe.name)) LIKE '%' || $1 || '%'`
 
         const params = [recipe_name];
         if (categories.length > 0) {
-            query += ` AND recipe.id IN (SELECT recipe_id FROM category WHERE LOWER(category.name) = ANY($2))`;
+            query += ` AND recipe.id IN (SELECT recipe_id FROM category WHERE UNACCENT(LOWER(category.name)) = ANY($2))`;
             params.push(categories);
         }
 
