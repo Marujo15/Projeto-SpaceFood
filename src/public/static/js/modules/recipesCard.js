@@ -63,16 +63,25 @@ function generateRecipeCards(recipesData, quantity, feed) {
         divCard.append(divRecipe);
         divCard.append(divButtons);
 
+        divCard.classList.add(`post-div`)
+
+        divUser.classList.add("post-div-perfil")
         divUser.appendChild(imgUser);
         divUser.appendChild(username);
-        imgUser.id = "user-image"; //ainda não fizemos a parte de upload de imagens
+        imgUser.id = "user-image";
+        username.id = "username";
+        imgUser.id = "user-image"; 
         username.id = "username";
 
+        divRecipe.classList.add("post-div-title");
         divRecipe.appendChild(recipeTitle);
         divRecipe.appendChild(imgRecipe);
-        recipeTitle.id = "recipe-title"; //vai pegar do banco
+        recipeTitle.id = "recipe-title";
+        imgRecipe.id = "recipe-image";
+        recipeTitle.id = "recipe-title";
         imgRecipe.id = "recipe-image";
 
+        divButtons.classList.add("post-div-buttons");
         divButtons.appendChild(divSave);
         divButtons.appendChild(divComment);
         divButtons.appendChild(divLike);
@@ -109,6 +118,7 @@ function generateRecipeCards(recipesData, quantity, feed) {
         divComment.appendChild(imgComemnt);
         divComment.appendChild(textComment);
         imgComemnt.src = "../static/svg/comment.svg";
+
         imgComemnt.style.width = "20px";
         textComment.innerText = "Comentários";
         divComment.addEventListener("click", (event) => {
@@ -121,19 +131,21 @@ function generateRecipeCards(recipesData, quantity, feed) {
         divLike.appendChild(imgLike);
         divLike.appendChild(textLike);
         imgLike.src = "../static/svg/like.svg";
+        imgLike.src = "../static/svg/like.svg";
         imgLike.style.width = "20px";
         textLike.innerText = "Curtir";
         divLike.addEventListener("click", (event) => {
             event.stopPropagation();
             console.log("Curtir receita ", recipe.recipe_name);
+        
         });
 
 
-        imgUser.src = ""; //recipe.user_image
+        imgUser.src = ""; //
         username.innerText = recipe.name_user;
         recipeTitle.innerText = recipe.recipe_name;
         if (recipe.recipe_image !== "") {
-            imgRecipe.src = `../assets/uploads/recipe/${recipe.recipe_image}`;
+            imgRecipe.src = `../assets/uploads/recipe/${}`;
         }
 
         divCard.addEventListener("click", () => {
@@ -141,7 +153,6 @@ function generateRecipeCards(recipesData, quantity, feed) {
             recipesDetails(recipe.recipe_id, recipe.recipe_name, recipe.name_user, recipe);
 
         });
-        divCard.style.border = "solid 2px pink";
         feed.appendChild(divCard);
     }
 
