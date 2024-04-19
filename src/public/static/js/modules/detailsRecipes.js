@@ -6,6 +6,8 @@ async function recipesDetails(recipe_id, recipe_name, name_user) {
     closeModal.style.display = "flex";
 
     modal.style.border = "solid 2px pink";
+    errorMessage.innerHTML = "";
+
 
     closeModal.addEventListener('click', () => {
         const modal = document.getElementById('recipeModal');
@@ -103,22 +105,22 @@ async function recipesDetails(recipe_id, recipe_name, name_user) {
 
         divSave.appendChild(imgSave);
         divSave.appendChild(textSave);
-        imgSave.src = "../static/svg/bookmark.svg";  
+        imgSave.src = "../static/svg/bookmark.svg";
         imgSave.style.width = "20px";
         textSave.innerText = "Salvar";
         divSave.addEventListener("click", () => { });
 
         divComment.appendChild(imgComemnt);
         divComment.appendChild(textComment);
-        imgComemnt.src = "../static/svg/comment.svg";  
+        imgComemnt.src = "../static/svg/comment.svg";
         imgComemnt.style.width = "20px";
         textComment.innerText = "Comentários";
         divComment.addEventListener("click", () => { });
 
         divLike.appendChild(imgLike);
         divLike.appendChild(textLike);
-        imgLike.src = "../static/svg/like.svg";  
-        imgLike.style.width = "20px"; 
+        imgLike.src = "../static/svg/like.svg";
+        imgLike.style.width = "20px";
         textLike.innerText = "Curtir";
         divLike.addEventListener("click", () => { });
 

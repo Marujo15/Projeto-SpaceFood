@@ -21,8 +21,6 @@ function createRecipeCard() {
     const divTag = document.createElement("div");
     const inputCategory = document.createElement("input");
     const buttonCategory = document.createElement("button");
-    const imageRecipe = document.createElement("img");
-    const btnImageRecipe = document.createElement("button");
     const btnIngredient = document.createElement("button");
     const btnStep = document.createElement("button");
     const buttonAddRecipe = document.createElement("button");
@@ -67,17 +65,66 @@ function createRecipeCard() {
     divContent.appendChild(divImage);
     divContent.appendChild(divRecipe);
 
-    divImage.appendChild(imageRecipe);
-    divImage.appendChild(btnImageRecipe);
-    imageRecipe.id = "image-recipe";
-    btnImageRecipe.innerText = "Fazer Upload";
-    btnImageRecipe.id = "button-image-recipe";
+    const formImage = document.createElement('form');
+    formImage.id = 'form';
+
+    const imageName = document.createElement('div');
+    imageName.classList.add('input-group');
+
+    const nameLabel = document.createElement('label');
+    nameLabel.setAttribute('for', 'name');
+    nameLabel.textContent = 'Nome da imagem';
+
+    const nameInput = document.createElement('input');
+    nameInput.setAttribute('name', 'name');
+    nameInput.setAttribute('id', 'name');
+    nameInput.setAttribute('placeholder', 'Nome da imagem');
+
+    imageName.appendChild(nameLabel);
+    imageName.appendChild(nameInput);
+
+    const imageFile = document.createElement('div');
+    imageFile.classList.add('input-group');
+
+    const fileLabel = document.createElement('label');
+    fileLabel.textContent = 'Escolha a imagem';
+
+    const fileInput = document.createElement('input');
+    fileInput.setAttribute('id', 'file');
+    fileInput.setAttribute('type', 'file');
+
+    imageFile.appendChild(fileLabel);
+    imageFile.appendChild(fileInput);
+
+    const uploadImage = document.createElement('button');
+    uploadImage.classList.add('submit-btn');
+    uploadImage.textContent = 'Fazer Upload';
+
+    formImage.appendChild(imageName);
+    formImage.appendChild(imageFile);
+    formImage.appendChild(uploadImage);
+
+    divImage.appendChild(formImage);
+
+    let selectedFile = null;
+
+    fileInput.addEventListener('change', (event) => {
+        selectedFile = event.target.files[0];
+        console.log("selectedFile: ", selectedFile);
+    });
+
+    formImage.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (!selectedFile) {
+            console.error('Nenhum arquivo selecionado');
+            errorMessage.innerText = "Nenhum arquivo selecionado";
+        }
+    });
 
     divRecipe.appendChild(divButtomIngredientMethodo);
     divRecipe.appendChild(divElement);
     divRecipe.appendChild(divButton);
 
-    //div dos botões de ingrediente e passos
     divButtomIngredientMethodo.appendChild(btnIngredient);
     divButtomIngredientMethodo.appendChild(btnStep);
     btnIngredient.innerText = "Ingredientes";
@@ -129,13 +176,11 @@ function createRecipeCard() {
     console.log("modalContent post:", modalContent);
     console.log("modal post:", modal);
     modal.appendChild(modalContent);
-    
+
     modal.style.display = "block";
 
     console.log("divElement", divElement);
     console.log("divElementStep:", divElementStep);
-
- 
 
     btnIngredient.addEventListener("click", () => {
         divElementStep.style.display = "none";
@@ -172,47 +217,46 @@ function createRecipeCard() {
     });
 
     buttonAddRecipe.addEventListener("click", async () => {
-        const recipeName = inputTitleRcipe.value;
-console.log("btn salvar");
         const recipeData = {
-            "name": recipeName,
+            "name": inputTitleRcipe.value,
             "ingredient": ingredient,
             "step": step,
             "category": categories,
-            "image": "",
+            "image": nameInput.value,
         };
-
+        console.log("recipeData: ", recipeData);
+        const formData = new FormData();
+        formData.append('file', selectedFile); 
+        formData.append('data', JSON.stringify(recipeData)); 
+    
         try {
             const response = await fetch('/api/recipe/create', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(recipeData)
+                body: formData
             });
-
+    
             if (!response.ok) {
-                throw new Error('Erro ao cadastrar receita');
+                const error = await response.json();
+                throw new Error(error.error);
             }
-
+    
             const data = await response.json();
             console.log('Receita cadastrada com sucesso:', data);
-            alert("Receita publicada com sucesso!"); //temporário. 
-
+            alert("Receita publicada com sucesso!"); //temporário.
+    
         } catch (error) {
             console.error('Erro ao cadastrar receita:', error.message);
-
+    
             errorMessage.style.display = "flex";
-            errorMessage.innerText = "Erro ao cadastrar receita";
-
-            modal.appendChild(errorMessage);
+            errorMessage.innerText = error.message;
+               modal.appendChild(errorMessage);
             return error;
         }
-
     });
 
     buttonExit.addEventListener("click", () => {
         modal.style.display = "none";
+        errorMessage.innerText = "";
     });
 
 }

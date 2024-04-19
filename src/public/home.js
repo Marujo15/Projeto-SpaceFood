@@ -62,7 +62,8 @@ const homePage = (req, res) => {
                             </div>
                         </aside>
                         <main class="posts">
-                            <div id="recipeModal" class="modal" style="display: none;">
+                             <div id="feed" class="posts-feed"></div>
+                             <div id="recipeModal" class="modal" style="display: none;">
                                 <button id="closeModal" class="close-modal">X</button>
                                 <div id="recipe-content" class="modal-content"></div>
                                 <div id="error-message" class="error-message" style="display: none;"></div>

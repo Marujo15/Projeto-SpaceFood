@@ -1,7 +1,7 @@
 import { createRecipeCard } from "./modules/postRecipe.js";
 import { generateRecipeCards, recipesData } from "./modules/recipesCard.js";
 
-const feed = document.querySelector("main");
+const feed = document.getElementById("feed");
 const btnHome = document.getElementById("home");
 const btnPost = document.getElementById("post");
 const btnSearch = document.getElementById("search");

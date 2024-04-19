@@ -29,8 +29,7 @@ const createRecipe = async (req, res) => {
             error.status = 400;
             throw error;
         }
-
-        const { name, ingredient, step, category } = req.body;
+        const {name, ingredient, step, category } = JSON.parse(req.body.data);
         const image = req.file.filename;
 
         if (validator.isEmpty(name)) {

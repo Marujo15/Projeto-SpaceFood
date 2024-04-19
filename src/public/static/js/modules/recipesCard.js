@@ -1,8 +1,7 @@
 import { recipesDetails } from "./detailsRecipes.js";
-const modal = document.getElementById('recipeModaL');
+//const modal = document.getElementById('recipeModaL');
 const modalContent = document.getElementById('recipe-content');
 const errorMessage = document.getElementById('error-message');
-
 
 async function recipesData() {
     try {
@@ -17,13 +16,12 @@ async function recipesData() {
 
     } catch (error) {
         console.error('Erro ao recuperar dados da receita:', error.message);
+        errorMessage.innerText = error.message;
     }
 }
 
-
 function generateRecipeCards(recipesData, quantity, feed) {
     for (let i = recipesData.data.length - 1; i >= recipesData.data.length - quantity && i >= 0; i--) {
-        console.log("dentro do for");
         const recipe = recipesData.data[i];
 
         const divCard = document.createElement("div");
@@ -51,12 +49,12 @@ function generateRecipeCards(recipesData, quantity, feed) {
         divUser.appendChild(imgUser);
         divUser.appendChild(username);
         imgUser.id = "user-image"; //ainda não fizemos a parte de upload de imagens
-        username.id = "username"; //vai pegar do banco
+        username.id = "username"; 
 
         divRecipe.appendChild(recipeTitle);
         divRecipe.appendChild(imgRecipe);
         recipeTitle.id = "recipe-title"; //vai pegar do banco
-        imgRecipe.id = "recipe-image"; //ainda não tem 
+        imgRecipe.id = "recipe-image";
 
         divButtons.appendChild(divSave);
         divButtons.appendChild(divComment);
@@ -96,7 +94,9 @@ function generateRecipeCards(recipesData, quantity, feed) {
         imgUser.src = ""; //recipe.user_image
         username.innerText = recipe.name_user;
         recipeTitle.innerText = recipe.recipe_name;
-        imgRecipe.src = ""; //recipe.recipe_image
+        if(recipe.recipe_image!==""){
+            imgRecipe.src = `../assets/uploads/recipe/${recipe.recipe_image}`;
+        }
 
         divCard.addEventListener("click", () => {
             modalContent.innerHTML = "";
