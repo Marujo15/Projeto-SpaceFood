@@ -1,5 +1,7 @@
 import { createRecipeCard } from "./modules/postRecipe.js";
-import { generateRecipeCards, recipesData, recipeFavoriteData } from "./modules/recipesCard.js";
+import { generateRecipeCards, recipesData } from "./modules/recipesCard.js";
+import { recipeFavoriteData } from "./modules/btnfavorite.js";
+import { setCurrentTab } from "./modules/tabIdentifier.js";
 
 const feed = document.getElementById("feed");
 const modal = document.getElementById('recipeModal');
@@ -8,12 +10,11 @@ const btnPost = document.getElementById("post");
 const btnSearch = document.getElementById("search");
 const btnFavorites = document.getElementById("favorites");
 
-home();
+home(feed, modal);
 
 btnHome.addEventListener("click", () => {
-    feed.innerHTML = '';
-    modal.style.display = "none";
-    home();
+    setCurrentTab("home");
+    home(feed, modal);
 });
 
 btnPost.addEventListener("click", () => {
@@ -26,12 +27,13 @@ btnSearch.addEventListener("click", () => {
 });
 
 btnFavorites.addEventListener("click", () => {
-    feed.innerHTML = '';
-    modal.style.display = "none";
-    favorites();
+    setCurrentTab("favorite");
+    favorites(feed, modal);
 });
 
-function home() {
+function home(feed, modal) {
+    feed.innerHTML = '';
+    modal.style.display = "none";
     recipesData().then(data => {
         getPosts(data, 10);
     }).catch(error => {
@@ -52,7 +54,9 @@ function search() {
 
 }
 
-function favorites() {
+function favorites(feed, modal) {
+    feed.innerHTML = '';
+    modal.style.display = "none";
     recipeFavoriteData().then(data => {
         getPosts(data, 10);
     }).catch(error => {
@@ -68,3 +72,4 @@ function favorites() {
     }
 }
 
+export { favorites, home };
