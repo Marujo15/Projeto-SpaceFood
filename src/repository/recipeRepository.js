@@ -1,6 +1,6 @@
 const { connectToDatabase } = require("../database/postgresql");
 
-const getAllRecipesQuery = async() => {
+const getAllRecipesQuery = async () => {
     const client = await connectToDatabase();
     try {
         const result = await client.query('SELECT recipe.id AS recipe_id, recipe.name AS recipe_name, recipe.image AS recipe_image, recipe.created_at AS recipe_date, users.id AS user_id, users.name AS name_user, users.image AS user_image FROM recipe INNER JOIN users ON recipe.user_id = users.id');
@@ -12,11 +12,31 @@ const getAllRecipesQuery = async() => {
     }
 }
 
-const getRecipeDetailedQuery = async(recipe_id) => {
+const getRecipeDetailedQuery = async (recipe_id) => {
     const client = await connectToDatabase();
     try {
         const result = await client.query('SELECT recipe.id AS recipe_id, recipe.name AS recipe_name, recipe.image AS recipe_image, recipe.created_at AS recipe_date, ingredient.ingredients AS ingredients, preparation_method.steps AS preparation_method, category.name AS categories FROM recipe INNER JOIN (SELECT recipe_id, ARRAY_AGG(name) AS ingredients FROM ingredient GROUP BY recipe_id) AS ingredient ON recipe.id = ingredient.recipe_id INNER JOIN (SELECT recipe_id, ARRAY_AGG(step) AS steps FROM preparation_method GROUP BY recipe_id) AS preparation_method ON recipe.id = preparation_method.recipe_id INNER JOIN (SELECT recipe_id, ARRAY_AGG(name) AS name FROM category GROUP BY recipe_id) AS category ON recipe.id = category.recipe_id WHERE recipe.id = $1', [recipe_id]);
         return result.rows[0];
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
+const searchRecipeQuery = async (recipe_name, categories) => {
+    const client = await connectToDatabase();
+    try {
+        let query = `SELECT recipe.id AS recipe_id, recipe.name AS recipe_name, recipe.image AS recipe_image, recipe.created_at AS recipe_date, users.id AS user_id, users.name AS name_user, users.image AS user_image FROM recipe INNER JOIN users ON recipe.user_id = users.id WHERE UNACCENT(LOWER(recipe.name)) LIKE '%' || $1 || '%'`
+
+        const params = [recipe_name];
+        if (categories.length > 0) {
+            query += ` AND recipe.id IN (SELECT recipe_id FROM category WHERE UNACCENT(LOWER(category.name)) = ANY($2))`;
+            params.push(categories);
+        }
+
+        const result = await client.query(query, params);
+        return result.rows;
     } catch (error) {
         throw error;
     } finally {
@@ -29,7 +49,7 @@ const createRecipeQuery = async (name, ingredients, steps, category, image, logi
     try {
         await client.query('BEGIN');
         const recipeInsertResult = await client.query('INSERT INTO recipe (name, image, user_id, created_at) VALUES ($1, $2, $3, DEFAULT) RETURNING id', [name, image, login]);
-        
+
         const recipeId = recipeInsertResult.rows[0].id;
 
         if (!recipeId) {
@@ -77,5 +97,6 @@ const createRecipeQuery = async (name, ingredients, steps, category, image, logi
 module.exports = {
     getAllRecipesQuery,
     getRecipeDetailedQuery,
+    searchRecipeQuery,
     createRecipeQuery,
 }
