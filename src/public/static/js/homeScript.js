@@ -2,6 +2,7 @@ import { createRecipeCard } from "./modules/postRecipe.js";
 import { generateRecipeCards, recipesData } from "./modules/recipesCard.js";
 import { recipeFavoriteData } from "./modules/btnfavorite.js";
 import { setCurrentTab } from "./modules/tabIdentifier.js";
+import { search } from "./modules/search.js";
 
 const feed = document.getElementById("feed");
 const modal = document.getElementById('recipeModal');
@@ -23,7 +24,7 @@ btnPost.addEventListener("click", () => {
 
 btnSearch.addEventListener("click", () => {
     feed.innerHTML = '';
-    search();
+    search(feed);
 });
 
 btnFavorites.addEventListener("click", () => {
@@ -47,11 +48,6 @@ function home(feed, modal) {
             console.error(error);
         }
     }
-}
-
-
-function search() {
-
 }
 
 function favorites(feed, modal) {
