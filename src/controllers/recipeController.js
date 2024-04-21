@@ -22,6 +22,17 @@ const getRecipeDetailed = async (req, res) => {
     }
 }
 
+const searchRecipes = async (req, res) => {
+    try {
+        const recipeName = req.query.recipe_name.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        const categories = req.query.category.toLowerCase().split(',').map(category => category.trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '')).filter(category => category !== '');
+        const recipes = await recipeService.searchRecipeService(recipeName, categories);
+        res.status(200).json({ data: recipes, status: 200 });
+    } catch (error) {
+        res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
+    }
+}
+
 const createRecipe = async (req, res) => {
     try {
         if (!req.file) {
@@ -62,19 +73,19 @@ const createRecipe = async (req, res) => {
             throw error;
         }
 
-        if(ingredient.length === 0) {
+        if (ingredient.length === 0) {
             const error = new Error("Deve haver pelo menos 1 ingrediente.");
             error.status = 400;
             throw error;
         }
 
-        if(step.length === 0) {
+        if (step.length === 0) {
             const error = new Error("Deve haver pelo menos 1 passo.");
             error.status = 400;
             throw error;
         }
-        
-        if(category.length === 0) {
+
+        if (category.length === 0) {
             const error = new Error("Deve haver pelo menos 1 categoria.");
             error.status = 400;
             throw error;
@@ -137,5 +148,6 @@ const createRecipe = async (req, res) => {
 module.exports = {
     getAllRecipes,
     getRecipeDetailed,
+    searchRecipes,
     createRecipe,
 }
