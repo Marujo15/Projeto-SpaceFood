@@ -25,6 +25,10 @@ class Validations {
         return name.length <= 100;
     }
 
+    static biographySize(bio) {
+        return bio.length <= 100;
+    }
+
     static hasSpecialChars(data) {
         const specialCharsRegex = /^[^<>&'";\\\/%|]*$/;
         return specialCharsRegex.test(data);

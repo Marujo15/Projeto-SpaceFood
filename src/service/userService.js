@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 
 const registerUserService = async (name, username, email, password) => {
     try {
-
         const hashedPassword = await hashPassword(password);
 
         await userRepository.registerUserQuery(name, username, email, hashedPassword);
@@ -19,6 +18,24 @@ const registerUserService = async (name, username, email, password) => {
         throw error;
     }
 };
+
+const getPerfilService = async (user_id) => {
+    try {
+        const result = await userRepository.getPerfilQuery(user_id);
+
+        if(result === undefined) {
+            const error = new Error("Este usuário não existe.");
+            error.status = 404;
+            throw error;
+        }
+
+        return result;
+    } catch (error) {
+        error.message = error.message || "Ocorreu um erro interno.";
+        error.status = error.status || 500;
+        throw error;
+    }
+}
 
 const checkEmailExistsService = async (email) => {
     try {
@@ -86,9 +103,26 @@ const loginService = async (username, password) => {
     }
 };
 
+const updatePerfilService = async (user_id, updates) => {
+    try {
+        const result = await userRepository.updatePerfilRepository(user_id, updates);
+        return result;
+    } catch (error) {
+        if (error.code === '23505') {
+            error.message = "Este nome de usuário já existe.";
+            error.status = 409;
+        }
+        error.message = error.message || "Ocorreu um erro interno.";
+        error.status = error.status || 500;
+        throw error;
+    }
+}
+
 module.exports = {
+    getPerfilService,
     registerUserService,
     checkEmailExistsService,
     checkUsernameExistsService,
     loginService,
+    updatePerfilService,
 }
