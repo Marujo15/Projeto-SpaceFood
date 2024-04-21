@@ -247,7 +247,13 @@ main {
     padding: 20px;
     padding-right: 80px;
 }
-
+.div-recipe-details{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2%;
+}
 .close-modal{
     height: fit-content;
     background: var(--C4);
@@ -267,6 +273,8 @@ main {
     cursor: pointer;
     transition: all 300ms ease;
 }
+
+
 
 .close-modal:hover{
     scale: 1.05;
