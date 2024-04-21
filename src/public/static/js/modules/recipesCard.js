@@ -1,5 +1,8 @@
-import { generateComments } from "./comment.js";
 import { recipesDetails } from "./detailsRecipes.js";
+import { buttonComment } from "./btnComment.js";
+import { buttonLike } from "./btnlike.js";
+import { buttonSave } from "./btnfavorite.js";
+
 const modalContent = document.getElementById('recipe-content');
 const errorMessage = document.getElementById('error-message');
 
@@ -8,23 +11,6 @@ async function recipesData() {
         const response = await fetch(`/api/recipe/`);
         const data = await response.json();
         console.log("data:", data);
-
-        if (!response.ok) {
-            throw new Error('Erro ao tentar recuperar os dados da receita');
-        }
-        return data;
-
-    } catch (error) {
-        console.error('Erro ao recuperar dados da receita:', error.message);
-        errorMessage.innerText = error.message;
-    }
-}
-
-async function recipeFavoriteData() {
-    try {
-        const response = await fetch(`/api/favorite/`);
-        const data = await response.json();
-        console.log("data fav:", data);
 
         if (!response.ok) {
             throw new Error('Erro ao tentar recuperar os dados da receita');
@@ -46,15 +32,6 @@ function generateRecipeCards(recipesData, quantity, feed) {
         const username = document.createElement("p");
         const recipeTitle = document.createElement("p");
         const imgRecipe = document.createElement("img");
-        const divSave = document.createElement("div");
-        const imgSave = document.createElement("img");
-        const textSave = document.createElement("p");
-        const divComment = document.createElement("div");
-        const imgComemnt = document.createElement("img");
-        const textComment = document.createElement("p");
-        const divLike = document.createElement("div");
-        const imgLike = document.createElement("img");
-        const textLike = document.createElement("p");
         const divUser = document.createElement("div");
         const divRecipe = document.createElement("div");
         const divButtons = document.createElement("div");
@@ -72,7 +49,7 @@ function generateRecipeCards(recipesData, quantity, feed) {
         divUser.appendChild(username);
         imgUser.id = "user-image";
         username.id = "username";
-        imgUser.id = "user-image"; 
+        imgUser.id = "user-image";
         username.id = "username";
 
         divRecipe.classList.add("post-div-title");
@@ -84,64 +61,9 @@ function generateRecipeCards(recipesData, quantity, feed) {
         imgRecipe.id = "recipe-image";
 
         divButtons.classList.add("post-div-buttons");
-        divButtons.appendChild(divSave);
-        divButtons.appendChild(divComment);
-        divButtons.appendChild(divLike);
-        divSave.id = "save";
-        divComment.id = "comment";
-        divLike.id = "like";
-
-        divSave.appendChild(imgSave);
-        divSave.appendChild(textSave);
-        imgSave.src = "../static/svg/bookmark.svg";
-        imgSave.style.width = "20px";
-        textSave.innerText = "Salvar";
-        divSave.addEventListener("click", async (event) => {
-            event.stopPropagation();
-            console.log("Salvando receita ", recipe.recipe_name);
-            try {
-                const response = await fetch(`/api/favorite/${recipe.recipe_id}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(recipesData)
-                });
-                if (!response.ok) {
-                    const error = await response.json();
-                    console.log(error.error);
-                }
-            } catch (error) {
-                console.error('Erro ao tentar salvar receita:', error.message);
-                alert('Erro ao tentar salvar receita', error.message);
-            }
-        });
-
-        divComment.appendChild(imgComemnt);
-        divComment.appendChild(textComment);
-        imgComemnt.src = "../static/svg/comment.svg";
-
-        imgComemnt.style.width = "20px";
-        textComment.innerText = "Comentários";
-        divComment.addEventListener("click", (event) => {
-            event.stopPropagation();
-            console.log("Comentar receita ", recipe.recipe_name);
-            console.log("recipeData ", recipe);
-            generateComments(recipe, divCard);
-        });
-
-        divLike.appendChild(imgLike);
-        divLike.appendChild(textLike);
-        imgLike.src = "../static/svg/like.svg";
-        imgLike.src = "../static/svg/like.svg";
-        imgLike.style.width = "20px";
-        textLike.innerText = "Curtir";
-        divLike.addEventListener("click", (event) => {
-            event.stopPropagation();
-            console.log("Curtir receita ", recipe.recipe_name);
-        
-        });
-
+        buttonSave(recipe, divButtons, recipesData, recipe.recipe_id);
+        buttonComment(recipe, divButtons, divCard, recipe.recipe_id);
+        buttonLike(recipe, divButtons);
 
         imgUser.src = ""; //
         username.innerText = recipe.name_user;
@@ -152,7 +74,7 @@ function generateRecipeCards(recipesData, quantity, feed) {
 
         divDetails.addEventListener("click", () => {
             modalContent.innerHTML = "";
-            recipesDetails(recipe.recipe_id, recipe.recipe_name, recipe.name_user, recipe);
+            recipesDetails(recipe.recipe_id, recipe.recipe_name, recipe.name_user, recipe, recipesData);
 
         });
         feed.appendChild(divCard);
@@ -160,4 +82,4 @@ function generateRecipeCards(recipesData, quantity, feed) {
 
 }
 
-export { generateRecipeCards, recipesData, recipeFavoriteData };
+export { generateRecipeCards, recipesData };
