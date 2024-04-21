@@ -25,7 +25,19 @@ const addFavoriteQuery = async (recipe_id, user_id) => {
     }
 }
 
+const delFavoriteQuery = async (recipe_id, user_id) => {
+    const client = await connectToDatabase();
+    try {
+        const query = "DELETE FROM favorite WHERE user_id = $1 AND recipe_id = $2"
+        await client.query(query, [user_id, recipe_id]);
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
 module.exports = {
     getFavoritesQuery,
     addFavoriteQuery,
+    delFavoriteQuery,
 }
