@@ -1,5 +1,7 @@
-function createRecipeCard() {
+import { home } from "../homeScript.js";
 
+function createRecipeCard() {
+    const feed = document.getElementById("feed");
     const modal = document.getElementById('recipeModal');
     const modalContent = document.getElementById('recipe-content');
     const errorMessage = document.getElementById('error-message');
@@ -110,7 +112,6 @@ function createRecipeCard() {
 
     fileInput.addEventListener('change', (event) => {
         selectedFile = event.target.files[0];
-        console.log("selectedFile: ", selectedFile);
     });
 
     formImage.addEventListener('submit', async (event) => {
@@ -173,14 +174,9 @@ function createRecipeCard() {
 
     modalContent.innerHTML = "";
     modalContent.appendChild(divPost);
-    console.log("modalContent post:", modalContent);
-    console.log("modal post:", modal);
     modal.appendChild(modalContent);
 
     modal.style.display = "block";
-
-    console.log("divElement", divElement);
-    console.log("divElementStep:", divElementStep);
 
     btnIngredient.addEventListener("click", () => {
         divElementStep.style.display = "none";
@@ -194,26 +190,32 @@ function createRecipeCard() {
 
     const categories = [];
     buttonCategory.addEventListener("click", () => {
-        categories.push(inputCategory.value);
-        const category = document.createElement("p");
-        category.innerText += " " + inputCategory.value;
-        divTag.appendChild(category);
-    })
+        if (inputCategory.value.trim() !== "") {
+            categories.push(inputCategory.value);
+            const category = document.createElement("p");
+            category.innerText += " " + inputCategory.value;
+            divTag.appendChild(category);
+        }
+    });
 
     const ingredient = [];
     buttonAddIngredient.addEventListener("click", () => {
-        ingredient.push(inputAddIngredient.value);
-        const list = document.createElement("li");
-        list.innerText = inputAddIngredient.value;
-        listIngredient.appendChild(list);
+        if (inputAddIngredient.value.trim() !== "") {
+            ingredient.push(inputAddIngredient.value);
+            const list = document.createElement("li");
+            list.innerText = inputAddIngredient.value;
+            listIngredient.appendChild(list);
+        }
     });
 
     const step = [];
     buttonAddStep.addEventListener("click", () => {
-        step.push(inputAddStep.value);
-        const list = document.createElement("li");
-        list.innerText = inputAddStep.value;
-        listStep.appendChild(list);
+        if (inputAddStep.value.trim() !== "") {
+            step.push(inputAddStep.value);
+            const list = document.createElement("li");
+            list.innerText = inputAddStep.value;
+            listStep.appendChild(list);
+        }
     });
 
     buttonAddRecipe.addEventListener("click", async () => {
@@ -224,32 +226,30 @@ function createRecipeCard() {
             "category": categories,
             "image": nameInput.value,
         };
-        console.log("recipeData: ", recipeData);
         const formData = new FormData();
-        formData.append('file', selectedFile); 
-        formData.append('data', JSON.stringify(recipeData)); 
-    
+        formData.append('file', selectedFile);
+        formData.append('data', JSON.stringify(recipeData));
+
         try {
             const response = await fetch('/api/recipe/create', {
                 method: 'POST',
                 body: formData
             });
-    
+
             if (!response.ok) {
                 const error = await response.json();
                 throw new Error(error.error);
             }
-    
+
             const data = await response.json();
-            console.log('Receita cadastrada com sucesso:', data);
-            alert("Receita publicada com sucesso!"); //temporário.
-    
+            home(feed, modal);
+
         } catch (error) {
             console.error('Erro ao cadastrar receita:', error.message);
-    
+
             errorMessage.style.display = "flex";
             errorMessage.innerText = error.message;
-               modal.appendChild(errorMessage);
+            modal.appendChild(errorMessage);
             return error;
         }
     });
