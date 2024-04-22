@@ -1,4 +1,4 @@
-import { generateRecipeCards } from "./recipesCard";
+import { generateRecipeCards } from "./recipesCard.js";
 
 async function search(feed) {
     const divSearch = document.createElement("div");
@@ -45,13 +45,14 @@ async function search(feed) {
         const category = inputCategory.value.trim();
         if (category !== "") {
             categories.push(category);
-            categoriesSelected.innerText += " + " + categories;
+            categoriesSelected.innerText = categories.join(" ,");
         }
     });
 
+    btnSearch.textContent = "Buscar";
     btnSearch.addEventListener("click", async () => {
-        const recipeName = inputRecipe.value;
-        const recipeCategories = categories.join(",");
+        let recipeName = inputRecipe.value;
+        let recipeCategories = categories.join(",");
 
         if (!chekcboxRecipe.checked) {
             recipeName = "";
@@ -59,10 +60,14 @@ async function search(feed) {
         if (!chekcboxCategory.checked) {
             recipeCategories = "";
         }
+        console.log("recipeName:",recipeName);
+        console.log("recipeCategories:",recipeCategories);
 
         const recipes = await getSearche(recipeName, recipeCategories);
-        const quantity = recipes.data.lenght;
-        
+        console.log("recipes:",recipes);
+
+        const quantity = recipes.data.length;
+
         generateRecipeCards(recipes, quantity, divResult);
 
     });
@@ -70,16 +75,21 @@ async function search(feed) {
     feed.appendChild(divSearch);
 }
 
-async function getSearche(recipeNme, categories) {
+async function getSearche(recipeName, categories) {
     try {
-        const response = await fetch(`/api/recipe/searche?recipe_name(${recipeNme}&cat(${categories}))`)//verificar se é assim
+        console.log("try");
+
+        const response = await fetch(`/api/recipe/search?recipe_name=${recipeName}&category=${categories}`);
+                console.log("response:",response);
+
         const data = await response.json();
         if (!response.ok) {
             throw new Error('Erro ao tentar buscar receitas');
         }
+        console.log("data:",data);
         return data;
     } catch (error) {
-        console.error('Erro ao recuperar os comentários da receita:', error.message);
+        console.error('Erro ao tentar recuperar dados da receita/categorias buscada:', error.message);
     }
 }
 
