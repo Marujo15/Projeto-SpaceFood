@@ -1,3 +1,4 @@
+/* import pageRouter from "../../pages/router.js";
 import { createRecipeCard } from "./modules/postRecipe.js";
 import { generateRecipeCards, recipesData, recipeFavoriteData } from "./modules/recipesCard.js";
 
@@ -7,6 +8,29 @@ const btnHome = document.getElementById("home");
 const btnPost = document.getElementById("post");
 const btnSearch = document.getElementById("search");
 const btnFavorites = document.getElementById("favorites");
+
+const response = await fetch(`/api/user/login`, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+    }
+})
+
+const data = await response.json()
+
+if (data.error) {
+    alert(data.error);
+    // deletar cookies
+    const customEvent = createCustomEvent('/');
+    window.dispatchEvent(customEvent);
+    return
+}
+
+let userName = document.getElementById('user-name')
+let userUsername = document.getElementById('user-username')
+
+userName.innerText = data.name
+userUsername.innerText = '@' + data.username
 
 home();
 
@@ -68,3 +92,4 @@ function favorites() {
     }
 }
 
+ */
