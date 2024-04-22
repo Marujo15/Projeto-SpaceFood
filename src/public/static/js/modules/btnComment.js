@@ -27,14 +27,15 @@ function generateComments(recipe, card, recipe_id) {
     divComments.appendChild(btnClose);
     divComments.appendChild(divPublishedComments);
     divComments.appendChild(divWriteComent);
+    divComments.classList.add("comments");
     btnClose.textContent = "X";
     btnClose.addEventListener("click", () => {
         divComments.remove();
     });
-    divWriteComent.style.border = "solid 4px red";
-    divPublishedComments.style.height = "300px";
-    divPublishedComments.style.border = "solid 4px gold";
 
+    divWriteComent.classList.add("Write-coment");
+    divWriteComent.style.border = "solid 4px red";
+    divPublishedComments.classList.add("published-comments")
 
     divWriteComent.appendChild(inputComment);
     divWriteComent.appendChild(btnComment);
@@ -117,7 +118,6 @@ function generateComments(recipe, card, recipe_id) {
             divUserComment.appendChild(comentary);
 
             comment.appendChild(imagUserComment);
-            divinfo.style.border = "solid 3px magenta";
             divinfo.style.height = "40px";
 
             comment.appendChild(divinfo);
@@ -126,9 +126,6 @@ function generateComments(recipe, card, recipe_id) {
 
     }
 
-
-    divComments.style.border = "solid 4px blue";
-    divComments.style.background = "white";
     card.appendChild(divComments);
 }
 
