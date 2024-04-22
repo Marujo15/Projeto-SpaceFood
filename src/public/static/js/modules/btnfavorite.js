@@ -12,10 +12,7 @@ async function buttonSave(recipe, divButtons, recipesData, recipe_id) {
     divSave.appendChild(imgSave);
     divSave.appendChild(textSave);
     imgSave.style.width = "20px";
-    console.log("btnfav");      
-    console.log("recipe:",recipe);
-    console.log("divButtons",divButtons);
-    console.log("recipesData",recipesData);
+
     const favoriteData = await recipeFavoriteData();
 
     if (favoriteData && favoriteData.data) {
@@ -31,6 +28,7 @@ async function buttonSave(recipe, divButtons, recipesData, recipe_id) {
         imgSave.src = "../static/svg/bookmark.svg";
         textSave.innerText = "Favoritar";
     }
+
     divSave.addEventListener("click", async () => {
         const fav = await addFavorite(recipe_id, recipesData);
         if (fav) {
@@ -40,8 +38,10 @@ async function buttonSave(recipe, divButtons, recipesData, recipe_id) {
             await deleteFavorite(recipe_id, recipesData);
             imgSave.src = "../static/svg/bookmark.svg";
             textSave.innerText = "Favoritar";
-            if (getCurrentTab==="favorite") {
-                favorites(feed, modal);               
+
+            const currentTab = getCurrentTab();
+            if (currentTab === "favorite") {
+                favorites(feed, modal);
             }
         }
     });
@@ -84,7 +84,7 @@ async function deleteFavorite(recipe_id, recipesData) {
 
     } catch (error) {
         console.error('Erro ao recuperar dados da receita:', error.message);
-        errorMessage.innerText = error.message;
+        // errorMessage.innerText = error.message;
     }
 }
 
