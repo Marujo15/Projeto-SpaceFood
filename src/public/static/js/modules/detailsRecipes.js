@@ -94,21 +94,21 @@ async function recipesDetails(recipe_id, recipe_name, name_user, recipeData) {
         divButtons.classList.add("post-div-buttons");
         buttonSave(recipe, divButtons, recipeData, recipe_id);
         buttonComment(recipe, divButtons, divCard, recipe_id);
-        buttonLike(recipe, divButtons);
-
-        recipe.ingredient_names.forEach(ingredient => {
+        buttonLike(recipeData, divButtons, recipe_id);
+        
+        recipe.ingredients.forEach(ingredient => {
             const element = document.createElement("li");
             element.innerText = ingredient;
             listIngredient.appendChild(element);
         });
 
-        recipe.preparation_steps.forEach(step => {
+        recipe.preparation_method.forEach(step => {
             const element = document.createElement("li");
             element.innerText = step;
             listPreparationMathod.appendChild(element);
         });
 
-        // recipe.category_names.forEach(category => {
+        // recipe.category.forEach(category => {
         //     tags.innerText += " " + category;
         //     divTags.appendChild(tags);
         // });
