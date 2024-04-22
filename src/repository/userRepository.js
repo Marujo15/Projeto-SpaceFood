@@ -13,12 +13,12 @@ const getPerfilQuery = async (user_id) => {
                 (
                     SELECT COUNT(*) 
                     FROM followed_follower 
-                    WHERE follower_id = users.id
+                    WHERE followed_id = users.id
                 ) AS followers_count,
                 (
                     SELECT COUNT(*) 
                     FROM followed_follower 
-                    WHERE followed_id = users.id
+                    WHERE follower_id = users.id
                 ) AS following_count
             FROM
                 users

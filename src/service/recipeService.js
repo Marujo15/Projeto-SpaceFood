@@ -16,6 +16,22 @@ const getAllRecipesService = async() => {
     }
 }
 
+const getRecipeByFollowingService = async (user_id) => {
+    try {
+        const result = await recipeRepository.getRecipeByFollowingQuery(user_id);
+        if(!result ) {
+            const error = new Error("Não foi possível pegar as receitas.");
+            error.status = 500;
+            throw error;
+        }
+        return result;
+    } catch (error) {
+        error.message = error.message || "Ocorreu um erro interno.";
+        error.status = error.status || 500;
+        throw error;
+    }
+}
+
 const getRecipeDetailedService = async(recipe_id) => {
     try {
         const result = await recipeRepository.getRecipeDetailedQuery(recipe_id);
@@ -65,6 +81,7 @@ const createRecipeService = async (name, ingredient, step, category, image, logi
 
 module.exports = {
     getAllRecipesService,
+    getRecipeByFollowingService,
     getRecipeDetailedService,
     searchRecipeService,
     createRecipeService,

@@ -25,6 +25,35 @@ const getAllRecipesQuery = async () => {
     }
 }
 
+const getRecipeByFollowingQuery = async (user_id) => {
+    const client = await connectToDatabase();
+    try {
+        const result = await client.query(`
+            SELECT 
+                recipe.id AS recipe_id, 
+                recipe.name AS recipe_name, 
+                recipe.image AS recipe_image, 
+                recipe.created_at AS recipe_date, 
+                users.id AS user_id, 
+                users.name AS name_user, 
+                users.image AS user_image 
+            FROM 
+                recipe 
+            INNER JOIN 
+                users ON recipe.user_id = users.id
+            INNER JOIN
+                followed_follower ON followed_follower.followed_id = users.id 
+            WHERE 
+                followed_follower.follower_id = $1
+        `, [user_id]);
+        return result.rows;
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
 const getRecipeDetailedQuery = async (recipe_id) => {
     const client = await connectToDatabase();
     try {
@@ -156,6 +185,7 @@ const createRecipeQuery = async (name, ingredients, steps, category, image, logi
 
 module.exports = {
     getAllRecipesQuery,
+    getRecipeByFollowingQuery,
     getRecipeDetailedQuery,
     searchRecipeQuery,
     createRecipeQuery,
