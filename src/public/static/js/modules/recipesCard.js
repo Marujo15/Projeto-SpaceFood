@@ -60,10 +60,12 @@ function generateRecipeCards(recipesData, quantity, feed) {
         recipeTitle.id = "recipe-title";
         imgRecipe.id = "recipe-image";
 
+        const recipe_id = recipe.recipe_id;
+
         divButtons.classList.add("post-div-buttons");
-        buttonSave(recipe, divButtons, recipesData, recipe.recipe_id);
-        buttonComment(recipe, divButtons, divCard, recipe.recipe_id);
-        buttonLike(recipe, divButtons);
+        buttonSave(recipe, divButtons, recipesData, recipe_id);
+        buttonComment(recipe, divButtons, divCard, recipe_id);
+       buttonLike(recipe, divButtons, recipe_id);
 
         imgUser.src = ""; //
         username.innerText = recipe.name_user;
