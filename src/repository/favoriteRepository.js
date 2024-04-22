@@ -3,7 +3,24 @@ const { connectToDatabase } = require("../database/postgresql");
 const getFavoritesQuery = async (user_id) => {
     const client = await connectToDatabase();
     try {
-        const result = await client.query('SELECT recipe.id AS recipe_id, recipe.name AS recipe_name, recipe.image AS recipe_image, recipe.created_at AS recipe_date, users.id AS user_id, users.name AS name_user, users.image AS user_image FROM recipe INNER JOIN users ON recipe.user_id = users.id WHERE recipe.id IN (SELECT recipe_id FROM favorite WHERE user_id = $1)', [user_id]);
+        const result = await client.query(`
+            SELECT 
+                recipe.id AS recipe_id, 
+                recipe.name AS recipe_name, 
+                recipe.image AS recipe_image, 
+                recipe.created_at AS recipe_date, 
+                users.id AS user_id, 
+                users.name AS name_user, 
+                users.image AS user_image 
+            FROM 
+                recipe 
+            INNER JOIN 
+                users ON recipe.user_id = users.id 
+            INNER JOIN 
+                favorite ON favorite.recipe_id = recipe.id 
+            WHERE 
+                favorite.user_id = $1
+        `, [user_id]);
 
         return result.rows;
     } catch (error) {

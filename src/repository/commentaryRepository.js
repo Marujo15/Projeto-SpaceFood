@@ -3,7 +3,21 @@ const { connectToDatabase } = require("../database/postgresql");
 const getCommentaryQuery = async (recipe_id) => {
     const client = await connectToDatabase();
     try {
-        const result = await client.query('SELECT commentary.id AS commentary_id, commentary.commentary AS commentary_text, commentary.created_at AS commentary_date, users.id AS user_id, users.name AS name_user, users.image AS user_image FROM commentary INNER JOIN users ON commentary.user_id = users.id WHERE commentary.recipe_id = $1', [recipe_id]);
+        const result = await client.query(`
+            SELECT 
+                commentary.id AS commentary_id, 
+                commentary.commentary AS commentary_text, 
+                commentary.created_at AS commentary_date, 
+                users.id AS user_id, 
+                users.name AS name_user, 
+                users.image AS user_image 
+            FROM 
+                commentary 
+            INNER JOIN 
+                users ON commentary.user_id = users.id 
+            WHERE 
+                commentary.recipe_id = $1
+        `, [recipe_id]);
 
         return result.rows;
     } catch (error) {

@@ -1,11 +1,20 @@
 const jwt = require('jsonwebtoken');
 const { SECRET_KEY, SESSION_DURATION } = require('../config');
+const fs = require('fs');
+const path = require('path');
+
 const userService = require('../service/userService');
 const validator = require('../utils/userValidator');
 
-const getLogin = async (req, res) => {
-    const user = req.user
-    return res.json(user);
+const getPerfil = async (req, res) => {
+    try {
+        const user_id = req.params.user_id;
+
+        const result = await userService.getPerfilService(user_id);
+        res.status(200).json({ data: result, status: 200 });
+    } catch (error) {
+        res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
+    }
 }
 
 const clearCookies = (req, res) => {
@@ -71,6 +80,96 @@ const registerUser = async (req, res) => {
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 };
+
+const updatePerfil = async (req, res) => {
+    try {
+        const { name, username, biography } = req.body;
+
+        const updates = {};
+        if (name) updates.name = name.trim();
+        if (username) updates.username = username.trim();
+        if (biography) updates.biography = biography.trim();
+
+        if (req.file) {
+            updates.image = req.file.filename;
+        }
+
+        if (updates.name) {
+            if (validator.isEmpty(updates.name)) {
+                const error = new Error("Nome não pode estar vazio.");
+                error.status = 400;
+                throw error;
+            }
+
+            if (!validator.nameSize(updates.name)) {
+                const error = new Error("O nome não pode ser maior que 100 caracteres.");
+                error.status = 422;
+                throw error;
+            }
+        }
+
+        if (updates.username) {
+            if (validator.isEmpty(updates.username)) {
+                const error = new Error("Nome de usuário não pode estar vazio.");
+                error.status = 400;
+                throw error;
+            }
+
+            if (validator.hasSpace(updates.username)) {
+                const error = new Error("Nome de usuário não pode conter espaços.");
+                error.status = 400;
+                throw error;
+            }
+
+            if (!validator.usernameSize(updates.username)) {
+                const error = new Error("O nome de usuário não pode ser maior que 20 caracteres.");
+                error.status = 422;
+                throw error;
+            }
+        }
+
+        if (updates.biography) {
+            if (!validator.biographySize(updates.biography)) {
+                const error = new Error("O nome de usuário não pode ser maior que 20 caracteres.");
+                error.status = 422;
+                throw error;
+            }
+        }
+
+        if (Object.keys(updates).length === 0) {
+            return res.status(200).json({ message: 'Nenhuma alteração feita.', status: 200 });
+        }
+
+        let user_id = req.cookies.session_id;
+        user_id = jwt.verify(user_id, SECRET_KEY);
+        user_id = user_id.user.id;
+
+        const oldImage = await userService.updatePerfilService(user_id, updates);
+
+        if(updates.image) {
+            const image = path.join(__dirname, '..', 'uploads', oldImage);
+            fs.unlink(image, (err) => {
+                if (err) {
+                    console.error('Imagem não encontrada.');
+                }
+            });
+        }
+
+        res.status(200).json({ message: 'Usuário atualizado com sucesso', status: 200 });
+        
+    } catch (error) {
+        if (req.file) {
+            const image = path.join(__dirname, '..', 'uploads', req.file.filename);
+            fs.unlink(image, (err) => {
+                if (err) {
+                    console.error('Erro ao excluir o imagem:', err);
+                }
+                console.log('Imagem excluída com sucesso.');
+            });
+        }
+        res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
+    }
+}
 
 const checkUsername = async (req, res, next) => {
     try {
@@ -156,10 +255,11 @@ const login = async (req, res) => {
 };
 
 module.exports = {
-    registerUser,
+    getPerfil,
     checkUsername,
     checkEmail,
+    registerUser,
     login,
-    getLogin,
     clearCookies,
+    updatePerfil,
 };
