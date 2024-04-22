@@ -65,19 +65,18 @@ function generateRecipeCards(recipesData, quantity, feed) {
         divButtons.classList.add("post-div-buttons");
         buttonSave(recipe, divButtons, recipesData, recipe_id);
         buttonComment(recipe, divButtons, divCard, recipe_id);
-       buttonLike(recipe, divButtons, recipe_id);
+        buttonLike(recipe, divButtons, recipe_id);
 
         imgUser.src = ""; //
         username.innerText = recipe.name_user;
         recipeTitle.innerText = recipe.recipe_name;
         if (recipe.recipe_image !== "") {
-            imgRecipe.src = `../assets/uploads/recipe/${recipe.recipe_id}`;
+            imgRecipe.src = `../assets/${recipe.recipe_image}`;
         }
 
         divDetails.addEventListener("click", () => {
             modalContent.innerHTML = "";
-            recipesDetails(recipe.recipe_id, recipe.recipe_name, recipe.name_user, recipe, recipesData);
-
+            recipesDetails(recipe.recipe_id, recipe.recipe_name, recipe.name_user, recipe.recipe_image, recipesData);
         });
         feed.appendChild(divCard);
     }
