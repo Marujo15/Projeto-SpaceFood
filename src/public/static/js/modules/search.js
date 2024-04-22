@@ -62,6 +62,7 @@ async function search(feed) {
 
         const recipes = await getSearche(recipeName, recipeCategories);
         const quantity = recipes.data.lenght;
+        
         generateRecipeCards(recipes, quantity, divResult);
 
     });
