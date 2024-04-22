@@ -2,7 +2,7 @@ import { buttonComment } from "./btnComment.js";
 import { buttonLike } from "./btnlike.js";
 import { buttonSave } from "./btnfavorite.js";
 
-async function recipesDetails(recipe_id, recipe_name, name_user, recipeData) {
+async function recipesDetails(recipe_id, recipe_name, name_user, recipe_image, recipeData) {
     const modal = document.getElementById('recipeModal');
     const modalContent = document.getElementById('recipe-content');
     const errorMessage = document.getElementById('error-message');
@@ -74,17 +74,23 @@ async function recipesDetails(recipe_id, recipe_name, name_user, recipeData) {
         divRecipe.appendChild(divPreparationMathod);
 
         divImageRecipe.appendChild(imgRecipe);
-        imgRecipe.id = "recipe-image"; //ainda não tem 
+        imgRecipe.id = "recipe-image-details"; 
+        imgRecipe.src = `../assets/${recipe_image}`;
+        console.log("imgRecipe",imgRecipe); 
+        console.log("recipe_image",recipe_image); 
 
         divIngredients.appendChild(titleIngredient);
         divIngredients.appendChild(listIngredient);
         titleIngredient.innerText = "Ingredientes";
         listIngredient.id = "ingredient";
+        titleIngredient.classList.add("list-title");
 
         divPreparationMathod.appendChild(titlePreparationMathod);
         divPreparationMathod.appendChild(listPreparationMathod);
         titlePreparationMathod.innerText = "Modo de Preparo";
         listPreparationMathod.id = "preparet-method";
+        titlePreparationMathod.classList.add("list-title");
+
 
         recipeTitle.innerText = recipe_name;
 
