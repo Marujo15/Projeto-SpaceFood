@@ -27,6 +27,7 @@ function generateRecipeCards(recipesData, quantity, feed) {
     for (let i = recipesData.data.length - 1; i >= recipesData.data.length - quantity && i >= 0; i--) {
         const recipe = recipesData.data[i];
 
+        const post = document.createElement("div");
         const divCard = document.createElement("div");
         const imgUser = document.createElement("img");
         const username = document.createElement("p");
@@ -43,6 +44,8 @@ function generateRecipeCards(recipesData, quantity, feed) {
         divCard.append(divButtons);
 
         divCard.classList.add(`post-div`)
+        post.appendChild(divCard);
+        post.classList.add("post-content")
 
         divUser.classList.add("post-div-perfil")
         divUser.appendChild(imgUser);
@@ -64,7 +67,7 @@ function generateRecipeCards(recipesData, quantity, feed) {
 
         divButtons.classList.add("post-div-buttons");
         buttonSave(recipe, divButtons, recipesData, recipe_id);
-        buttonComment(recipe, divButtons, divCard, recipe_id);
+        buttonComment(recipe, divButtons, post, recipe_id);
         buttonLike(recipe, divButtons, recipe_id);
 
         imgUser.src = ""; //
@@ -78,7 +81,7 @@ function generateRecipeCards(recipesData, quantity, feed) {
             modalContent.innerHTML = "";
             recipesDetails(recipe.recipe_id, recipe.recipe_name, recipe.name_user, recipe.recipe_image, recipesData);
         });
-        feed.appendChild(divCard);
+        feed.appendChild(post);
     }
 
 }
