@@ -229,6 +229,48 @@ main {
     background: rgba(238, 69, 16, 0.15);
 }
 
+/* postRecipe */
+
+.post-recipe{
+    display: flex;
+    flex-direction: column;
+    margin: 5%;
+}
+.post-recipe-name-category{
+    display: flex;
+    flex-direction: row;
+}
+.post-content{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+}
+.post-image{
+    display: flex;
+    flex-direction: row;
+}
+.post-recipe-content{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.post-add-category{
+    display: flex;
+    flex-direction: row;
+}
+.post-btn-ingredient-methodo{
+    
+}
+/* .post-btn{
+    background: var(--C5);
+    color: white;
+    border-radius: 10px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 1.5%;
+} */
+
 /* Show Details */
 .modal {
     background: var(--B4);
