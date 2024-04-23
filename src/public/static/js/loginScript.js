@@ -1,8 +1,10 @@
-const inputUsername = document.getElementById("username-input");
+/* const inputUsername = document.getElementById("username-input");
 const inputPassword = document.getElementById("password-input");
 const buttonRegister = document.getElementById("register-submit-button");
 const buttonLogin = document.getElementById("login-submit-button");
 const checkboxRemenber = document.getElementById('remember')
+
+import pageRouter from "../../pages/router.js";
 
 // checkboxRemenber.addEventListener("",()=>{
 //     const remember = checkboxRemenber.value;
@@ -13,7 +15,8 @@ const checkboxRemenber = document.getElementById('remember')
 
 buttonRegister.addEventListener("click", (event) => {
     event.preventDefault();
-    window.location.href = "/register";
+    pageRouter.getPage('/register')
+    /* window.location.href = "/register"; 
 });
 
 buttonLogin.addEventListener("click", async (event) => {
@@ -32,6 +35,8 @@ buttonLogin.addEventListener("click", async (event) => {
             body: JSON.stringify(userData)
         });
         if (!response.ok) {
+            const customEvent = createCustomEvent('/home');
+            window.dispatchEvent(customEvent);
             throw new Error('Erro ao tentar fazer login');
         }
         window.location.href = "/home"
@@ -39,4 +44,4 @@ buttonLogin.addEventListener("click", async (event) => {
         console.error('Erro ao fazer login:', error.message);
         alert('Erro ao fazer login.', error.message);
     }
-});
+}); */

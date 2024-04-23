@@ -1,9 +1,5 @@
 import { createRecipeCard } from "./modules/postRecipe.js";
-import { generateRecipeCards, recipesData } from "./modules/recipesCard.js";
-import { recipeFavoriteData } from "./modules/btnfavorite.js";
-import { setCurrentTab } from "./modules/tabIdentifier.js";
-import { search } from "./modules/search.js";
-import { Perfil } from "./modules/perfil.js";
+import { generateRecipeCards, recipesData, recipeFavoriteData } from "./modules/recipesCard.js";
 
 const feed = document.getElementById("feed");
 const modal = document.getElementById('recipeModal');
@@ -11,13 +7,13 @@ const btnHome = document.getElementById("home");
 const btnPost = document.getElementById("post");
 const btnSearch = document.getElementById("search");
 const btnFavorites = document.getElementById("favorites");
-const btnPerfil = document.querySelector('.button-user')
 
-home(feed, modal);
+home();
 
 btnHome.addEventListener("click", () => {
-    setCurrentTab("home");
-    home(feed, modal);
+    feed.innerHTML = '';
+    modal.style.display = "none";
+    home();
 });
 
 btnPost.addEventListener("click", () => {
@@ -26,23 +22,16 @@ btnPost.addEventListener("click", () => {
 
 btnSearch.addEventListener("click", () => {
     feed.innerHTML = '';
-    search(feed);
+    search();
 });
 
 btnFavorites.addEventListener("click", () => {
-    setCurrentTab("favorite");
-    favorites(feed, modal);
-});
-
-btnPerfil.addEventListener('click', () => {
-    feed.innerHTML = ''
-    setCurrentTab('perfil')
-    Perfil(feed, userId)
-})
-
-function home(feed, modal) {
     feed.innerHTML = '';
     modal.style.display = "none";
+    favorites();
+});
+
+function home() {
     recipesData().then(data => {
         getPosts(data, 10);
     }).catch(error => {
@@ -58,9 +47,12 @@ function home(feed, modal) {
     }
 }
 
-function favorites(feed, modal) {
-    feed.innerHTML = '';
-    modal.style.display = "none";
+
+function search() {
+
+}
+
+function favorites() {
     recipeFavoriteData().then(data => {
         getPosts(data, 10);
     }).catch(error => {
@@ -75,5 +67,3 @@ function favorites(feed, modal) {
         }
     }
 }
-
-export { favorites, home };

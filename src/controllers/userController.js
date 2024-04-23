@@ -146,17 +146,21 @@ const updatePerfil = async (req, res) => {
 
         const oldImage = await userService.updatePerfilService(user_id, updates);
 
-        if(updates.image) {
-            const image = path.join(__dirname, '..', 'uploads', oldImage);
-            fs.unlink(image, (err) => {
-                if (err) {
-                    console.error('Imagem não encontrada.');
-                }
-            });
+        if (updates.image) {
+            if (oldImage !== "DEFAULT.png") {
+                const image = path.join(__dirname, '..', 'uploads', oldImage);
+                fs.unlink(image, (err) => {
+                    if (err) {
+                        console.error('Imagem não encontrada.');
+                        return;
+                    }
+                    console.log("Imagem excluída com sucesso.")
+                });
+            }
         }
 
         res.status(200).json({ message: 'Usuário atualizado com sucesso', status: 200 });
-        
+
     } catch (error) {
         if (req.file) {
             const image = path.join(__dirname, '..', 'uploads', req.file.filename);

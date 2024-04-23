@@ -25,10 +25,61 @@ const getAllRecipesQuery = async () => {
     }
 }
 
+const getRecipeByFollowingQuery = async (user_id) => {
+    const client = await connectToDatabase();
+    try {
+        const result = await client.query(`
+            SELECT 
+                recipe.id AS recipe_id, 
+                recipe.name AS recipe_name, 
+                recipe.image AS recipe_image, 
+                recipe.created_at AS recipe_date, 
+                users.id AS user_id, 
+                users.name AS name_user, 
+                users.image AS user_image 
+            FROM 
+                recipe 
+            INNER JOIN 
+                users ON recipe.user_id = users.id
+            INNER JOIN
+                followed_follower ON followed_follower.followed_id = users.id 
+            WHERE 
+                followed_follower.follower_id = $1
+        `, [user_id]);
+        return result.rows;
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
 const getRecipeDetailedQuery = async (recipe_id) => {
     const client = await connectToDatabase();
     try {
-        const result = await client.query('SELECT recipe.id AS recipe_id, recipe.name AS recipe_name, recipe.image AS recipe_image, recipe.created_at AS recipe_date, ingredient.ingredients AS ingredients, preparation_method.steps AS preparation_method, category.name AS categories FROM recipe INNER JOIN (SELECT recipe_id, ARRAY_AGG(name) AS ingredients FROM ingredient GROUP BY recipe_id) AS ingredient ON recipe.id = ingredient.recipe_id INNER JOIN (SELECT recipe_id, ARRAY_AGG(step) AS steps FROM preparation_method GROUP BY recipe_id) AS preparation_method ON recipe.id = preparation_method.recipe_id INNER JOIN (SELECT recipe_id, ARRAY_AGG(name) AS name FROM category GROUP BY recipe_id) AS category ON recipe.id = category.recipe_id WHERE recipe.id = $1', [recipe_id]);
+        const result = await client.query(`
+            SELECT 
+                recipe.id AS recipe_id, 
+                recipe.name AS recipe_name, 
+                recipe.image AS recipe_image, 
+                recipe.created_at AS recipe_date, 
+                ARRAY_AGG(DISTINCT ingredient.name) AS ingredients, 
+                ARRAY_AGG(DISTINCT preparation_method.step) AS preparation_method, 
+                ARRAY_AGG(DISTINCT category.name) AS categories 
+            FROM 
+                recipe 
+            LEFT JOIN 
+                ingredient ON recipe.id = ingredient.recipe_id 
+            LEFT JOIN 
+                preparation_method ON recipe.id = preparation_method.recipe_id 
+            LEFT JOIN 
+                category ON recipe.id = category.recipe_id 
+            WHERE 
+                recipe.id = $1
+            GROUP BY 
+                recipe.id
+        `, [recipe_id]);
+
         return result.rows[0];
     } catch (error) {
         throw error;
@@ -134,6 +185,7 @@ const createRecipeQuery = async (name, ingredients, steps, category, image, logi
 
 module.exports = {
     getAllRecipesQuery,
+    getRecipeByFollowingQuery,
     getRecipeDetailedQuery,
     searchRecipeQuery,
     createRecipeQuery,

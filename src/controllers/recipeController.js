@@ -12,6 +12,18 @@ const getAllRecipes = async (req, res) => {
     }
 }
 
+const getRecipeByFollowing = async (req, res) => {
+    try {
+        let user_id = req.cookies.session_id;
+        user_id = jwt.verify(user_id, config.SECRET_KEY);
+        user_id = user_id.user.id;
+        const recipes = await recipeService.getRecipeByFollowingService(user_id);
+        res.status(200).json({ data: recipes, status: 200 });
+    } catch (error) {
+        res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
+    }
+}
+
 const getRecipeDetailed = async (req, res) => {
     try {
         const recipeid = req.params.recipe_id;
@@ -148,6 +160,7 @@ const createRecipe = async (req, res) => {
 module.exports = {
     getAllRecipes,
     getRecipeDetailed,
+    getRecipeByFollowing,
     searchRecipes,
     createRecipe,
 }
