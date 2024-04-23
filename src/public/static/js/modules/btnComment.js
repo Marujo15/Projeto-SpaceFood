@@ -43,9 +43,13 @@ function generateComments(recipe, card, recipe_id) {
 
     if (getCurrentTab() !== "details") {
         btnComment.classList.add("write-comment-btn-feed");
-    }
-    else {
+        divComments.classList.add("comments-feed");
+        btnClose.classList.add("close-comment-feed");
+        inputComment.classList.add("write-input-feed");
+    } else {
         btnComment.classList.add("write-comment-btn-details");
+        btnClose.classList.add("close-comment-details");
+        inputComment.classList.add("write-input-details");
     }
 
     inputComment.placeholder = "Escreva um comnentário...";
@@ -130,17 +134,10 @@ function generateComments(recipe, card, recipe_id) {
             divUserComment.appendChild(comentary);
 
             if (getCurrentTab() !== "details") {
-                divComments.classList.add("comments-feed");
                 comentary.classList.add("comment-txt");
-                btnClose.classList.add("close-comment-feed");
-                inputComment.classList.add("write-input-feed");
-
 
             } else {
                 comentary.classList.add("comment-txt-details");
-                btnClose.classList.add("close-comment-details");
-                inputComment.classList.add("write-input-details");
-
             }
 
             comment.appendChild(imagUserComment);
