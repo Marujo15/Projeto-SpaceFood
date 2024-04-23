@@ -3,6 +3,7 @@ import { generateRecipeCards, recipesData } from "./modules/recipesCard.js";
 import { recipeFavoriteData } from "./modules/btnfavorite.js";
 import { setCurrentTab } from "./modules/tabIdentifier.js";
 import { search } from "./modules/search.js";
+import { Perfil } from "./modules/perfil.js";
 
 const feed = document.getElementById("feed");
 const modal = document.getElementById('recipeModal');
@@ -10,6 +11,7 @@ const btnHome = document.getElementById("home");
 const btnPost = document.getElementById("post");
 const btnSearch = document.getElementById("search");
 const btnFavorites = document.getElementById("favorites");
+const btnPerfil = document.querySelector('.button-user')
 
 home(feed, modal);
 
@@ -31,6 +33,12 @@ btnFavorites.addEventListener("click", () => {
     setCurrentTab("favorite");
     favorites(feed, modal);
 });
+
+btnPerfil.addEventListener('click', () => {
+    feed.innerHTML = ''
+    setCurrentTab('perfil')
+    Perfil(feed, userId)
+})
 
 function home(feed, modal) {
     feed.innerHTML = '';

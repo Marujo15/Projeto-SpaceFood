@@ -73,6 +73,10 @@ ul {
     list-style-type: none;
 }
 
+.hide {
+    display: none;
+}
+
 .aside-main {
     display: grid;
     grid-row: 2;
@@ -81,6 +85,7 @@ ul {
 
 ::-webkit-scrollbar {
     width: 7px;
+    height: 7px;
     /* Largura da barra de rolagem */
 }
 
@@ -641,4 +646,171 @@ main {
     font-style: normal;
     color: var(--B2);
     font-size: 12px;
+}
+
+/* perfil */
+.posts-feed,
+.perfil-page {
+    display: flex;
+    flex-direction: column;
+    height: 90dvh;
+    width: 100%;
+}
+
+/* .posts-feed div{
+    border: none;
+} */
+
+/* perfil header */
+/* .perfil-page {
+    border: 5px solid red;
+} */
+
+.perfil-header {
+    /* border: 5px solid blue; */
+    display: flex;
+    height: 30dvh;
+    background: #fff;
+    font-family: 'Roboto';
+    border-bottom: 5px double black;
+}
+
+.perfil-img-name-username {
+   /*  border: 5px solid yellow; */
+    width: 25%;
+    margin: 10px 0 10px 20px;
+}
+
+.perfil-img-name-username {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 18px;
+}
+
+/* .perfil-posts-div {
+    border: 5px solid rgb(0, 0, 206);
+} */
+
+
+.perfil-bio-following-followers {
+    /* border: 5px solid rgb(186, 186, 0); */
+    width: 72%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 18px;
+}
+
+.perfil-button-follow-edit {
+    /* border: 5px solid rgb(134, 134, 0); */
+    width: 3%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+/* .perfil-img,
+.perfil-bio,
+.perfil-button {
+    border: 5px solid rgb(4, 255, 0);
+} */
+
+.perfil-img{
+    height: 120px;
+    width: 120px;
+}
+
+.perfil-bio{
+    margin-top: 30px;
+    margin-left: 30%;
+    height: 100px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: rgb(244, 244, 244);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.perfil-button{
+    width: fit-content;
+    align-self: center;
+    justify-self: center;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.perfil-button button{
+    position: absolute;
+    right: 10px;
+    bottom: -65px;
+    width: 100px;
+    height: 40px;
+    font-size: 18px;
+    border-radius: 10px;
+    transition: all 300ms ease;
+    border: none;
+    cursor: pointer;
+    background: var(--C5);
+    color: #ffffff; 
+}
+
+.perfil-button button:hover{
+    background: var(--C4);
+    scale: 1.05;
+}
+
+/* .perfil-name-username,
+.perfil-following-followers {
+    border: 5px solid rgb(3, 194, 0);
+} */
+
+.perfil-name-username{
+    margin-right: 10px;
+    background: rgb(244, 244, 244);
+    border-radius: 5px;
+    padding: 5px;
+    width: 150px;
+}
+
+.perfil-following-followers {
+    align-self: flex-end;
+    display: flex;
+    margin-bottom: 15px;
+}
+
+/* .perfil-class-name,
+.perfil-following {
+    border: 5px solid rgb(255, 0, 191);
+} */
+
+.perfil-class-name{
+    height: 40px;
+    white-space: nowrap;
+    overflow: auto;
+}
+
+.perfil-following{
+    margin-right: 5px;
+}
+
+/* .perfil-class-username,
+.perfil-followers {
+    border: 5px solid rgb(180, 0, 135);
+} */
+
+.perfil-class-username{
+    height: 40px;
+    white-space: nowrap;
+    overflow: auto;
+}
+
+/* perfil posts */
+.perfil-posts-div {
+    height: 60dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
