@@ -56,9 +56,10 @@ function createRecipeCard() {
     divContent.classList.add("post-content");
     divImage.classList.add("post-image");
     divRecipe.classList.add("post-recipe-content");
-    divElement.classList.add("post-recipe-element");
     divCategory.classList.add("post-add-category");
     divButtomIngredientMethodo.classList.add("post-btn-ingredient-methodo");
+    divElement.classList.add("post-element");
+
 
     // buttonAddIngredient.classList.add("post-btn");
     // buttonAddRecipe.classList.add("post-btn");
@@ -161,6 +162,8 @@ function createRecipeCard() {
     btnIngredient.id = "button-ingredient";
     btnStep.id = "button-preparation-method";
 
+    const  divinputIngredient = document.createElement("div");
+    const  divinputSteps = document.createElement("div");
     divElement.appendChild(divElementIngredient);
     divElement.appendChild(divElementStep);
 
@@ -172,8 +175,9 @@ function createRecipeCard() {
     divElementIngredient.classList.add = "add-ingredients"
     listIngredient.id = "list-ingredient";
 
-    divAddIngredient.appendChild(inputAddIngredient);
-    divAddIngredient.appendChild(buttonAddIngredient);
+    divAddIngredient.appendChild(divinputIngredient);
+    divAddIngredient.appendChild(divinputIngredient);
+    divinputIngredient.appendChild(divElementIngredient);
     inputAddIngredient.placeholder = "Escreva o ingrediente";
     inputAddIngredient.id = "ingredient";
     buttonAddIngredient.innerText = "+";

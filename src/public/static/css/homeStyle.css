@@ -271,6 +271,9 @@ main {
     padding: 1.5%;
 } */
 
+.post-element{
+    height: 200px;
+}   
 /* Show Details */
 .modal {
     background: var(--B4);
@@ -420,6 +423,7 @@ main {
     border-radius: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     padding: 1.5%;
+    
 }
 
 .comments-feed {
