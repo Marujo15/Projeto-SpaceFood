@@ -1,8 +1,12 @@
 import { buttonComment } from "./btnComment.js";
 import { buttonLike } from "./btnlike.js";
 import { buttonSave } from "./btnfavorite.js";
+import { getCurrentTab, setCurrentTab } from "./tabIdentifier.js";
 
 async function recipesDetails(recipe_id, recipe_name, name_user, recipe_image, recipeData) {
+    const currentTab = getCurrentTab();
+    setCurrentTab("details");
+
     const modal = document.getElementById('recipeModal');
     const modalContent = document.getElementById('recipe-content');
     const errorMessage = document.getElementById('error-message');
@@ -15,6 +19,7 @@ async function recipesDetails(recipe_id, recipe_name, name_user, recipe_image, r
     closeModal.addEventListener('click', () => {
         const modal = document.getElementById('recipeModal');
         modal.style.display = 'none';
+        setCurrentTab(currentTab);
     });
 
     try {
@@ -48,7 +53,6 @@ async function recipesDetails(recipe_id, recipe_name, name_user, recipe_image, r
         const divPreparationMathod = document.createElement("div");
         const divButtons = document.createElement("div");
 
-        // Montar a estrutura dos elementos
         divCard.append(divTitle);
         divCard.append(divInfo);
         divCard.append(divRecipe);
