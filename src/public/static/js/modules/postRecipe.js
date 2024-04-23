@@ -1,4 +1,5 @@
 import { home } from "../homeScript.js";
+import { buttonComment } from "./btnComment.js";
 
 function createRecipeCard() {
     const feed = document.getElementById("feed");
@@ -7,7 +8,6 @@ function createRecipeCard() {
     const errorMessage = document.getElementById('error-message');
     const closeModal = document.getElementById('closeModal');
 
-    const post = document.createElement("div");
     const divPost = document.createElement("div");
     const divTitle = document.createElement("div");
     const divCategory = document.createElement("div");
@@ -39,6 +39,33 @@ function createRecipeCard() {
     const listIngredient = document.createElement("ul");
     const listStep = document.createElement("ul");
 
+    divPost.style.border = "2px solid red"; // Definindo uma borda vermelha para divPost
+    divTitle.style.border = "2px solid blue"; // Definindo uma borda azul para divTitle
+    divCategory.style.border = "2px solid green"; // Definindo uma borda verde para divCategory
+    divDetails.style.border = "2px solid yellow"; // Definindo uma borda amarela para divDetails
+    divRecipe.style.border = "2px solid orange"; // Definindo uma borda laranja para divRecipe
+    divElement.style.border = "2px solid purple"; // Definindo uma borda roxa para divElement
+    div.style.border = "2px solid cyan"; // Definindo uma borda ciano para div
+    divImage.style.border = "2px solid pink"; // Definindo uma borda rosa para divImage
+    divButton.style.border = "2px solid brown"; // Definindo uma borda marrom para divButton
+    divContent.style.border = "2px solid magenta"; // Definindo uma borda magenta para divContent
+    divButtomIngredientMethodo.style.border = "2px solid lime"; // Definindo uma borda verde limão para divButtomIngredientMethodo
+
+    divPost.classList.add("post-recipe");
+    divDetails.classList.add("post-recipe-name-category");
+    divContent.classList.add("post-content");
+    divImage.classList.add("post-image");
+    divRecipe.classList.add("post-recipe-content");
+    divElement.classList.add("post-recipe-element");
+    divCategory.classList.add("post-add-category");
+    divButtomIngredientMethodo.classList.add("post-btn-ingredient-methodo");
+
+    // buttonAddIngredient.classList.add("post-btn");
+    // buttonAddRecipe.classList.add("post-btn");
+    // buttonAddStep.classList.add("post-btn");
+    // buttonCategory.classList.add("post-btn");
+    // buttonExit.classList.add("post-btn");
+    
     closeModal.style.display = "none";
 
     divPost.id = "div-post";
@@ -46,10 +73,6 @@ function createRecipeCard() {
     divPost.appendChild(divTitle);
     divPost.appendChild(divDetails);
     divPost.appendChild(divContent);
-    post.appendChild(divPost);
-    post.id = "post";
-    post.style.border = "pink solid 2px";
-    post.innerText = "esa merdinha aparece???";
 
     divTitle.appendChild(textTitle);
     textTitle.innerText = "Postar Receita";
@@ -178,7 +201,7 @@ function createRecipeCard() {
     buttonAddRecipe.id = "button-add";
 
     modalContent.innerHTML = "";
-    modalContent.appendChild(post);
+    modalContent.appendChild(divPost);
     modal.appendChild(modalContent);
 
     modal.style.display = "block";
@@ -198,7 +221,8 @@ function createRecipeCard() {
         if (inputCategory.value.trim() !== "") {
             categories.push(inputCategory.value);
             const category = document.createElement("p");
-            category.innerText += " " + inputCategory.value;
+            category.innerText = "";
+            category.innerText = categories.join(", ");
             divTag.appendChild(category);
         }
     });
