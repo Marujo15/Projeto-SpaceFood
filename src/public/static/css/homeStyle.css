@@ -2,6 +2,7 @@
     --B1: #1B1B1B;
     --B2: #2A2A2A;
     --B3: #EAE7D3;
+    --B5: #f5f3e4;
     --B4: #F6F3DE;
     --C1: #DC1F1F;
     --C2: #B81E19;
@@ -171,22 +172,23 @@ main {
 }
 
 /* feed */
+.post-content {
+    display: flex;
+}
+
 .post-div {
     cursor: pointer;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: 550px;
-    height: 300px;
-    margin: 100px 0;
-    padding: 20px;
-    padding-bottom: 0px;
+    margin: 2% 0;
+    padding: 5%;
     background: rgba(0, 0, 0, 0.05);
     border-radius: 10px;
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     font-style: normal;
-    z-index: 0;
 }
 
 #username {
@@ -209,7 +211,7 @@ main {
 .post-div-buttons {
     display: flex;
     justify-content: space-between;
-    padding: 15px 0;
+    padding: 15px 0 0 0;
     cursor: auto;
 }
 
@@ -351,7 +353,7 @@ main {
 #recipe-image {
     background: #2A2A2A;
     height: 120px;
-    width: 500px;
+    width: 490px;
     border-radius: 10px;
     object-fit: cover;
     padding: 10px;
@@ -371,23 +373,113 @@ main {
 }
 
 /* Comemments */
-
 .comments {
     background-color: rgba(0, 0, 0, 0.05);
-    ;
     border-radius: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     padding: 1.5%;
 }
 
-.write-coment {}
+.comments-feed {
+    width: 300px;
+    position: relative;
+    left: 2%;
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
+}
 
+.close-comment {
+    background: var(--C4);
+    height: 20px;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 1px solid black;
+    font-size: 15px;
+    color: #fff;
+    margin: 1%;
+    padding: 5px;
+    cursor: pointer;
+    transition: all 300ms ease;
+    position: relative;
+}
+
+.close-comment-feed{
+    right: -250px;
+}
+
+.close-comment-details{
+    right: -800px;
+}
+
+.write-comment input {
+    border-radius: 10px;
+    padding: 1.5%;
+    border: none;
+    height: auto;
+    margin-right: 1%;
+}
+
+.write-input-feed{
+    width: 77%;
+}
+
+.write-input-details{
+    width: 90%;
+}
+
+.write-comment button {
+    background: var(--C5);
+    color: white;
+    border-radius: 10px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 1.5%;
+    position: relative;
+}
+
+.write-comment-btn-feed{
+    margin-top: 4.5%;
+}
+
+.write-comment-btn-details{
+    margin-top: 1.5%;
+}
 .published-comments {
-    background-color: #EAE7D3;
-    min-height: 100px;
+    background-color: var(--B5);
+    height: 250px;
     border-radius: 10px;
     overflow: auto;
+    padding: 1%;
+}
 
+.comment {
+    display: flex;
+    flex-direction: row;
+    padding: 2%;
+}
+
+.comment-user-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 1%;
+    border: solid var(--C1) 2px;
+}
+
+.comment-txt {
+    max-width: 210px;
+}
+
+.comment-txt-details {
+    max-width: 780px;
+}
+
+.comment-username {
+    font-weight: bold;
 }
 
 /* --- Aside --- */
