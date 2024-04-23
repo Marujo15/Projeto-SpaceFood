@@ -1,4 +1,6 @@
-function Perfil() {
+import { generateRecipeCards } from "./recipesCard"
+
+export function Perfil(feed, userId) {
     const perfilHeader = document.createElement('div')
     const perfilImgNameUsername = document.createElement('div')
     const perfilImg = document.createElement('div')
@@ -108,5 +110,26 @@ function Perfil() {
     
     })
 
-    return perfilHeader
+    feed.appendChild(perfilHeader)
+
+    function perfilGET(id) {
+        try {
+            const response = fetch(`/api/recipes/${id}`)   
+            
+            const data = response.json()
+    
+            if(!response.ok) {
+                throw console.error(data.error)
+            }
+
+            return data
+        } 
+        
+        catch (error) {
+        }
+    }
+
+    const recipesData = perfilGET(userId)
+
+    generateRecipeCards(recipesData, recipesData.data.length, feed)
 }
