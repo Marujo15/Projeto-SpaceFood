@@ -1,5 +1,4 @@
-import { home } from "../homeScript.js";
-import { buttonComment } from "./btnComment.js";
+import { home } from "../home.js";
 
 function createRecipeCard() {
     const feed = document.getElementById("feed");

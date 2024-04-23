@@ -1,4 +1,4 @@
-import { favorites } from "../homeScript.js";
+import { favorites } from "../home.js";
 import { getCurrentTab } from "./tabIdentifier.js";
 
 async function buttonSave(recipe, divButtons, recipesData, recipe_id) {
