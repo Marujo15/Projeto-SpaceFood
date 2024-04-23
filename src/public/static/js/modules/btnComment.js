@@ -1,3 +1,5 @@
+import { getCurrentTab } from "./tabIdentifier.js";
+
 function buttonComment(recipe, divButtons, divCard, recipe_id) {
     const divComment = document.createElement("div");
     const imgComemnt = document.createElement("img");
@@ -29,16 +31,23 @@ function generateComments(recipe, card, recipe_id) {
     divComments.appendChild(divWriteComent);
     divComments.classList.add("comments");
     btnClose.textContent = "X";
+    btnClose.classList.add("close-comment");
     btnClose.addEventListener("click", () => {
         divComments.remove();
     });
 
-    divWriteComent.classList.add("Write-coment");
-    divWriteComent.style.border = "solid 4px red";
+    divWriteComent.classList.add("write-comment");
     divPublishedComments.classList.add("published-comments")
-
     divWriteComent.appendChild(inputComment);
     divWriteComent.appendChild(btnComment);
+
+    if (getCurrentTab() !== "details") {
+        btnComment.classList.add("write-comment-btn-feed");
+    }
+    else {
+        btnComment.classList.add("write-comment-btn-details");
+    }
+
     inputComment.placeholder = "Escreva um comnentário...";
     btnComment.textContent = "Publicar";
     btnComment.addEventListener("click", async () => {
@@ -101,6 +110,8 @@ function generateComments(recipe, card, recipe_id) {
             const divinfo = document.createElement("div");
             const divUser = document.createElement("div");
             const divUserComment = document.createElement("div");
+            comment.classList.add("comment");
+            imagUserComment.classList.add("comment-user-image");
 
             const imagUser = document.createElement("img");
             imagUser.src = ""; //data.user_image
@@ -111,14 +122,28 @@ function generateComments(recipe, card, recipe_id) {
 
             const username = document.createElement("p");
             username.innerText = data.name_user;
+            username.classList.add("comment-username");
             divUser.appendChild(username);
 
             const comentary = document.createElement("p");
             comentary.innerText = data.commentary_text;
             divUserComment.appendChild(comentary);
 
+            if (getCurrentTab() !== "details") {
+                divComments.classList.add("comments-feed");
+                comentary.classList.add("comment-txt");
+                btnClose.classList.add("close-comment-feed");
+                inputComment.classList.add("write-input-feed");
+
+
+            } else {
+                comentary.classList.add("comment-txt-details");
+                btnClose.classList.add("close-comment-details");
+                inputComment.classList.add("write-input-details");
+
+            }
+
             comment.appendChild(imagUserComment);
-            divinfo.style.height = "40px";
 
             comment.appendChild(divinfo);
             divComment.appendChild(comment);
