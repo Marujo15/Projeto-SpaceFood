@@ -1,4 +1,6 @@
-import { generateComments } from "./comment.js";
+import { buttonComment } from "./btnComment.js";
+import { buttonLike } from "./btnlike.js";
+import { buttonSave } from "./btnfavorite.js";
 
 async function recipesDetails(recipe_id, recipe_name, name_user, recipeData) {
     const modal = document.getElementById('recipeModal');
@@ -10,25 +12,19 @@ async function recipesDetails(recipe_id, recipe_name, name_user, recipeData) {
     modal.style.border = "solid 2px pink";
     errorMessage.innerHTML = "";
 
-
     closeModal.addEventListener('click', () => {
         const modal = document.getElementById('recipeModal');
         modal.style.display = 'none';
     });
 
     try {
-        console.log("try");
-
         const response = await fetch(`/api/recipe/${recipe_id}`);
-        console.log("response", response);
 
         const data = await response.json();
-        console.log("data", data);
 
         if (!response.ok) {
             throw new Error('Erro ao tentar recuperar os dados da receita');
         }
-
         modalContent.innerHTML = '';
         modal.style.display = "flex";
 
@@ -41,15 +37,6 @@ async function recipesDetails(recipe_id, recipe_name, name_user, recipeData) {
         const listIngredient = document.createElement("ul");
         const titlePreparationMathod = document.createElement("p");
         const listPreparationMathod = document.createElement("ul");
-        const divSave = document.createElement("div");
-        const imgSave = document.createElement("img");
-        const textSave = document.createElement("p");
-        const divComment = document.createElement("div");
-        const imgComemnt = document.createElement("img");
-        const textComment = document.createElement("p");
-        const divLike = document.createElement("div");
-        const imgLike = document.createElement("img");
-        const textLike = document.createElement("p");
         const divTitle = document.createElement("div");
         const divInfo = document.createElement("div");
         const divUser = document.createElement("div");
@@ -67,9 +54,9 @@ async function recipesDetails(recipe_id, recipe_name, name_user, recipeData) {
         divCard.append(divRecipe);
         divCard.append(divButtons);
 
-        divTitle.append(recipeTitle);
+        divTitle.append(recipeTitle); 
         recipeTitle.id = "recipe-title";
-        recipeTitle.innerText = recipe_name;
+        recipeTitle.textContent = recipe_name;
 
         divInfo.append(divUser);
         divInfo.append(divTags);
@@ -81,6 +68,7 @@ async function recipesDetails(recipe_id, recipe_name, name_user, recipeData) {
         username.id = "username";
         username.innerText = name_user;
 
+        divRecipe.classList.add("div-recipe-details");
         divRecipe.appendChild(divImageRecipe);
         divRecipe.appendChild(divIngredients);
         divRecipe.appendChild(divPreparationMathod);
@@ -98,79 +86,29 @@ async function recipesDetails(recipe_id, recipe_name, name_user, recipeData) {
         titlePreparationMathod.innerText = "Modo de Preparo";
         listPreparationMathod.id = "preparet-method";
 
-        divButtons.appendChild(divSave);
-        divButtons.appendChild(divComment);
-        divButtons.appendChild(divLike);
-        divSave.id = "save";
-        divComment.id = "comment";
-        divLike.id = "like";
-
-        divSave.appendChild(imgSave);
-        divSave.appendChild(textSave);
-        imgSave.src = "../static/svg/bookmark.svg";
-        imgSave.style.width = "20px";
-        textSave.innerText = "Salvar";
-        divSave.addEventListener("click", async (event) => {
-            event.stopPropagation();
-            console.log("Salvando receita ", recipe_name);
-            try {
-                const response = await fetch(`/api/favorite/${recipe_id}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(recipeData)
-                });
-                if (!response.ok) {
-                    const error = await response.json();
-                    console.log(error.error);
-                }
-            } catch (error) {
-                console.error('Erro ao tentar salvar receita:', error.message);
-                alert('Erro ao tentar salvar receita', error.message);
-            }
-        });
-
-        divComment.appendChild(imgComemnt);
-        divComment.appendChild(textComment);
-        imgComemnt.src = "../static/svg/comment.svg";
-        imgComemnt.style.width = "20px";
-        textComment.innerText = "Comentários";
-        divComment.addEventListener("click", (event) => {
-            event.stopPropagation();
-            console.log("Comentar receita ", recipe.recipe_name);
-            console.log("recipeData ", recipe);
-            generateComments(recipe, divCard);
-        });
-
-        divLike.appendChild(imgLike);
-        divLike.appendChild(textLike);
-        imgLike.src = "../static/svg/like.svg";
-        imgLike.style.width = "20px";
-        textLike.innerText = "Curtir";
-        divLike.addEventListener("click", () => { });
-
         recipeTitle.innerText = recipe_name;
 
         const recipe = data.data;
-        console.log("divCard: ", divCard);
-        console.log("recipe: ", recipe);
-
-
-        recipe.ingredient_names.forEach(ingredient => {
+        console.log("recipe details",recipe);
+        console.log("recipeData details",recipeData);
+        divButtons.classList.add("post-div-buttons");
+        buttonSave(recipe, divButtons, recipeData, recipe_id);
+        buttonComment(recipe, divButtons, divCard, recipe_id);
+        buttonLike(recipeData, divButtons, recipe_id);
+        
+        recipe.ingredients.forEach(ingredient => {
             const element = document.createElement("li");
             element.innerText = ingredient;
             listIngredient.appendChild(element);
         });
-        console.log("for 1 ");
 
-        recipe.preparation_steps.forEach(step => {
+        recipe.preparation_method.forEach(step => {
             const element = document.createElement("li");
             element.innerText = step;
             listPreparationMathod.appendChild(element);
         });
 
-        // recipe.category_names.forEach(category => {
+        // recipe.category.forEach(category => {
         //     tags.innerText += " " + category;
         //     divTags.appendChild(tags);
         // });
