@@ -6,32 +6,19 @@ const routes = require('./routes');
 const port = config.PORT;
 const ip = config.ADDRESS;
 const cookieParser = require('cookie-parser');
+const loginPage = require('./public/login');
+const registerPage = require('./public/register');
+const homePage = require('./public/home');
 
 app.use(express.json());
-
+app.use('/static', express.static(path.resolve(__dirname, 'public', 'static')))
+app.use('/assets', express.static(path.join(__dirname, 'uploads')));
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/assets', express.static(path.join(__dirname, 'uploads')));
-
-app.get('/login', (req, res) => {
-  res.clearCookie('session_id');
-  res.sendFile(path.join(__dirname, 'public/login/index.html'));
-});
-
-app.get('/register', function(req, res) {
-  res.sendFile(path.join(__dirname, 'public/register/index.html'));
-});
-
-app.get('/home', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/home/index.html'));
-});
-
-// Rota padrão para a página inicial
-app.get('/', function(req, res) {
-  res.redirect("/login");
-});
+app.get('/', loginPage)
+app.get('/login', loginPage)
+app.get('/register', registerPage)
+app.get('/home', homePage)
 
 app.use('/api', routes);
 

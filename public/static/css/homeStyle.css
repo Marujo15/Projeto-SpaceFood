@@ -1,0 +1,442 @@
+:root {
+    --B1: #1B1B1B;
+    --B2: #2A2A2A;
+    --B3: #EAE7D3;
+    --B4: #F6F3DE;
+    --C1: #DC1F1F;
+    --C2: #B81E19;
+    --C3: #EE4510;
+    --C4: #FF6A00;
+    --C5: #FF7614;
+    --C6: #FF8228;
+    --C7: #6EDA53;
+
+    --star: #C3AC98;
+}
+
+.roboto-3 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.roboto {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.roboto-5 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.roboto-7 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.roboto-9 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 900;
+    font-style: normal;
+}
+
+
+.kaushan {
+    font-family: "Kaushan Script", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* --- Home Page --- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: grid;
+    height: 100dvh;
+    width: 100%;
+    grid-template-rows: 10dvh 1fr;
+    overflow: hidden;
+    transition: all 300ms ease
+}
+
+.aside-main {
+    display: grid;
+    grid-row: 2;
+    grid-template-columns: 200px 1fr;
+}
+
+::-webkit-scrollbar {
+    width: 7px; /* Largura da barra de rolagem */
+}
+
+/* Estiliza o fundo da barra de rolagem (a trilha) */
+::-webkit-scrollbar-track {
+    background: transparent; /* Cor de fundo da trilha */
+}
+
+/* Estiliza a alça da barra de rolagem (o thumb) */
+::-webkit-scrollbar-thumb {
+    background-color: var(--C4); /* Cor da alça da barra de rolagem */
+    border-radius: 6px; /* Arredondamento da alça */
+}
+
+/* Estiliza a alça da barra de rolagem ao passar o mouse */
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--C3); /* Cor da alça ao passar o mouse */
+}
+
+/* --- Header --- */
+header {
+    background: var(--B4);
+    display: grid;
+    width: 100%;
+    height: 10dvh;
+    grid-template-columns: 200px 1fr;
+}
+
+.header-logo {
+    grid-column: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.logo-space{
+    color: var(--C1);
+}
+
+.logo-food{
+    color: var(--C5);
+}
+
+.header-buttons {
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.header-button-following, .header-button-all{
+    background: none;
+    border: none;
+    cursor: pointer;
+    height: 100%;
+    width: 100px;
+    padding: 0 10px;
+    transition: all 300ms ease;
+    border-bottom: 3px solid transparent;
+    font-size: 20px;
+}
+
+.header-button-following:hover, .header-button-all:hover{
+    background: var(--B3);
+    border-bottom: 3px solid var(--C1);
+}
+
+.selected{
+    border-bottom: 3px solid var(--C5);
+}
+
+/* --- Main --- */
+main {
+    background: var(--B3);
+    grid-column: 2;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 90dvh;
+}
+
+/* feed */
+.post-div{
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 550px;
+    height: 300px;
+    margin: 100px 0;
+    padding: 20px;
+    padding-bottom: 0px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    z-index: 0;
+}
+
+#username{
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.post-div-title{
+    font-weight: 450;
+}
+
+.post-div-title p{
+    margin-top: -15px;
+    margin-bottom: 15px;
+}
+
+.post-div-buttons{
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    cursor: auto;
+}
+
+.post-div-buttons div{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all 300ms ease;
+    padding: 10px 20px;
+    border-radius: 20px;
+    z-index: 1;
+}
+
+.post-div-buttons div:hover{
+    background: rgba(238, 69, 16, 0.15);
+}
+
+/* Show Details */
+.modal{
+    background: var(--B4);
+
+    display: none;
+    position: fixed;
+    z-index: 2;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-45%, -50%);  
+    height: 60%;
+    width: 70%;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+
+    font-family: 'Roboto'
+}
+
+.modal-content{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-content-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 20px;
+    padding-right: 80px;
+}
+
+.close-modal{
+    height: fit-content;
+    background: var(--C4);
+    height: 38px;
+    width: 40px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 1px solid black;
+    font-size: 25px;
+    font-weight: 600;
+    color: #fff;
+    margin: 20px;
+    padding: 5px;
+    cursor: pointer;
+    transition: all 300ms ease;
+}
+
+.close-modal:hover{
+    scale: 1.05;
+    rotate: 180deg;
+}
+
+.modal-div-buttons{
+    display: flex;
+    justify-content: space-between;
+    padding-right: 50px;
+    width: 100%;
+}
+
+.modal-div-buttons div{
+    display: flex;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 300ms ease;
+    padding: 10px 20px;
+    border-radius: 20px;
+}
+
+.modal-div-buttons div:hover{
+    background: rgba(238, 69, 16, 0.15);
+}
+
+#recipe-title{
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.modal-div-img{
+    display: flex;
+    overflow-y: auto;
+    justify-content: space-between;
+}
+
+.modal-div-img div{
+    width: 30%;
+}
+
+.modal-div-img div:nth-child(2) p, .modal-div-img div:nth-child(3) p{
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+#recipe-image{
+    background: #2A2A2A;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+
+/* --- Aside --- */
+.aside-main aside {
+    background: var(--B4);
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90dvh;
+}
+
+.abas {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 40%;
+    justify-content: space-evenly;
+    margin-top: 20%;
+}
+
+.abas i {
+    color: var(--B1);
+    font-size: 22px;
+}
+
+.aba-button {
+    cursor: pointer;
+    background: none;
+    height: 100%;
+    border: none;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    margin: 15px 20px;
+    padding-left: 20px;
+    border-radius: 100px;
+    transition: all 300ms ease;
+}
+
+.aba-button:hover{
+    background: rgba(238, 69, 16, 0.15);
+}
+
+.button-write {
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-write button {
+    background: var(--C6);
+    color: white;
+    border-radius: 10px;
+    border: none;
+    height: 40px;
+    width: 80%;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 300ms ease;
+}
+
+.button-write button:hover{
+    scale: 1.05;
+    background: var(--C4);
+}
+
+.button-user-div {
+    height: 30%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-user {
+    height: 30%;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--B3);
+    border: 1px solid var(--B1);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 300ms ease;
+}
+
+.button-user:hover{
+    background: rgba(238, 69, 16, 0.15);
+}
+
+.button-user img, .button-user div{
+    margin: 0 10px;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#user-name {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    color: var(--B1);
+    font-size: 14px;
+}
+
+#user-username {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    color: var(--B2);
+    font-size: 12px;
+}
