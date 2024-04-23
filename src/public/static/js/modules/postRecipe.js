@@ -7,6 +7,7 @@ function createRecipeCard() {
     const errorMessage = document.getElementById('error-message');
     const closeModal = document.getElementById('closeModal');
 
+    const post = document.createElement("div");
     const divPost = document.createElement("div");
     const divTitle = document.createElement("div");
     const divCategory = document.createElement("div");
@@ -45,6 +46,10 @@ function createRecipeCard() {
     divPost.appendChild(divTitle);
     divPost.appendChild(divDetails);
     divPost.appendChild(divContent);
+    post.appendChild(divPost);
+    post.id = "post";
+    post.style.border = "pink solid 2px";
+    post.innerText = "esa merdinha aparece???";
 
     divTitle.appendChild(textTitle);
     textTitle.innerText = "Postar Receita";
@@ -173,7 +178,7 @@ function createRecipeCard() {
     buttonAddRecipe.id = "button-add";
 
     modalContent.innerHTML = "";
-    modalContent.appendChild(divPost);
+    modalContent.appendChild(post);
     modal.appendChild(modalContent);
 
     modal.style.display = "block";
