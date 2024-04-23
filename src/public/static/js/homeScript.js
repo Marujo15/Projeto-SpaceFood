@@ -1,4 +1,3 @@
-/* import pageRouter from "../../pages/router.js";
 import { createRecipeCard } from "./modules/postRecipe.js";
 import { generateRecipeCards, recipesData, recipeFavoriteData } from "./modules/recipesCard.js";
 
@@ -68,5 +67,3 @@ function favorites() {
         }
     }
 }
-
-*/
