@@ -1,3 +1,11 @@
+function toggleCommentButton(divComment, add, eventHandler) {
+    if (add) {
+        divComment.addEventListener("click", eventHandler);
+    } else {
+        divComment.removeEventListener("click", eventHandler);
+    }
+}
+
 function buttonComment(recipe, divButtons, divCard, recipe_id) {
     const divComment = document.createElement("div");
     const imgComemnt = document.createElement("img");
@@ -9,13 +17,17 @@ function buttonComment(recipe, divButtons, divCard, recipe_id) {
 
     imgComemnt.style.width = "20px";
     textComment.innerText = "Comentários";
-    divComment.addEventListener("click", () => {
-        generateComments(recipe, divCard, recipe_id);
-    });
+    toggleCommentButton(divComment, true, () => eventButton(recipe, divCard, recipe_id, divComment));
+
     divButtons.appendChild(divComment);
 }
 
-function generateComments(recipe, card, recipe_id) {
+function eventButton(recipe, divCard, recipe_id, divComment) {
+    generateComments(recipe, divCard, recipe_id, divComment);
+    toggleCommentButton(divComment, false, () => eventButton(recipe, divCard, recipe_id, divComment));
+}
+
+function generateComments(recipe, card, recipe_id, divComment) {
 
     const divComments = document.createElement("div");
     const divWriteComent = document.createElement("div");
@@ -30,6 +42,7 @@ function generateComments(recipe, card, recipe_id) {
     btnClose.textContent = "X";
     btnClose.addEventListener("click", () => {
         divComments.remove();
+        toggleCommentButton(divComment, true, () => eventButton(recipe, divCard, recipe_id, divComment));
     });
     divWriteComent.style.border = "solid 4px red";
     divPublishedComments.style.height = "300px";
