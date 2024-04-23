@@ -1,8 +1,12 @@
 /* const jwt = require('jsonwebtoken');
 const config = require('../.../src/config'); */
+import { search } from "./modules/search.js";
 import event from "./modules/event.js"
 import { createRecipeCard } from "./modules/postRecipe.js";
-import { generateRecipeCards, recipesData, recipeFavoriteData } from "./modules/recipesCard.js";
+import { generateRecipeCards, recipesData } from "./modules/recipesCard.js";
+import { recipeFavoriteData } from "./modules/btnfavorite.js";
+import { setCurrentTab } from "./modules/tabIdentifier.js";
+
 
 export const homePage = () => {
 
@@ -62,11 +66,11 @@ export const homePage = () => {
 
     document.getElementById("root").innerHTML = '';
     document.getElementById("root").appendChild(homeContent);
-    homeScript()
+    homeScript();
 
-    root.appendChild(homeContent)
+    root.appendChild(homeContent);
 
-    return homeContent
+    return homeContent;
 }
 
 export async function homeScript() {
@@ -78,44 +82,48 @@ export async function homeScript() {
     const btnSearch = document.getElementById("search");
     const btnFavorites = document.getElementById("favorites");
 
-    try {
-        const response = await fetch(`/api/user/login`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
+    async function getLogin() {
+        try {
+            const response = await fetch(`/api/user/login`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            console.log("response:", response)
+            const data = await response.json();
+            console.log("data:", data)
+
+            if (!response.ok) {
+                // deletar cookies
+                const customEvent = event('/');
+                window.dispatchEvent(customEvent);
+                throw new Error("Erro ao recuperar dados do usuário");
             }
-        })
-
-        const data = await response.json()
-
-        if (!response.ok) {
-            alert(data.error);
-            // deletar cookies
+            return data;
+        }
+        
+        catch (error) {
+            console.error(error.message);
             const customEvent = event('/');
             window.dispatchEvent(customEvent);
         }
-    } 
-    catch (error) {
-        alert(data.error);
-        // deletar cookies
-        const customEvent = event('/');
-        window.dispatchEvent(customEvent);
+
     }
 
-
+    // const data = await getLogin();
 
     const userName = document.getElementById('user-name')
     const userUsername = document.getElementById('user-username')
 
-    userName.innerText = data.name
-    userUsername.innerText = '@' + data.username
+    // userName.innerText = data.name
+    // userUsername.innerText = '@' + data.username
 
-    home();
+    home(feed, modal);
 
     btnHome.addEventListener("click", () => {
-        feed.innerHTML = '';
-        modal.style.display = "none";
-        home();
+        setCurrentTab("home");
+        home(feed, modal);
     });
 
     btnPost.addEventListener("click", () => {
@@ -124,51 +132,54 @@ export async function homeScript() {
 
     btnSearch.addEventListener("click", () => {
         feed.innerHTML = '';
-        search();
+        search(feed);
     });
 
     btnFavorites.addEventListener("click", () => {
-        feed.innerHTML = '';
-        modal.style.display = "none";
-        favorites();
+        setCurrentTab("favorite");
+        favorites(feed, modal);
     });
 
-    function home() {
-        recipesData().then(data => {
-            getPosts(data, 10);
-        }).catch(error => {
-            console.error(error);
-        });
+    // btnPerfil.addEventListener('click', () => {
+    //     feed.innerHTML = ''
+    //     setCurrentTab('perfil')
+    //     Perfil(feed, userId)
+    // })
 
-        async function getPosts(data, quantity) {
-            try {
-                generateRecipeCards(data, quantity, feed);
-            } catch (error) {
-                console.error(error);
-            }
+}
+
+export function favorites(feed, modal) {
+    feed.innerHTML = '';
+    modal.style.display = "none";
+    recipeFavoriteData().then(data => {
+        getPosts(data, 10);
+    }).catch(error => {
+        console.error(error);
+    });
+
+    async function getPosts(data, quantity) {
+        try {
+            generateRecipeCards(data, quantity, feed);
+        } catch (error) {
+            console.error(error);
         }
     }
+}
 
+export function home(feed, modal) {
+    feed.innerHTML = '';
+    modal.style.display = "none";
+    recipesData().then(data => {
+        getPosts(data, 10);
+    }).catch(error => {
+        console.error(error);
+    });  
 
-    function search() {
-
-    }
-
-    function favorites() {
-        recipeFavoriteData().then(data => {
-            getPosts(data, 10);
-        }).catch(error => {
+    async function getPosts(data, quantity) {
+        try {
+            generateRecipeCards(data, quantity, feed);
+        } catch (error) {
             console.error(error);
-        });
-
-        async function getPosts(data, quantity) {
-            try {
-                generateRecipeCards(data, quantity, feed);
-            } catch (error) {
-                console.error(error);
-            }
         }
     }
-
-
 }
