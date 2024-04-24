@@ -177,10 +177,6 @@ main {
 }
 
 /* feed */
-.post-content {
-    display: flex;
-}
-
 .post-div {
     cursor: pointer;
     display: flex;
@@ -188,7 +184,7 @@ main {
     justify-content: space-between;
     width: 550px;
     margin: 2% 0;
-    padding: 5%;
+    padding: 2.5%;
     background: rgba(0, 0, 0, 0.05);
     border-radius: 10px;
     font-family: "Roboto", sans-serif;
@@ -199,6 +195,7 @@ main {
 #username {
     font-size: 22px;
     font-weight: 500;
+    padding: 1%;
 }
 
 .post-div-title {
@@ -239,7 +236,13 @@ main {
 .post-recipe{
     display: flex;
     flex-direction: column;
-    margin: 5%;
+    width: 600px;
+    text-align: center;
+    justify-content: center;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -0%);
 }
 .post-recipe-name-category{
     display: flex;
@@ -249,6 +252,7 @@ main {
     display: flex;
     flex-direction: row;
     flex: 1;
+    justify-content: center;
 }
 .post-image{
     display: flex;
@@ -263,9 +267,77 @@ main {
     display: flex;
     flex-direction: row;
 }
-.post-btn-ingredient-methodo{
-
+.post-btn-contnt{
+    text-align: center;
+    align-content: center;
 }
+.post-component-input{
+    background: white;
+    border: solid var(--B3) 1px;
+    width: 252px;
+    border-radius: 15px;
+    padding: 0.5%;
+    margin: 1%;
+}
+.post-btn-add{
+    border: white;
+    border-radius: 50%;
+    background: var(--C6);
+    width: 20px;
+    height: 20px;
+    color: var(--B3);
+}
+.post-input-add{
+    border: none;
+    width: 223px;
+    border-radius: 15px;
+    padding: 2.5%;
+}
+.post-input{
+    border: solid var(--B3) 1px;
+    width: 223px;
+    border-radius: 15px;
+    padding: 2.5%;
+}
+.post-btn1{
+    border-radius: 15px;
+    background-color: var(--C6);
+    border: none;
+    padding: 0.5%;
+    margin: 2%;
+    height: 30px;
+    width: 80px;
+    color: var(--B3);
+}
+.post-btn2{
+    border-radius: 15px;
+    background-color: var(--C6);
+    border: none;
+    padding: 0.5%;
+    margin: 2%;
+    height: 30px;
+    width: 150px;
+    color: var(--B3);
+}
+input:focus {
+    outline: none;
+}
+.post-btn-add:hover{
+    background-color: var(--C4);
+    cursor: pointer;
+}
+.post-btn1:hover{
+    background-color: var(--C4);
+    cursor: pointer;
+}
+.post-btn2:hover{
+    background-color: var(--C4);
+    cursor: pointer;
+}
+
+/* .post-btn-ingredient-methodo{
+
+} */
 /* .post-btn{
     background: var(--C5);
     color: white;
@@ -279,6 +351,9 @@ main {
 .post-element{
     height: 200px;
 }   
+#div-step ,#div-ingredients{
+    flex-direction: column;
+}
 /* Show Details */
 .modal {
     background: var(--B4);
@@ -286,18 +361,20 @@ main {
     display: none;
     position: fixed;
     z-index: 2;
-
+    
     flex-direction: column;
     top: 50%;
     left: 50%;
-    transform: translate(-45%, -50%);
-    height: 60%;
-    width: 70%;
+    transform: translate(-45%, -45%);
+    min-height: 60%;
+    max-height: 80%;
+    min-width: 60%;
+    max-width: 70%;
+    padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     overflow: auto;
-
-    font-family: 'Roboto'
+    font-family: 'Roboto';
 }
 
 .modal-content {
@@ -306,8 +383,9 @@ main {
     display: flex;
     flex-direction: column;
     padding: 10px 20px;
-    margin-top: 50px;
-    margin-bottom: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    align-items: center;
 }
 
 .modal-content-div {
@@ -330,8 +408,8 @@ main {
 .close-modal {
     height: fit-content;
     background: var(--C4);
-    height: 38px;
-    width: 40px;
+    height: 30px;
+    width: 30px;
     padding: 5px;
     display: flex;
     justify-content: center;
@@ -349,9 +427,12 @@ main {
     top: 10px;
     right: 10px;
 }
-
-
-
+.modal-error{
+    justify-content: center;
+    padding: 5px;
+    margin-bottom: 14px;
+    color: var(--C1);
+}
 .close-modal:hover {
     scale: 1.05;
     rotate: 180deg;
@@ -381,6 +462,7 @@ main {
     font-size: 30px;
     font-weight: 600;
     text-align: center;
+    padding: 1%;
 }
 
 .modal-div-img {
@@ -402,8 +484,8 @@ main {
 
 #recipe-image {
     background: #2A2A2A;
-    height: 120px;
-    width: 490px;
+    height: 200px;
+    width: 100%;
     border-radius: 10px;
     object-fit: cover;
     padding: 10px;
@@ -465,12 +547,19 @@ main {
     right: -800px;
 }
 
+.write-comment{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 6.5%;
+}
+
 .write-comment input {
     border-radius: 10px;
     padding: 1.5%;
     border: none;
-    height: auto;
-    margin-right: 1%;
+    height: 25px;
+    margin: 1%;
 }
 
 .write-input-feed{
@@ -489,11 +578,7 @@ main {
     font-size: 14px;
     cursor: pointer;
     padding: 1.5%;
-    position: relative;
-}
-
-.write-comment-btn-feed{
-    margin-top: 4.5%;
+    margin: 1%;
 }
 
 .write-comment-btn-details{
@@ -501,7 +586,7 @@ main {
 }
 .published-comments {
     background-color: var(--B5);
-    height: 250px;
+    height: 300px;
     border-radius: 10px;
     overflow: auto;
     padding: 1%;

@@ -38,34 +38,27 @@ function createRecipeCard() {
     const listIngredient = document.createElement("ul");
     const listStep = document.createElement("ul");
 
-    divPost.style.border = "2px solid red"; // Definindo uma borda vermelha para divPost
-    divTitle.style.border = "2px solid blue"; // Definindo uma borda azul para divTitle
-    divCategory.style.border = "2px solid green"; // Definindo uma borda verde para divCategory
-    divDetails.style.border = "2px solid yellow"; // Definindo uma borda amarela para divDetails
-    divRecipe.style.border = "2px solid orange"; // Definindo uma borda laranja para divRecipe
-    divElement.style.border = "2px solid purple"; // Definindo uma borda roxa para divElement
-    div.style.border = "2px solid cyan"; // Definindo uma borda ciano para div
-    divImage.style.border = "2px solid pink"; // Definindo uma borda rosa para divImage
-    divButton.style.border = "2px solid brown"; // Definindo uma borda marrom para divButton
-    divContent.style.border = "2px solid magenta"; // Definindo uma borda magenta para divContent
-    divButtomIngredientMethodo.style.border = "2px solid lime"; // Definindo uma borda verde limão para divButtomIngredientMethodo
+    errorMessage.classList.add("modal-error");
+    divPost.style.border = "2px solid red"; 
+    divTitle.style.border = "2px solid blue"; 
+    divDetails.style.border = "2px solid yellow"; 
+    divRecipe.style.border = "2px solid orange"; 
+    divElement.style.border = "2px solid purple"; 
+    divImage.style.border = "2px solid pink"; 
+    divButton.style.border = "2px solid brown"; 
+    divContent.style.border = "2px solid magenta"; 
+    divButtomIngredientMethodo.style.border = "2px solid lime";
+    
 
     divPost.classList.add("post-recipe");
     divDetails.classList.add("post-recipe-name-category");
     divContent.classList.add("post-content");
     divImage.classList.add("post-image");
     divRecipe.classList.add("post-recipe-content");
-    divCategory.classList.add("post-add-category");
-    divButtomIngredientMethodo.classList.add("post-btn-ingredient-methodo");
+    divCategory.classList.add("post-component-input");
+    divAddIngredient.classList.add("post-component-input");
     divElement.classList.add("post-element");
 
-
-    // buttonAddIngredient.classList.add("post-btn");
-    // buttonAddRecipe.classList.add("post-btn");
-    // buttonAddStep.classList.add("post-btn");
-    // buttonCategory.classList.add("post-btn");
-    // buttonExit.classList.add("post-btn");
-    
     closeModal.style.display = "none";
 
     divPost.id = "div-post";
@@ -83,21 +76,21 @@ function createRecipeCard() {
     div.appendChild(inputTitleRcipe);
     div.appendChild(divCategory);
     inputTitleRcipe.placeholder = "Nome da receita...";
-    inputTitleRcipe.id = "recipe-name";
+    inputTitleRcipe.classList.add("post-input");
 
     divCategory.appendChild(inputCategory);
     divCategory.appendChild(buttonCategory);
-    inputCategory.placeholder = "Categoria...";
-    inputCategory.id = "category";
+    inputCategory.placeholder = "Categoria da receita...";
+    inputCategory.classList.add("post-input-add");
     buttonCategory.innerText = "+";
-    buttonCategory.id = "button-category";
+    buttonCategory.classList.add("post-btn-add");
 
     divContent.appendChild(divImage);
     divContent.appendChild(divRecipe);
 
     const formImage = document.createElement('form');
-    formImage.id = 'form';
-
+    formImage.classList.add("post-btn-contnt");
+    
     const imageName = document.createElement('div');
     imageName.classList.add('input-group');
 
@@ -109,6 +102,7 @@ function createRecipeCard() {
     nameInput.setAttribute('name', 'name');
     nameInput.setAttribute('id', 'name');
     nameInput.setAttribute('placeholder', 'Nome da imagem');
+    nameInput.classList.add("post-input");
 
     imageName.appendChild(nameLabel);
     imageName.appendChild(nameInput);
@@ -118,16 +112,22 @@ function createRecipeCard() {
 
     const fileLabel = document.createElement('label');
     fileLabel.textContent = 'Escolha a imagem';
-
+    
     const fileInput = document.createElement('input');
     fileInput.setAttribute('id', 'file');
     fileInput.setAttribute('type', 'file');
+    fileInput.style.display = "none";
+
+    const btnFileInput = document.createElement('button');
+    btnFileInput.textContent = "Escolher arquivo";
+    btnFileInput.classList.add("post-btn2")
+    btnFileInput.appendChild(fileInput);
 
     imageFile.appendChild(fileLabel);
-    imageFile.appendChild(fileInput);
+    imageFile.appendChild(btnFileInput);
 
     const uploadImage = document.createElement('button');
-    uploadImage.classList.add('submit-btn');
+    uploadImage.classList.add('post-btn2');
     uploadImage.textContent = 'Fazer Upload';
 
     formImage.appendChild(imageName);
@@ -137,6 +137,10 @@ function createRecipeCard() {
     divImage.appendChild(formImage);
 
     let selectedFile = null;
+
+    btnFileInput.addEventListener('click', () => {
+        fileInput.click(); 
+    });
 
     fileInput.addEventListener('change', (event) => {
         selectedFile = event.target.files[0];
@@ -154,15 +158,14 @@ function createRecipeCard() {
     divRecipe.appendChild(divElement);
     divRecipe.appendChild(divButton);
 
+    divButtomIngredientMethodo.classList.add("post-btn-contnt"); //nome temporartop
     divButtomIngredientMethodo.appendChild(btnIngredient);
     divButtomIngredientMethodo.appendChild(btnStep);
     btnIngredient.innerText = "Ingredientes";
     btnStep.innerText = "Modo de Preparo";
-    btnIngredient.id = "button-ingredient";
-    btnStep.id = "button-preparation-method";
+    btnIngredient.classList.add("post-btn2");
+    btnStep.classList.add("post-btn2");
 
-    const  divinputIngredient = document.createElement("div");
-    const  divinputSteps = document.createElement("div");
     divElement.appendChild(divElementIngredient);
     divElement.appendChild(divElementStep);
 
@@ -170,38 +173,37 @@ function createRecipeCard() {
 
     divElementIngredient.appendChild(divAddIngredient);
     divElementIngredient.appendChild(listIngredient);
-    divElementIngredient.id = "div-ingredients";
-    divElementIngredient.classList.add = "add-ingredients"
+    // divElementIngredient.id = "div-ingredients";
+    divElementIngredient.classList.add("add-ingredients");
     listIngredient.id = "list-ingredient";
 
-    divAddIngredient.appendChild(divinputIngredient);
-    divAddIngredient.appendChild(divinputIngredient);
-    divinputIngredient.appendChild(divElementIngredient);
+    divAddIngredient.appendChild(inputAddIngredient);
+    divAddIngredient.appendChild(buttonAddIngredient);
     inputAddIngredient.placeholder = "Escreva o ingrediente";
-    inputAddIngredient.id = "ingredient";
+    inputAddIngredient.classList.add("post-input-add");
     buttonAddIngredient.innerText = "+";
-    buttonAddIngredient.id = "button-add-ingredient";
+    buttonAddIngredient.classList.add("post-btn-add");
 
     divElementStep.appendChild(divAddStep);
     divElementStep.appendChild(listStep);
-    divElementStep.id = "div-step";
-    divElementStep.classList.add = "add-steps";
+    divElementStep.classList.add("post-component-input");
     divElementStep.style.display = "none";
     listStep.id = "list-step";
 
     divAddStep.appendChild(inputAddStep);
     divAddStep.appendChild(buttonAddStep);
     inputAddStep.placeholder = "Escreva o metodo de preparo...";
-    inputAddStep.id = "step";
+    inputAddStep.classList.add("post-input-add");
     buttonAddStep.innerText = "+";
-    buttonAddStep.id = "button-add-step";
+    buttonAddStep.classList.add("post-btn-add");
 
     divButton.appendChild(buttonExit);
     divButton.appendChild(buttonAddRecipe);
     buttonExit.innerText = "Voltar";
-    buttonExit.id = "button-exit";
+    buttonExit.classList.add("post-btn1");
     buttonAddRecipe.innerText = "Postar";
-    buttonAddRecipe.id = "button-add";
+    buttonAddRecipe.classList.add("post-btn1");
+    divButton.classList.add("post-btn-contnt");
 
     modalContent.innerHTML = "";
     modalContent.appendChild(divPost);
@@ -209,14 +211,20 @@ function createRecipeCard() {
 
     modal.style.display = "block";
 
+    btnIngredient.style.background = "#FF6A00";
     btnIngredient.addEventListener("click", () => {
         divElementStep.style.display = "none";
         divElementIngredient.style.display = "flex";
+        btnIngredient.style.background = "#FF6A00";
+        btnStep.style.background = "#FF8228";
     });
 
     btnStep.addEventListener("click", () => {
         divElementStep.style.display = "flex";
         divElementIngredient.style.display = "none";
+        btnStep.style.background = "#FF6A00";
+        btnIngredient.style.background = "#FF8228";
+    
     });
 
     const categories = [];
@@ -224,8 +232,7 @@ function createRecipeCard() {
         if (inputCategory.value.trim() !== "") {
             categories.push(inputCategory.value);
             const category = document.createElement("p");
-            category.innerText = "";
-            category.innerText = categories.join(", ");
+            category.innerText += " " + inputCategory.value;
             divTag.appendChild(category);
         }
     });
