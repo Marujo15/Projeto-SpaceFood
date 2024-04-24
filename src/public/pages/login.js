@@ -71,8 +71,8 @@ export function loginScript() {
         const userData = {
             "username": String(inputUsername.value),
             "password": String(inputPassword.value),
-        }
-        console.log('userData:', userData);
+        };
+
         try {
             const response = await fetch('/api/user/login', {
                 method: 'POST',
@@ -81,15 +81,21 @@ export function loginScript() {
                 },
                 body: JSON.stringify(userData)
             });
+
             if (!response.ok) {
-                const switchPage = event('/home');
-                window.dispatchEvent(switchPage);
-                return
+                throw new Error('Erro ao fazer login');
             }
-            window.location.href = "/home"
+
+            const data = await response.json();
+            console.log('data login:', data);
+
+            const switchPage = event('/home');
+            window.dispatchEvent(switchPage);
+
+            return data;
         } catch (error) {
             console.error('Erro ao fazer login:', error.message);
-            alert('Erro ao fazer login.', error.message);
+            alert('Erro ao fazer login.');
         }
     });
 }
