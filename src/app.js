@@ -7,33 +7,20 @@ const port = config.PORT;
 const ip = config.ADDRESS;
 const cookieParser = require('cookie-parser');
 
-app.use(express.json());
+const publicPath = path.join(__dirname, 'public')
 
+app.use(express.json());
+app.use(express.static(publicPath))
+app.use('/assets', express.static(path.join(__dirname, 'uploads')));
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/assets', express.static(path.join(__dirname, 'uploads')));
-
-app.get('/login', (req, res) => {
-  res.clearCookie('session_id');
-  res.sendFile(path.join(__dirname, 'public/login/index.html'));
-});
-
-app.get('/register', function(req, res) {
-  res.sendFile(path.join(__dirname, 'public/register/index.html'));
-});
-
-app.get('/home', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/home/index.html'));
-});
-
-// Rota padrão para a página inicial
-app.get('/', function(req, res) {
-  res.redirect("/login");
-});
-
 app.use('/api', routes);
+
+app.get('/*', (req, res)=>{
+  res.sendFile(path.resolve('src','public', 'index.html'));//aqui
+})
+
+
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://${ip}:${port}`);

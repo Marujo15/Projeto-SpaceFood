@@ -1,4 +1,4 @@
-const inputUsename = document.getElementById("username-input");
+/* const inputUsename = document.getElementById("username-input");
 const inputName = document.getElementById("name-input");
 const inputEmail = document.getElementById("email-input");
 const inputPassword = document.getElementById("password-input");
@@ -72,6 +72,4 @@ buttonSubmit.addEventListener("click", async (e) => {
     console.error('Ocorreu um erro ao cadastrar o usuário.');
   }
 
-});
-
-
+}); */
