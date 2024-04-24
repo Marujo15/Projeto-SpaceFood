@@ -3,13 +3,6 @@ const favoriteRepository = require('../repository/favoriteRepository');
 const getFavoritesService = async (user_id) => {
     try {
         const result = await favoriteRepository.getFavoritesQuery(user_id);
-
-        if(result.length === 0) {
-            const error = new Error("Não existe receitas favoritadas.");
-            error.status = 404;
-            throw error;
-        }
-
         return result;
     } catch (error) {
         error.message = error.message || "Ocorreu um erro interno.";

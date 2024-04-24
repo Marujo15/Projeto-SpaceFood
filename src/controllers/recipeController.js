@@ -2,6 +2,8 @@ const recipeService = require('../service/recipeService');
 const validator = require('../utils/recipeValidator');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
+const fs = require('fs');
+const path = require('path');
 
 const getAllRecipes = async (req, res) => {
     try {
@@ -154,6 +156,16 @@ const createRecipe = async (req, res) => {
 
         res.status(201).json({ message: 'Receita criada com sucesso', status: 201 });
     } catch (error) {
+        if (req.file) {
+            const image = path.join(__dirname, '..', 'uploads', req.file.filename);
+            fs.unlink(image, (err) => {
+                if (err) {
+                    console.error('Erro ao excluir o imagem:', err);
+                } else {
+                    console.log('Imagem excluída com sucesso.');
+                }
+            });
+        }
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 };

@@ -4,12 +4,6 @@ const getLikesRecipeService = async (recipe_id) => {
     try {
         const result = await likeRepository.getLikeRecipeQuery(recipe_id);
 
-        if(result.length === 0) {
-            const error = new Error("Ainda não há curtidas nessa postagem.");
-            error.status = 404;
-            throw error;
-        }
-
         return result;
     } catch (error) {
         error.message = error.message || "Ocorreu um erro interno.";

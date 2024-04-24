@@ -9,6 +9,11 @@ const getFavorites = async(req, res) => {
         user_id = user_id.user.id;
         
         const result = await favoriteService.getFavoritesService(user_id);
+
+        if(result.length === 0) {
+            return res.status(200).json({ data: "Nenhuma receita favoritada.", status: 200 });
+        }
+
         res.status(200).json({ data: result, status: 200 });
     } catch (error) {
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
