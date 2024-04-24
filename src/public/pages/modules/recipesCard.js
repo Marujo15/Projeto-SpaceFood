@@ -3,14 +3,11 @@ import { buttonComment } from "./btnComment.js";
 import { buttonLike } from "./btnlike.js";
 import { buttonSave } from "./btnfavorite.js";
 
-const modalContent = document.getElementById('recipe-content');
-const errorMessage = document.getElementById('error-message');
-
 async function recipesData() {
     try {
         const response = await fetch(`/api/recipe/`);
         const data = await response.json();
-        console.log("data:", data);
+        console.log("data recipeData:", data);
 
         if (!response.ok) {
             throw new Error('Erro ao tentar recuperar os dados da receita');
@@ -19,11 +16,12 @@ async function recipesData() {
 
     } catch (error) {
         console.error('Erro ao recuperar dados da receita:', error.message);
-        errorMessage.innerText = error.message;
     }
 }
 
 function generateRecipeCards(recipesData, quantity, feed) {
+    const modalContent = document.getElementById('recipe-content');
+
     for (let i = recipesData.data.length - 1; i >= recipesData.data.length - quantity && i >= 0; i--) {
         const recipe = recipesData.data[i];
 
