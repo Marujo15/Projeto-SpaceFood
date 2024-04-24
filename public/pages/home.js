@@ -1,11 +1,12 @@
 /* const jwt = require('jsonwebtoken');
 const config = require('../.../src/config'); */
-import { search } from "./modules/search.js";
 import event from "./modules/event.js"
+import { search } from "./modules/search.js";
 import { createRecipeCard } from "./modules/postRecipe.js";
 import { generateRecipeCards, recipesData } from "./modules/recipesCard.js";
 import { recipeFavoriteData } from "./modules/btnfavorite.js";
 import { setCurrentTab } from "./modules/tabIdentifier.js";
+import { Perfil } from "./modules/perfil.js";
 
 
 export const homePage = () => {
@@ -68,8 +69,6 @@ export const homePage = () => {
     document.getElementById("root").appendChild(homeContent);
     homeScript();
 
-    root.appendChild(homeContent);
-
     return homeContent;
 }
 
@@ -84,7 +83,7 @@ export async function homeScript() {
 
     async function getLogin() {
         try {
-            const response = await fetch(`/api/user/login`, {
+            const response = await fetch(`/api/user/`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -102,7 +101,7 @@ export async function homeScript() {
             }
             return data;
         }
-        
+
         catch (error) {
             console.error(error.message);
             const customEvent = event('/');
@@ -111,13 +110,19 @@ export async function homeScript() {
 
     }
 
-    // const data = await getLogin();
+    try {
+        const data = await getLogin();
+    } catch (error) {
+        console.error(error.message);
+        const customEvent = event('/');
+        window.dispatchEvent(customEvent);
+    }
 
     const userName = document.getElementById('user-name')
     const userUsername = document.getElementById('user-username')
 
-    // userName.innerText = data.name
-    // userUsername.innerText = '@' + data.username
+    userName.innerText = data.name
+    userUsername.innerText = '@' + data.username
 
     home(feed, modal);
 
@@ -140,11 +145,11 @@ export async function homeScript() {
         favorites(feed, modal);
     });
 
-    // btnPerfil.addEventListener('click', () => {
-    //     feed.innerHTML = ''
-    //     setCurrentTab('perfil')
-    //     Perfil(feed, userId)
-    // })
+    btnPerfil.addEventListener('click', () => {
+        feed.innerHTML = ''
+        setCurrentTab('perfil')
+        Perfil(feed, data.id)
+    })
 
 }
 
@@ -173,7 +178,7 @@ export function home(feed, modal) {
         getPosts(data, 10);
     }).catch(error => {
         console.error(error);
-    });  
+    });
 
     async function getPosts(data, quantity) {
         try {

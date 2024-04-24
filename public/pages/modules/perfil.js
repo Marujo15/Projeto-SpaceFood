@@ -1,4 +1,4 @@
-import { generateRecipeCards } from "./recipesCard"
+import { generateRecipeCards } from "./recipesCard.js"
 
 export function Perfil(feed, userId) {
     const perfilHeader = document.createElement('div')

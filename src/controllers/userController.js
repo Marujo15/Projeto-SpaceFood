@@ -6,7 +6,24 @@ const path = require('path');
 const userService = require('../service/userService');
 const validator = require('../utils/userValidator');
 
-const getPerfil = async (req, res) => {
+const getPerfil = (req, res) => {
+    const { id, name, username, email, biography, image, created_at, updated_at } = req.user
+    
+    return res.status(200).json(
+        {
+            id,
+            name,
+            username,
+            email,
+            biography,
+            image,
+            created_at,
+            updated_at
+        }
+    )
+}
+
+const getPerfilById = async (req, res) => {
     try {
         const user_id = req.params.user_id;
 
@@ -260,6 +277,7 @@ const login = async (req, res) => {
 
 module.exports = {
     getPerfil,
+    getPerfilById,
     checkUsername,
     checkEmail,
     registerUser,
