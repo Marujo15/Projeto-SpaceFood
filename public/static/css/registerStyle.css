@@ -73,6 +73,7 @@ body{
 /* Panets + stars */
 .fundo{
     position: absolute;
+    left: 0;
     display: flex;
     width: 100%;
     height: 100dvh;
@@ -111,6 +112,8 @@ img{
     display: flex;
     flex-direction: column;
     position: relative;
+    left: 50%;
+    transform: translate( -50%, 0);
     width: 380px;
     height: 250px;
 }
