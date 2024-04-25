@@ -1,185 +1,226 @@
-/* const jwt = require('jsonwebtoken');
-const config = require('../.../src/config'); */
-import { search } from "./modules/search.js";
-import event from "./modules/event.js"
-import { createRecipeCard } from "./modules/postRecipe.js";
-import { generateRecipeCards, recipesData } from "./modules/recipesCard.js";
-import { recipeFavoriteData } from "./modules/btnfavorite.js";
-import { setCurrentTab } from "./modules/tabIdentifier.js";
+    /* const jwt = require('jsonwebtoken');
+    const config = require('../.../src/config'); */
+    import { search } from "./modules/search.js";
+    import event from "./modules/event.js"
+    import { createRecipeCard } from "./modules/postRecipe.js";
+    import { generateRecipeCards, recipesData } from "./modules/recipesCard.js";
+    import { recipeFavoriteData } from "./modules/btnfavorite.js";
+    import { setCurrentTab, getCurrentTab } from "./modules/tabIdentifier.js";
 
 
-export const homePage = () => {
+    export const homePage = () => {
 
-    const homeContent = document.createElement('div');
-    homeContent.classList.add('home-content')
-    homeContent.innerHTML = `
-        <link rel="stylesheet" href="../static/css/homeStyle.css">
-        <header>
-            <div class="header-logo">
-                <span class="logo-space kaushan">Space</span>
-                <span class="logo-food kaushan">Food</span>
+        const homeContent = document.createElement('div');
+        homeContent.classList.add('home-content')
+        homeContent.innerHTML = `
+            <link rel="stylesheet" href="../static/css/homeStyle.css">
+            <header>
+                <div class="header-logo">
+                    <span class="logo-space kaushan">Space</span>
+                    <span class="logo-food kaushan">Food</span>
+                </div>
+                <div class="header-buttons">
+                    <button id="all" class="roboto header-button-all selected">Todos</button>
+                    <button id="following" class="roboto header-button-following">Seguindo</button>
+                    <div id="search-header"></div>
+                    <div id="search-user"></div>
+                </div>
+            </header>
+            <div class="aside-main">
+                <aside>
+                    <div class="abas">
+                        <button id=home class="aba-home aba-button">
+                            <i class='bx bxs-home'></i>
+                            <span class="roboto">Início</span>
+                        </button>
+                        <button id="search" class="aba-search aba-button">
+                            <i class='bx bx-search'></i>
+                            <span class="roboto">Pesquisar</span>
+                        </button>
+                        <button id="favorites" class="aba-favorites aba-button">
+                            <i class='bx bxs-bookmark'></i>
+                            <span class="roboto">Favoritos</span>
+                        </button>
+                    </div>
+                    <div id="post" class="button-write">
+                        <button class="roboto-5">Escrever</button>
+                    </div>
+                    <div class="button-user-div">
+                        <button class="button-user">
+                            <img src="#" alt="user-photo">
+                            <div class="user-details">
+                                <span id="user-name"></span>
+                                <span id="user-username"></span>
+                            </div>
+                        </button>
+                    </div>
+                </aside>
+                <main class="posts">
+                    <div id="feed" class="posts-feed"></div>
+                    <div id="recipeModal" class="modal" style="display: none;">
+                        <button id="closeModal" class="close-modal">X</button>
+                        <div id="recipe-content" class="modal-content"></div>
+                        <div id="error-message" class="error-message" style="display: none;"></div>
+                    </div>
+                </main>
             </div>
-            <div class="header-buttons">
-                <button class="roboto header-button-all selected">Todos</button>
-                <button class="roboto header-button-following">Seguindo</button>
-            </div>
-        </header>
-        <div class="aside-main">
-            <aside>
-                <div class="abas">
-                    <button id=home class="aba-home aba-button">
-                        <i class='bx bxs-home'></i>
-                        <span class="roboto">Início</span>
-                    </button>
-                    <button id="search" class="aba-search aba-button">
-                        <i class='bx bx-search'></i>
-                        <span class="roboto">Pesquisar</span>
-                    </button>
-                    <button id="favorites" class="aba-favorites aba-button">
-                        <i class='bx bxs-bookmark'></i>
-                        <span class="roboto">Favoritos</span>
-                    </button>
-                </div>
-                <div id="post" class="button-write">
-                    <button class="roboto-5">Escrever</button>
-                </div>
-                <div class="button-user-div">
-                    <button class="button-user">
-                        <img src="#" alt="user-photo">
-                        <div class="user-details">
-                            <span id="user-name"></span>
-                            <span id="user-username"></span>
-                        </div>
-                    </button>
-                </div>
-            </aside>
-            <main class="posts">
-                <div id="feed" class="posts-feed"></div>
-                <div id="recipeModal" class="modal" style="display: none;">
-                    <button id="closeModal" class="close-modal">X</button>
-                    <div id="recipe-content" class="modal-content"></div>
-                    <div id="error-message" class="error-message" style="display: none;"></div>
-                </div>
-            </main>
-        </div>
-        `;
+            `;
 
-    document.getElementById("root").innerHTML = '';
-    document.getElementById("root").appendChild(homeContent);
-    homeScript();
+        document.getElementById("root").innerHTML = '';
+        document.getElementById("root").appendChild(homeContent);
+        homeScript();
 
-    root.appendChild(homeContent);
+        root.appendChild(homeContent);
 
-    return homeContent;
-}
+        return homeContent;
+    }
 
-export async function homeScript() {
+    export async function homeScript() {
 
-    const feed = document.getElementById("feed");
-    const modal = document.getElementById('recipeModal');
-    const btnHome = document.getElementById("home");
-    const btnPost = document.getElementById("post");
-    const btnSearch = document.getElementById("search");
-    const btnFavorites = document.getElementById("favorites");
+        const feed = document.getElementById("feed");
+        const modal = document.getElementById('recipeModal');
+        const btnHome = document.getElementById("home");
+        const btnPost = document.getElementById("post");
+        const btnSearch = document.getElementById("search");
+        const btnFavorites = document.getElementById("favorites");
+        
+        // const headerAll = document.getElementById("all");
+        // const headerFollowing = document.getElementById("following");
+        // const headerSeacherUser = document.getElementById("search-user");
+        // const headerSearchFavorite = document.getElementById("search-header");
 
-    async function getLogin() {
-        try {
-            const response = await fetch(`/api/user/`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
+        async function getLogin() {
+            try {
+                const response = await fetch(`/api/user/`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                console.log("response:", response)
+                const data = await response.json();
+                console.log("data:", data)
+
+                if (!response.ok) {
+                    // deletar cookies
+                    const customEvent = event('/');
+                    window.dispatchEvent(customEvent);
+                    throw new Error("Erro ao recuperar dados do usuário");
                 }
-            })
-            console.log("response:", response)
-            const data = await response.json();
-            console.log("data:", data)
+                return data;
+            }
 
-            if (!response.ok) {
-                // deletar cookies
+            catch (error) {
+                console.error(error.message);
                 const customEvent = event('/');
                 window.dispatchEvent(customEvent);
-                throw new Error("Erro ao recuperar dados do usuário");
             }
-            return data;
-        }
-        
-        catch (error) {
-            console.error(error.message);
-            const customEvent = event('/');
-            window.dispatchEvent(customEvent);
+
         }
 
-    }
+        // const data = await getLogin();
 
-    // const data = await getLogin();
+        const userName = document.getElementById('user-name')
+        const userUsername = document.getElementById('user-username')
 
-    const userName = document.getElementById('user-name')
-    const userUsername = document.getElementById('user-username')
+        // userName.innerText = data.name
+        // userUsername.innerText = '@' + data.username
 
-    // userName.innerText = data.name
-    // userUsername.innerText = '@' + data.username
-
-    home(feed, modal);
-
-    btnHome.addEventListener("click", () => {
-        setCurrentTab("home");
         home(feed, modal);
-    });
 
-    btnPost.addEventListener("click", () => {
-        createRecipeCard();
-    });
+        btnHome.addEventListener("click", () => {
+            setCurrentTab("home");
+            home(feed, modal);
+        });
 
-    btnSearch.addEventListener("click", () => {
+        btnPost.addEventListener("click", () => {
+            createRecipeCard();
+        });
+
+        btnSearch.addEventListener("click", () => {
+            feed.innerHTML = '';
+            setCurrentTab("search");
+            search(feed);
+        });
+
+        btnFavorites.addEventListener("click", () => {
+            setCurrentTab("favorite");
+            console.log("fav?", getCurrentTab());
+            favorites(feed, modal);
+        });
+
+        // btnPerfil.addEventListener('click', () => {
+        //     feed.innerHTML = ''
+        //     setCurrentTab('perfil')
+        //     Perfil(feed, userId)
+        // })
+
+    }
+
+    export function favorites(feed, modal) {
         feed.innerHTML = '';
-        search(feed);
-    });
+        modal.style.display = "none";
+        const headerAll = document.getElementById("all");
+        const headerFollowing = document.getElementById("following");
+        const headerSeacherUser = document.getElementById("search-user");
+        const headerSearchFavorite = document.getElementById("search-header");
 
-    btnFavorites.addEventListener("click", () => {
-        setCurrentTab("favorite");
-        favorites(feed, modal);
-    });
+        const currentTab = getCurrentTab();
+        if (currentTab === "favorite") {
+            headerAll.style.display = "none";
+            headerFollowing.style.display = "none";
+            headerSeacherUser.style.display = "none";
+            headerSearchFavorite.style.display = "block";
+            console.log("nova aba,", headerSearchFavorite);
+            headerSearchFavorite.innerText = "Favoritos";
+        }
 
-    // btnPerfil.addEventListener('click', () => {
-    //     feed.innerHTML = ''
-    //     setCurrentTab('perfil')
-    //     Perfil(feed, userId)
-    // })
-
-}
-
-export function favorites(feed, modal) {
-    feed.innerHTML = '';
-    modal.style.display = "none";
-    recipeFavoriteData().then(data => {
-        getPosts(data, 10);
-    }).catch(error => {
-        console.error(error);
-    });
-
-    async function getPosts(data, quantity) {
-        try {
-            generateRecipeCards(data, quantity, feed);
-        } catch (error) {
+        recipeFavoriteData().then(data => {
+            getPosts(data, 10);
+        }).catch(error => {
             console.error(error);
+        });
+
+        async function getPosts(data, quantity) {
+            try {
+                generateRecipeCards(data, quantity, feed);
+            } catch (error) {
+                console.error(error);
+            }
         }
     }
-}
 
-export function home(feed, modal) {
-    feed.innerHTML = '';
-    modal.style.display = "none";
-    recipesData().then(data => {
-        getPosts(data, 10);
-    }).catch(error => {
-        console.error(error);
-    });  
+    export function home(feed, modal) {
+        feed.innerHTML = '';
+        modal.style.display = "none";
 
-    async function getPosts(data, quantity) {
-        try {
-            generateRecipeCards(data, quantity, feed);
-        } catch (error) {
+        const headerAll = document.getElementById("all");
+        const headerFollowing = document.getElementById("following");
+        const headerSeacherUser = document.getElementById("search-user");
+        const headerSearchFavorite = document.getElementById("search-header");
+
+        const currentTab = getCurrentTab();
+        if (currentTab === "home") {
+            headerAll.style.display = "block";
+            headerFollowing.style.display = "block";
+            headerSeacherUser.style.display = "block";
+            console.log("nova aba,", headerSearchFavorite);
+            
+            headerSearchFavorite.style.display = "none";
+            
+        }
+
+        recipesData().then(data => {
+            getPosts(data, 10);
+        }).catch(error => {
             console.error(error);
+        });
+
+        async function getPosts(data, quantity) {
+            try {
+                generateRecipeCards(data, quantity, feed);
+            } catch (error) {
+                console.error(error);
+            }
         }
     }
-}

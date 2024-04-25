@@ -162,7 +162,7 @@ header {
 
 /* --- Main --- */
 main {
-    background: var(--B3);
+    background: white;
     grid-column: 2;
     position: relative;
     display: flex;
@@ -181,7 +181,7 @@ main {
     width: 550px;
     margin: 2% 0;
     padding: 2.5%;
-    background: rgba(0, 0, 0, 0.05);
+    background: var(--B3);
     border-radius: 10px;
     font-family: "Roboto", sans-serif;
     font-weight: 400;
@@ -254,18 +254,18 @@ form {
     padding: 2%;
 }
 
-#post-title{
+#post-title {
     font-size: x-large;
 }
 
-.post-tag{
+.post-tag {
     height: 50px;
     overflow: auto;
     padding: 1%;
     font-size: 14px;
 }
 
-.post-recipe{
+.post-recipe {
     display: flex;
     flex-direction: column;
     width: 600px;
@@ -279,69 +279,73 @@ form {
     border-radius: 15px;
 }
 
-.post-insert-ingredients-steps{
+.post-insert-ingredients-steps {
     width: 100%;
     height: 40px;
 }
 
-.post-element{
+.post-element {
     flex-direction: column;
     display: flex;
     text-align: justify;
     margin: 1%;
 }
 
-.post-recipe-name-category{
+.post-recipe-name-category {
     display: flex;
     flex-direction: row;
 }
 
-.post-content{
+.post-content {
     display: flex;
     flex-direction: row;
     flex: 1;
     justify-content: center;
+    /* background-color: #fff; */
 }
 
-.post-image{
+.post-image {
     display: flex;
     flex-direction: row;
 }
 
-.pos-tag{
+.pos-tag {
     height: 50px;
     overflow: auto;
     margin: 1%;
     font-size: 14px;
 }
 
-.post-recipe-content{
+.post-recipe-content {
     display: flex;
     flex-direction: column;
     width: 100%;
     margin-left: 3%;
 }
 
-.post-add-category{
+.post-add-category {
     display: flex;
     flex-direction: row;
 }
 
-.post-btn-contnt{
+.post-btn-contnt {
     text-align: center;
     align-content: center;
 }
 
-.post-component-input{
+.post-component-input {
     background: white;
     border: solid var(--B3) 1px;
     width: 252px;
     border-radius: 15px;
     padding: 0.5%;
     margin: 1%;
+    display: flex;
+    align-items: center;
+    height: 30px;
 }
 
-.post-btn-add{
+.post-btn-add {
     border: white;
     border-radius: 50%;
     background: var(--C6);
@@ -350,21 +354,21 @@ form {
     color: var(--B3);
 }
 
-.post-input-add{
+.post-input-add {
     border: none;
     width: 223px;
     border-radius: 15px;
     padding: 2.5%;
 }
 
-.post-input{
+.post-input {
     border: solid var(--B3) 1px;
     width: 252px;
     border-radius: 15px;
     padding: 2.5%;
 }
 
-.post-btn1{
+.post-btn1 {
     border-radius: 15px;
     background-color: var(--C6);
     border: none;
@@ -375,7 +379,7 @@ form {
     color: var(--B3);
 }
 
-.post-btn2{
+.post-btn2 {
     border-radius: 15px;
     background-color: var(--C6);
     border: none;
@@ -390,35 +394,84 @@ input:focus {
     outline: none;
 }
 
-.post-btn-add:hover{
+.post-btn-add:hover {
     background-color: var(--C4);
     cursor: pointer;
 }
 
-.post-btn1:hover{
+.post-btn1:hover {
     background-color: var(--C4);
     cursor: pointer;
 }
 
-.post-btn2:hover{
+.post-btn2:hover {
     background-color: var(--C4);
     cursor: pointer;
 }
 
-.post-form-image{
-    width : 150px;
-    height : 150px;
-    background : var(--B2);
-    color : var(--B3);
+.post-form-image {
+    width: 150px;
+    height: 150px;
+    background: var(--B2);
+    color: var(--B3);
     margin: 5%;
     align-content: center;
 }
 
-/* .post-element{
-    height: 200px;
-}    */
-#div-step ,#div-ingredients{
+#div-step,
+#div-ingredients {
     flex-direction: column;
+}
+
+/* search */
+.search-category {
+    display: flex;
+    height: 50px;
+    align-items: center;
+    margin: 0 1%;
+}
+
+.search-input {
+    border: solid var(--B3) 1px;
+    width: 252px;
+    border-radius: 15px;
+    padding: 0.75%;
+    margin: 0 1%;
+}
+.search-recipe{
+    padding: 0 1%;
+    height: 35px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+}
+.search-menu{
+    background: var(--B4);
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+.search-categories-selected{
+    height: 35px;
+    width: 320px;
+    background-color: #fff;
+    border: solid var(--B3) 2px;
+    border-radius: 5px;
+    overflow: auto;
+}
+#searche-btn{
+    margin: 0;
+}
+.searche-title{
+    display: block;
+    font-size: 20px;
+    width: 50%;
+    padding-bottom: 1%;
+    border-width: 4px;
+    border-bottom: solid;
+    border-image: linear-gradient(to right, #DC1F1F, #FF8228) 1;
+    text-align: center;
 }
 
 /* Show Details */
@@ -428,7 +481,7 @@ input:focus {
     display: none;
     position: fixed;
     z-index: 2;
-    
+
     flex-direction: column;
     top: 50%;
     left: 50%;
@@ -493,12 +546,14 @@ input:focus {
     top: 10px;
     right: 10px;
 }
-.modal-error{
+
+.modal-error {
     justify-content: center;
     padding: 5px;
     margin-bottom: 14px;
     color: var(--C1);
 }
+
 .close-modal:hover {
     scale: 1.05;
     rotate: 180deg;
@@ -549,12 +604,12 @@ input:focus {
 }
 
 #recipe-image {
-    background: #2A2A2A;
+    background: #80808054;
     height: 200px;
     width: 100%;
     border-radius: 10px;
     object-fit: cover;
-    padding: 10px;
+    padding: 1px;
 }
 
 #recipe-image-details {
@@ -576,7 +631,7 @@ input:focus {
     border-radius: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     padding: 1.5%;
-    
+
 }
 
 .comments-feed {
@@ -605,15 +660,15 @@ input:focus {
     position: relative;
 }
 
-.close-comment-feed{
+.close-comment-feed {
     right: -250px;
 }
 
-.close-comment-details{
+.close-comment-details {
     right: -800px;
 }
 
-.write-comment{
+.write-comment {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -628,11 +683,11 @@ input:focus {
     margin: 1%;
 }
 
-.write-input-feed{
+.write-input-feed {
     width: 77%;
 }
 
-.write-input-details{
+.write-input-details {
     width: 90%;
 }
 
@@ -647,9 +702,10 @@ input:focus {
     margin: 1%;
 }
 
-.write-comment-btn-details{
+.write-comment-btn-details {
     margin-top: 1.5%;
 }
+
 .published-comments {
     background-color: var(--B5);
     height: 300px;
@@ -810,6 +866,7 @@ input:focus {
     flex-direction: column;
     height: 90dvh;
     width: 100%;
+    background: white;
 }
 
 /* .posts-feed div{
@@ -831,7 +888,7 @@ input:focus {
 }
 
 .perfil-img-name-username {
-   /*  border: 5px solid yellow; */
+    /*  border: 5px solid yellow; */
     width: 25%;
     margin: 10px 0 10px 20px;
 }
@@ -871,12 +928,12 @@ input:focus {
     border: 5px solid rgb(4, 255, 0);
 } */
 
-.perfil-img{
+.perfil-img {
     height: 120px;
     width: 120px;
 }
 
-.perfil-bio{
+.perfil-bio {
     margin-top: 30px;
     margin-left: 30%;
     height: 100px;
@@ -887,7 +944,7 @@ input:focus {
     padding: 5px;
 }
 
-.perfil-button{
+.perfil-button {
     width: fit-content;
     align-self: center;
     justify-self: center;
@@ -895,7 +952,7 @@ input:focus {
     position: relative;
 }
 
-.perfil-button button{
+.perfil-button button {
     position: absolute;
     right: 10px;
     bottom: -65px;
@@ -907,10 +964,10 @@ input:focus {
     border: none;
     cursor: pointer;
     background: var(--C5);
-    color: #ffffff; 
+    color: #ffffff;
 }
 
-.perfil-button button:hover{
+.perfil-button button:hover {
     background: var(--C4);
     scale: 1.05;
 }
@@ -920,7 +977,7 @@ input:focus {
     border: 5px solid rgb(3, 194, 0);
 } */
 
-.perfil-name-username{
+.perfil-name-username {
     margin-right: 10px;
     background: rgb(244, 244, 244);
     border-radius: 5px;
@@ -939,13 +996,13 @@ input:focus {
     border: 5px solid rgb(255, 0, 191);
 } */
 
-.perfil-class-name{
+.perfil-class-name {
     height: 40px;
     white-space: nowrap;
     overflow: auto;
 }
 
-.perfil-following{
+.perfil-following {
     margin-right: 5px;
 }
 
@@ -954,7 +1011,7 @@ input:focus {
     border: 5px solid rgb(180, 0, 135);
 } */
 
-.perfil-class-username{
+.perfil-class-username {
     height: 40px;
     white-space: nowrap;
     overflow: auto;

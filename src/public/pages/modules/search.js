@@ -1,42 +1,65 @@
 import { generateRecipeCards } from "./recipesCard.js";
+import { getCurrentTab } from "./tabIdentifier.js";
 
-async function search(feed) {
+async function search(feed, header) {
     const divSearch = document.createElement("div");
     const divSearchContent = document.createElement("div");
     const divResult = document.createElement("div");
     const divRecipe = document.createElement("div");
     const divCategory = document.createElement("div");
-    const divCategoryInput = document.createElement("div");
-    const divCategorySelected = document.createElement("div");
-    const chekcboxRecipe = document.createElement("input");
     const inputRecipe = document.createElement("input");
     const inputCategory = document.createElement("input");
-    const chekcboxCategory = document.createElement("input");
     const btnAddCategory = document.createElement("button");
     const categoriesSelected = document.createElement("p");
     const btnSearch = document.createElement("button");
 
+    const divinputCategory = document.createElement("div");
+    const headerAll = document.getElementById("all");
+    const headerFollowing = document.getElementById("following");
+    const headerSeacherUser = document.getElementById("search-user");
+    const headerSearchFavorite = document.getElementById("search-header");
+
+    const currentTab = getCurrentTab();
+    if (currentTab === "search") {
+        headerAll.style.display = "none";
+        headerFollowing.style.display = "none";
+        headerSeacherUser.style.display = "none";
+        headerSearchFavorite.style.display = "block";
+
+        headerSearchFavorite.innerText = "Buscar receitas"
+        headerSearchFavorite.classList.add("roboto","searche-title")
+    }
+
     divSearch.appendChild(divSearchContent);
     divSearch.appendChild(divResult);
 
+    divSearchContent.classList.add("search-menu");
+
+    divRecipe.appendChild(divCategory);
+
     divSearchContent.appendChild(divRecipe);
-    divSearchContent.appendChild(divCategory);
     divSearchContent.appendChild(btnSearch);
 
-    divRecipe.appendChild(chekcboxRecipe);
+    btnSearch.classList.add("post-btn1");
+    btnSearch.id = "search-btn";
+
     divRecipe.appendChild(inputRecipe);
-    chekcboxRecipe.type = "checkbox";
+    divRecipe.classList.add("search-recipe");
     inputRecipe.placeholder = "Nome da receita...";
+    inputRecipe.classList.add("search-input");
 
-    divCategory.appendChild(divCategoryInput);
-    divCategory.appendChild(divCategorySelected);
+    divCategory.classList.add("search-category")
+    divinputCategory.classList.add("post-component-input");
+    inputCategory.classList.add("post-input-add");
+    btnAddCategory.classList.add("post-btn-add");
+    categoriesSelected.classList.add("search-categories-selected");
 
-    divCategoryInput.appendChild(chekcboxCategory);
-    divCategoryInput.appendChild(inputCategory);
-    divCategoryInput.appendChild(btnAddCategory);
-    divCategoryInput.appendChild(categoriesSelected);
+    divinputCategory.appendChild(inputCategory);
+    divinputCategory.appendChild(btnAddCategory);
 
-    chekcboxCategory.type = "checkbox";
+    divCategory.appendChild(divinputCategory);
+    divCategory.appendChild(categoriesSelected);
+
     inputCategory.placeholder = "Nome da categoria...";
     btnAddCategory.textContent = "+";
     const categories = [];
@@ -45,7 +68,8 @@ async function search(feed) {
         const category = inputCategory.value.trim();
         if (category !== "") {
             categories.push(category);
-            categoriesSelected.innerText = categories.join(" ,");
+            categoriesSelected.innerText = categories.join(",  ");
+            inputCategory.value = "";
         }
     });
 
@@ -54,19 +78,21 @@ async function search(feed) {
         let recipeName = inputRecipe.value;
         let recipeCategories = categories.join(",");
 
-        if (!chekcboxRecipe.checked) {
+        if (!recipeName) {
             recipeName = "";
         }
-        if (!chekcboxCategory.checked) {
+        if (!recipeCategories) {
             recipeCategories = "";
         }
-        console.log("recipeName:",recipeName);
-        console.log("recipeCategories:",recipeCategories);
+
 
         const recipes = await getSearche(recipeName, recipeCategories);
-        console.log("recipes:",recipes);
 
         const quantity = recipes.data.length;
+
+        inputCategory.value = "";
+        inputRecipe.value = "";
+        categories.value = "";
 
         generateRecipeCards(recipes, quantity, divResult);
 
@@ -80,13 +106,13 @@ async function getSearche(recipeName, categories) {
         console.log("try");
 
         const response = await fetch(`/api/recipe/search?recipe_name=${recipeName}&category=${categories}`);
-                console.log("response:",response);
+        console.log("response:", response);
 
         const data = await response.json();
         if (!response.ok) {
             throw new Error('Erro ao tentar buscar receitas');
         }
-        console.log("data:",data);
+        console.log("data:", data);
         return data;
     } catch (error) {
         console.error('Erro ao tentar recuperar dados da receita/categorias buscada:', error.message);
