@@ -69,10 +69,6 @@ body {
     transition: all 300ms ease
 }
 
-ul {
-    list-style-type: none;
-}
-
 .hide {
     display: none;
 }
@@ -232,6 +228,42 @@ main {
 }
 
 /* postRecipe */
+ul {
+    list-style-type: none;
+    overflow: scroll;
+    height: 160px;
+    padding: 3.5%;
+    font-size: 14px;
+}
+
+ol {
+    overflow: scroll;
+    height: 160px;
+    padding: 5%;
+    font-size: 14px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+    position: relative;
+    bottom: -5px;
+    padding: 2%;
+}
+
+#post-title{
+    font-size: x-large;
+}
+
+.post-tag{
+    height: 50px;
+    overflow: auto;
+    padding: 1%;
+    font-size: 14px;
+}
 
 .post-recipe{
     display: flex;
@@ -243,34 +275,63 @@ main {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -0%);
+    background-color: var(--B5);
+    border-radius: 15px;
 }
+
+.post-insert-ingredients-steps{
+    width: 100%;
+    height: 40px;
+}
+
+.post-element{
+    flex-direction: column;
+    display: flex;
+    text-align: justify;
+    margin: 1%;
+}
+
 .post-recipe-name-category{
     display: flex;
     flex-direction: row;
 }
+
 .post-content{
     display: flex;
     flex-direction: row;
     flex: 1;
     justify-content: center;
 }
+
 .post-image{
     display: flex;
     flex-direction: row;
 }
+
+.pos-tag{
+    height: 50px;
+    overflow: auto;
+    margin: 1%;
+    font-size: 14px;
+}
+
 .post-recipe-content{
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin-left: 3%;
 }
+
 .post-add-category{
     display: flex;
     flex-direction: row;
 }
+
 .post-btn-contnt{
     text-align: center;
     align-content: center;
 }
+
 .post-component-input{
     background: white;
     border: solid var(--B3) 1px;
@@ -279,6 +340,7 @@ main {
     padding: 0.5%;
     margin: 1%;
 }
+
 .post-btn-add{
     border: white;
     border-radius: 50%;
@@ -287,18 +349,21 @@ main {
     height: 20px;
     color: var(--B3);
 }
+
 .post-input-add{
     border: none;
     width: 223px;
     border-radius: 15px;
     padding: 2.5%;
 }
+
 .post-input{
     border: solid var(--B3) 1px;
-    width: 223px;
+    width: 252px;
     border-radius: 15px;
     padding: 2.5%;
 }
+
 .post-btn1{
     border-radius: 15px;
     background-color: var(--C6);
@@ -309,6 +374,7 @@ main {
     width: 80px;
     color: var(--B3);
 }
+
 .post-btn2{
     border-radius: 15px;
     background-color: var(--C6);
@@ -319,41 +385,42 @@ main {
     width: 150px;
     color: var(--B3);
 }
+
 input:focus {
     outline: none;
 }
+
 .post-btn-add:hover{
     background-color: var(--C4);
     cursor: pointer;
 }
+
 .post-btn1:hover{
     background-color: var(--C4);
     cursor: pointer;
 }
+
 .post-btn2:hover{
     background-color: var(--C4);
     cursor: pointer;
 }
 
-/* .post-btn-ingredient-methodo{
+.post-form-image{
+    width : 150px;
+    height : 150px;
+    background : var(--B2);
+    color : var(--B3);
+    margin: 5%;
+    align-content: center;
+}
 
-} */
-/* .post-btn{
-    background: var(--C5);
-    color: white;
-    border-radius: 10px;
-    border: none;
-    font-size: 14px;
-    cursor: pointer;
-    padding: 1.5%;
-} */
-
-.post-element{
+/* .post-element{
     height: 200px;
-}   
+}    */
 #div-step ,#div-ingredients{
     flex-direction: column;
 }
+
 /* Show Details */
 .modal {
     background: var(--B4);
@@ -385,7 +452,6 @@ input:focus {
     padding: 10px 20px;
     margin-top: 10px;
     margin-bottom: 10px;
-    align-items: center;
 }
 
 .modal-content-div {

@@ -122,8 +122,9 @@ async function recipesDetails(recipe_id, recipe_name, name_user, recipe_image, r
         //     tags.innerText += " " + category;
         //     divTags.appendChild(tags);
         // });
+        //trocar para tags.innerText = recipe.category.join(",  ")?
 
-        imgRecipe.src = "";//ainda não vi como fazer
+        imgRecipe.src = `/assets/${recipe_image}`;
 
         modalContent.style.display = "block";
         modalContent.appendChild(divCard);

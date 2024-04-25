@@ -84,7 +84,7 @@ export async function homeScript() {
 
     async function getLogin() {
         try {
-            const response = await fetch(`/api/user/login`, {
+            const response = await fetch(`/api/user/`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
