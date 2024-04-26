@@ -233,7 +233,7 @@ main {
 
 /* postRecipe */
 
-.post-recipe{
+.post-recipe {
     display: flex;
     flex-direction: column;
     width: 600px;
@@ -244,34 +244,41 @@ main {
     left: 50%;
     transform: translate(-50%, -0%);
 }
-.post-recipe-name-category{
+
+.post-recipe-name-category {
     display: flex;
     flex-direction: row;
 }
-.post-content{
+
+.post-content {
     display: flex;
     flex-direction: row;
     flex: 1;
     justify-content: center;
 }
-.post-image{
+
+.post-image {
     display: flex;
     flex-direction: row;
 }
-.post-recipe-content{
+
+.post-recipe-content {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
-.post-add-category{
+
+.post-add-category {
     display: flex;
     flex-direction: row;
 }
-.post-btn-contnt{
+
+.post-btn-contnt {
     text-align: center;
     align-content: center;
 }
-.post-component-input{
+
+.post-component-input {
     background: white;
     border: solid var(--B3) 1px;
     width: 252px;
@@ -279,7 +286,8 @@ main {
     padding: 0.5%;
     margin: 1%;
 }
-.post-btn-add{
+
+.post-btn-add {
     border: white;
     border-radius: 50%;
     background: var(--C6);
@@ -287,19 +295,22 @@ main {
     height: 20px;
     color: var(--B3);
 }
-.post-input-add{
+
+.post-input-add {
     border: none;
     width: 223px;
     border-radius: 15px;
     padding: 2.5%;
 }
-.post-input{
+
+.post-input {
     border: solid var(--B3) 1px;
     width: 223px;
     border-radius: 15px;
     padding: 2.5%;
 }
-.post-btn1{
+
+.post-btn1 {
     border-radius: 15px;
     background-color: var(--C6);
     border: none;
@@ -309,7 +320,8 @@ main {
     width: 80px;
     color: var(--B3);
 }
-.post-btn2{
+
+.post-btn2 {
     border-radius: 15px;
     background-color: var(--C6);
     border: none;
@@ -319,18 +331,22 @@ main {
     width: 150px;
     color: var(--B3);
 }
+
 input:focus {
     outline: none;
 }
-.post-btn-add:hover{
+
+.post-btn-add:hover {
     background-color: var(--C4);
     cursor: pointer;
 }
-.post-btn1:hover{
+
+.post-btn1:hover {
     background-color: var(--C4);
     cursor: pointer;
 }
-.post-btn2:hover{
+
+.post-btn2:hover {
     background-color: var(--C4);
     cursor: pointer;
 }
@@ -348,12 +364,15 @@ input:focus {
     padding: 1.5%;
 } */
 
-.post-element{
+.post-element {
     height: 200px;
-}   
-#div-step ,#div-ingredients{
+}
+
+#div-step,
+#div-ingredients {
     flex-direction: column;
 }
+
 /* Show Details */
 .modal {
     background: var(--B4);
@@ -361,7 +380,7 @@ input:focus {
     display: none;
     position: fixed;
     z-index: 2;
-    
+
     flex-direction: column;
     top: 50%;
     left: 50%;
@@ -427,12 +446,14 @@ input:focus {
     top: 10px;
     right: 10px;
 }
-.modal-error{
+
+.modal-error {
     justify-content: center;
     padding: 5px;
     margin-bottom: 14px;
     color: var(--C1);
 }
+
 .close-modal:hover {
     scale: 1.05;
     rotate: 180deg;
@@ -510,7 +531,7 @@ input:focus {
     border-radius: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     padding: 1.5%;
-    
+
 }
 
 .comments-feed {
@@ -539,15 +560,15 @@ input:focus {
     position: relative;
 }
 
-.close-comment-feed{
+.close-comment-feed {
     right: -250px;
 }
 
-.close-comment-details{
+.close-comment-details {
     right: -800px;
 }
 
-.write-comment{
+.write-comment {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -562,11 +583,11 @@ input:focus {
     margin: 1%;
 }
 
-.write-input-feed{
+.write-input-feed {
     width: 77%;
 }
 
-.write-input-details{
+.write-input-details {
     width: 90%;
 }
 
@@ -581,9 +602,10 @@ input:focus {
     margin: 1%;
 }
 
-.write-comment-btn-details{
+.write-comment-btn-details {
     margin-top: 1.5%;
 }
+
 .published-comments {
     background-color: var(--B5);
     height: 300px;
@@ -765,7 +787,7 @@ input:focus {
 }
 
 .perfil-img-name-username {
-   /*  border: 5px solid yellow; */
+    /*  border: 5px solid yellow; */
     width: 25%;
     margin: 10px 0 10px 20px;
 }
@@ -784,7 +806,7 @@ input:focus {
 
 .perfil-bio-following-followers {
     /* border: 5px solid rgb(186, 186, 0); */
-    width: 72%;
+    width: 65%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -792,12 +814,17 @@ input:focus {
 }
 
 .perfil-button-follow-edit {
-    /* border: 5px solid rgb(134, 134, 0); */
-    width: 3%;
+    width: 100%;
+}    
+
+.perfil-button-div{
+    width: 10%;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    align-items: center;
 }
+
 
 /* .perfil-img,
 .perfil-bio,
@@ -805,12 +832,12 @@ input:focus {
     border: 5px solid rgb(4, 255, 0);
 } */
 
-.perfil-img{
+.perfil-img {
     height: 120px;
     width: 120px;
 }
 
-.perfil-bio{
+.perfil-bio {
     margin-top: 30px;
     margin-left: 30%;
     height: 100px;
@@ -821,7 +848,7 @@ input:focus {
     padding: 5px;
 }
 
-.perfil-button{
+.perfil-button {
     width: fit-content;
     align-self: center;
     justify-self: center;
@@ -829,10 +856,7 @@ input:focus {
     position: relative;
 }
 
-.perfil-button button{
-    position: absolute;
-    right: 10px;
-    bottom: -65px;
+.perfil-button button {
     width: 100px;
     height: 40px;
     font-size: 18px;
@@ -841,10 +865,10 @@ input:focus {
     border: none;
     cursor: pointer;
     background: var(--C5);
-    color: #ffffff; 
+    color: #ffffff;
 }
 
-.perfil-button button:hover{
+.perfil-button button:hover {
     background: var(--C4);
     scale: 1.05;
 }
@@ -854,7 +878,7 @@ input:focus {
     border: 5px solid rgb(3, 194, 0);
 } */
 
-.perfil-name-username{
+.perfil-name-username {
     margin-right: 10px;
     background: rgb(244, 244, 244);
     border-radius: 5px;
@@ -873,13 +897,13 @@ input:focus {
     border: 5px solid rgb(255, 0, 191);
 } */
 
-.perfil-class-name{
+.perfil-class-name {
     height: 40px;
     white-space: nowrap;
     overflow: auto;
 }
 
-.perfil-following{
+.perfil-following {
     margin-right: 5px;
 }
 
@@ -888,7 +912,7 @@ input:focus {
     border: 5px solid rgb(180, 0, 135);
 } */
 
-.perfil-class-username{
+.perfil-class-username {
     height: 40px;
     white-space: nowrap;
     overflow: auto;

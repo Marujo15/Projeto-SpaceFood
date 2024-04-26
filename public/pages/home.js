@@ -6,7 +6,7 @@ import { createRecipeCard } from "./modules/postRecipe.js";
 import { generateRecipeCards, recipesData } from "./modules/recipesCard.js";
 import { recipeFavoriteData } from "./modules/btnfavorite.js";
 import { setCurrentTab } from "./modules/tabIdentifier.js";
-import { Perfil } from "./modules/perfil.js";
+import { perfil } from "./modules/perfil.js";
 
 
 export const homePage = () => {
@@ -80,6 +80,7 @@ export async function homeScript() {
     const btnPost = document.getElementById("post");
     const btnSearch = document.getElementById("search");
     const btnFavorites = document.getElementById("favorites");
+    const btnPerfil = document.querySelector(".button-user")
 
     async function getLogin() {
         try {
@@ -110,13 +111,7 @@ export async function homeScript() {
 
     }
 
-    try {
-        const data = await getLogin();
-    } catch (error) {
-        console.error(error.message);
-        const customEvent = event('/');
-        window.dispatchEvent(customEvent);
-    }
+    const data = await getLogin();
 
     const userName = document.getElementById('user-name')
     const userUsername = document.getElementById('user-username')
@@ -148,7 +143,7 @@ export async function homeScript() {
     btnPerfil.addEventListener('click', () => {
         feed.innerHTML = ''
         setCurrentTab('perfil')
-        Perfil(feed, data.id)
+        perfil(feed, data, "edit")
     })
 
 }

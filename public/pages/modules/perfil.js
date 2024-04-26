@@ -1,6 +1,9 @@
+import { home } from "../home.js"
 import { generateRecipeCards } from "./recipesCard.js"
+import { setCurrentTab } from "./tabIdentifier.js"
 
-export function Perfil(feed, userId) {
+export async function perfil(feed, data, editOrFollow) {
+
     const perfilHeader = document.createElement('div')
     const perfilImgNameUsername = document.createElement('div')
     const perfilImg = document.createElement('div')
@@ -12,11 +15,11 @@ export function Perfil(feed, userId) {
     const perfilFollowingFollowers = document.createElement('div')
     const perfilFollowing = document.createElement('div')
     const perfilFollowers = document.createElement('div')
-    const perfilButtonFollowEdit = document.createElement('div')
+    const perfilButtonDiv = document.createElement('div')
     const perfilButton = document.createElement('div')
-    
+
     const perfilPhoto = document.createElement('img')
-    
+
     const perfilIdName = document.createElement('span')
     const perfilIdUsername = document.createElement('span')
     const bio = document.createElement('span')
@@ -24,112 +27,124 @@ export function Perfil(feed, userId) {
     const perfilIdFollowing = document.createElement('span')
     const perfilFollowerSpan = document.createElement('span')
     const perfilIdFollowers = document.createElement('span')
-    
-    const follow = document.createElement('button')
-    const edit = document.createElement('button')
-    
-    
-    perfilHeader.classList.add('perfil-header')
-    perfilHeader.appendChild(perfilImgNameUsername)
-    perfilHeader.appendChild(perfilBioFollowingFollowers)
-    perfilHeader.appendChild(perfilButtonFollowEdit)
-    
-    
-    perfilImgNameUsername.classList.add('perfil-img-name-username')
-    perfilImgNameUsername.appendChild(perfilImg)
-    perfilImgNameUsername.appendChild(perfilNameUsername)
-    
-    perfilImg.classList.add('perfil-img')
-    perfilImg.appendChild(perfilPhoto)
-    
-    perfilPhoto.src='#'
-    perfilPhoto.alt='perfil-photo' 
-    
-    perfilNameUsername.classList.add('perfil-name-username')
-    perfilNameUsername.appendChild(perfilClassName)
-    perfilNameUsername.appendChild(perfilClassUsername)
-    
-    perfilClassName.classList.add('perfil-class-name')
-    perfilClassName.appendChild(perfilIdName)
-    
-    perfilIdName.innerText = "Nome do usuário salvo no banco de dados"
-    
-    perfilClassUsername.classList.add('perfil-class-username')
-    perfilClassUsername.appendChild(perfilIdUsername)
-    
-    perfilIdUsername.innerText = "Username do usuário salvo no banco de dados"
-    
-    perfilBioFollowingFollowers.classList.add('perfil-bio-following-followers')
-    perfilBioFollowingFollowers.appendChild(perfilBio)
-    perfilBioFollowingFollowers.appendChild(perfilFollowingFollowers)
-    
-    perfilBio.classList.add('perfil-bio')
-    perfilBio.appendChild(bio)
-    
-    bio.innerText = "Bio do usuário no banco de dados"
-    
-    perfilFollowingFollowers.classList.add('perfil-following-followers')
-    perfilFollowingFollowers.appendChild(perfilFollowing)
-    perfilFollowingFollowers.appendChild(perfilFollowers)
-    
-    perfilFollowing.classList.add('perfil-following')
-    perfilFollowing.appendChild(perfilFollowingSpan)
-    perfilFollowing.appendChild(perfilIdFollowing)
-    
-    perfilFollowingSpan.style.fontWeight='600'
-    perfilFollowingSpan.innerText='Following: '
-    
-    perfilIdFollowing.id='perfil-id-following'
-    perfilIdFollowing.innerText='Número de pessoas que o usuário está seguindo'
-    
-    perfilFollowers.classList.add('perfil-followers')
-    perfilFollowers.appendChild(perfilFollowerSpan)
-    perfilFollowers.appendChild(perfilIdFollowers)
-    
-    perfilFollowerSpan.style.fontWeight='600'
-    perfilFollowerSpan.innerText='Followers: '
-    
-    perfilIdFollowers.id='perfil-id-followers'
-    perfilIdFollowers.innerText='Número de pessoas que seguem o usuário'
-    
-    perfilButtonFollowEdit.classList.add('perfil-button-follow-edit')
-    perfilButtonFollowEdit.appendChild(perfilButton)
-    
-    perfilButton.classList.add('perfil-button')
-    perfilButton.appendChild(follow)
-    perfilButton.appendChild(edit)
-    
-    follow.classList.add('follow')
-    follow.classList.add('hide')
-    follow.addEventListener('click', () => {
-    
-    })
-    
-    edit.classList.add('edit')
-    edit.addEventListener('click', () => {
-    
-    })
 
-    feed.appendChild(perfilHeader)
+    const button = document.createElement('button')
 
-    function perfilGET(id) {
+    async function perfilGET(id) {
         try {
-            const response = fetch(`/api/recipes/${id}`)   
-            
-            const data = response.json()
-    
-            if(!response.ok) {
+            const response = await fetch(`/api/user/${id}`)
+
+            const data = await response.json()
+
+            if (!response.ok) {
                 throw console.error(data.error)
             }
 
             return data
-        } 
-        
+        }
+
         catch (error) {
+            console.error("Erro ao fazer requisição ao Banco de dados: ", error)
+            feed.innerHTML = ""
+            setCurrentTab("home");
+            home(feed, document.getElementById('recipeModal'));
         }
     }
 
-    const recipesData = perfilGET(userId)
+    const recipesData = await perfilGET(data.id)
 
-    generateRecipeCards(recipesData, recipesData.data.length, feed)
+    perfilHeader.classList.add('perfil-header')
+    perfilHeader.appendChild(perfilImgNameUsername)
+    perfilHeader.appendChild(perfilBioFollowingFollowers)
+    perfilHeader.appendChild(perfilButtonDiv)
+
+
+    perfilImgNameUsername.classList.add('perfil-img-name-username')
+    perfilImgNameUsername.appendChild(perfilImg)
+    perfilImgNameUsername.appendChild(perfilNameUsername)
+
+    perfilImg.classList.add('perfil-img')
+    perfilImg.appendChild(perfilPhoto)
+
+    perfilPhoto.src = recipesData.data.user_image
+    perfilPhoto.alt = 'perfil-photo'
+
+    perfilNameUsername.classList.add('perfil-name-username')
+    perfilNameUsername.appendChild(perfilClassName)
+    perfilNameUsername.appendChild(perfilClassUsername)
+
+    perfilClassName.classList.add('perfil-class-name')
+    perfilClassName.appendChild(perfilIdName)
+
+    perfilIdName.innerText = recipesData.data.user_name
+
+    perfilClassUsername.classList.add('perfil-class-username')
+    perfilClassUsername.appendChild(perfilIdUsername)
+
+    perfilIdUsername.innerText = recipesData.data.user_username
+
+    perfilBioFollowingFollowers.classList.add('perfil-bio-following-followers')
+    perfilBioFollowingFollowers.appendChild(perfilBio)
+    perfilBioFollowingFollowers.appendChild(perfilFollowingFollowers)
+
+    perfilBio.classList.add('perfil-bio')
+    perfilBio.appendChild(bio)
+
+    bio.innerText = recipesData.data.user_biography
+
+    perfilFollowingFollowers.classList.add('perfil-following-followers')
+    perfilFollowingFollowers.appendChild(perfilFollowing)
+    perfilFollowingFollowers.appendChild(perfilFollowers)
+
+    perfilFollowing.classList.add('perfil-following')
+    perfilFollowing.appendChild(perfilFollowingSpan)
+    perfilFollowing.appendChild(perfilIdFollowing)
+
+    perfilFollowingSpan.style.fontWeight = '600'
+    perfilFollowingSpan.innerText = 'Following: '
+
+    perfilIdFollowing.id = 'perfil-id-following'
+    perfilIdFollowing.innerText = recipesData.data.following_count
+
+    perfilFollowers.classList.add('perfil-followers')
+    perfilFollowers.appendChild(perfilFollowerSpan)
+    perfilFollowers.appendChild(perfilIdFollowers)
+
+    perfilFollowerSpan.style.fontWeight = '600'
+    perfilFollowerSpan.innerText = 'Followers: '
+
+    perfilIdFollowers.id = 'perfil-id-followers'
+    perfilIdFollowers.innerText = recipesData.data.followers_count
+
+    perfilButtonDiv.classList.add('perfil-button-div')
+    perfilButtonDiv.appendChild(perfilButton)
+
+    perfilButton.classList.add('perfil-button')
+    perfilButton.appendChild(button)
+
+    if (editOrFollow === "follow") {
+        button.classList.add('follow')
+        button.innerText="Seguir"
+        button.addEventListener('click', () => {
+            alert("follow")
+        })
+    }
+    else if (editOrFollow === "edit") {
+        button.classList.add('edit')
+        button.innerText="Editar"
+        button.addEventListener('click', () => {
+            alert("edit")
+        })
+    }
+    else {
+        feed.innerHTML = ""
+        setCurrentTab("home");
+        home(feed, modal);
+    }
+
+    feed.appendChild(perfilHeader)
+
+
+
+    generateRecipeCards(recipesData, parseInt(recipesData.data.length), feed)
 }

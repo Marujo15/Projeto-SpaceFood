@@ -1,5 +1,5 @@
 import createRouter from './pages/router.js';
-console.log('aqui')
+
 const pageRouter = createRouter();
 
 window.addEventListener('customEvent', (e) => {

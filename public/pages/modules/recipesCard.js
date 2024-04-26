@@ -5,7 +5,6 @@ import { buttonSave } from "./btnfavorite.js";
 
 
 async function recipesData() {
-    console.log('aqui')
     try {
         const response = await fetch(`/api/recipe/`);
         const data = await response.json();

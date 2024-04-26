@@ -58,7 +58,7 @@ export function registerScript() {
     const inputEmail = document.getElementById("email-input");
     const inputPassword = document.getElementById("password-input");
     const inputConfirmPassword = document.getElementById("confirm-password-input");
-    const buttonSubmit = document.querySelector('button');
+    const buttonSubmit = document.getElementById('submit-button');
 
     inputUsename.addEventListener("blur", async () => {
         console.log("entrou");
