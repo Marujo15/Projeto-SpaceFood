@@ -77,11 +77,13 @@ export async function perfil(feed, data, editOrFollow) {
     perfilClassName.appendChild(perfilIdName)
 
     perfilIdName.innerText = recipesData.data.user_name
+    perfilIdName.id="user-name"
 
     perfilClassUsername.classList.add('perfil-class-username')
     perfilClassUsername.appendChild(perfilIdUsername)
 
-    perfilIdUsername.innerText = recipesData.data.user_username
+    perfilIdUsername.innerText = '@' + recipesData.data.user_username
+    perfilIdUsername.id='user-username'
 
     perfilBioFollowingFollowers.classList.add('perfil-bio-following-followers')
     perfilBioFollowingFollowers.appendChild(perfilBio)
