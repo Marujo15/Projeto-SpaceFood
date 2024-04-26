@@ -6,7 +6,7 @@ import { search } from "./modules/search.js";
 import { createRecipeCard } from "./modules/postRecipe.js";
 import { generateRecipeCards, recipesData } from "./modules/recipesCard.js";
 import { recipeFavoriteData } from "./modules/btnfavorite.js";
-import { setCurrentTab } from "./modules/tabIdentifier.js";
+import { getCurrentTab, setCurrentTab } from "./modules/tabIdentifier.js";
 import { perfil } from "./modules/perfil.js";
 
 
@@ -127,35 +127,35 @@ export async function homeScript() {
 
 
 
-const data = await getLogin();
+    const data = await getLogin();
 
-const userName = document.getElementById('user-name')
-const userUsername = document.getElementById('user-username')
+    const userName = document.getElementById('user-name')
+    const userUsername = document.getElementById('user-username')
 
-// userName.innerText = data.name
-// userUsername.innerText = '@' + data.username
+    // userName.innerText = data.name
+    // userUsername.innerText = '@' + data.username
 
-home(feed, modal);
-
-btnHome.addEventListener("click", () => {
-    setCurrentTab("home");
     home(feed, modal);
-});
 
-btnPost.addEventListener("click", () => {
-    createRecipeCard();
-});
+    btnHome.addEventListener("click", () => {
+        setCurrentTab("home");
+        home(feed, modal);
+    });
 
-btnSearch.addEventListener("click", () => {
-    feed.innerHTML = '';
-    setCurrentTab("search");
-    search(feed);
-});
+    btnPost.addEventListener("click", () => {
+        createRecipeCard();
+    });
 
-btnFavorites.addEventListener("click", () => {
-    setCurrentTab("favorite");
-    favorites(feed, modal);
-});
+    btnSearch.addEventListener("click", () => {
+        feed.innerHTML = '';
+        setCurrentTab("search");
+        search(feed);
+    });
+
+    btnFavorites.addEventListener("click", () => {
+        setCurrentTab("favorite");
+        favorites(feed, modal);
+    });
 
     btnPerfil.addEventListener('click', () => {
         feed.innerHTML = ''
@@ -198,39 +198,32 @@ export function favorites(feed, modal) {
     }
 }
 
+
 export function home(feed, modal) {
     feed.innerHTML = '';
     modal.style.display = "none";
+
+    const headerAll = document.getElementById("all");
+    const headerFollowing = document.getElementById("following");
+    const headerSeacherUser = document.getElementById("search-user");
+    const headerSearchFavorite = document.getElementById("search-header");
+
+    const currentTab = getCurrentTab();
+    if (currentTab === "home") {
+        headerAll.style.display = "block";
+        headerFollowing.style.display = "block";
+        headerSeacherUser.style.display = "block";
+        console.log("nova aba,", headerSearchFavorite);
+
+        headerSearchFavorite.style.display = "none";
+
+    }
+
     recipesData().then(data => {
         getPosts(data, 10);
     }).catch(error => {
         console.error(error);
     });
-    export function home(feed, modal) {
-        feed.innerHTML = '';
-        modal.style.display = "none";
-
-        const headerAll = document.getElementById("all");
-        const headerFollowing = document.getElementById("following");
-        const headerSeacherUser = document.getElementById("search-user");
-        const headerSearchFavorite = document.getElementById("search-header");
-
-        const currentTab = getCurrentTab();
-        if (currentTab === "home") {
-            headerAll.style.display = "block";
-            headerFollowing.style.display = "block";
-            headerSeacherUser.style.display = "block";
-            console.log("nova aba,", headerSearchFavorite);
-            
-            headerSearchFavorite.style.display = "none";
-            
-        }
-
-        recipesData().then(data => {
-            getPosts(data, 10);
-        }).catch(error => {
-            console.error(error);
-        });
 
     async function getPosts(data, quantity) {
         try {
