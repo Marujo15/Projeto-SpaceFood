@@ -4,6 +4,7 @@ async function buttonLike(recipesData, divButtons, recipe_id) {
     const textLike = document.createElement("p");
     divButtons.appendChild(divLike);
     divLike.id = "like";
+    textLike.classList.add("icone-space");
 
     divLike.appendChild(imgLike);
     divLike.appendChild(textLike);

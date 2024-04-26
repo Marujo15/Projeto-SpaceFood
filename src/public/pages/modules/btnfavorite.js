@@ -11,6 +11,7 @@ async function buttonSave(recipe, divButtons, recipesData, recipe_id) {
     divSave.id = "save";
     divSave.appendChild(imgSave);
     divSave.appendChild(textSave);
+    textSave.classList.add("icone-space");
     imgSave.style.width = "20px";
 
     const favoriteData = await recipeFavoriteData();

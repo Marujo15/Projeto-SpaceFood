@@ -31,15 +31,15 @@
                     <div class="abas">
                         <button id=home class="aba-home aba-button">
                             <i class='bx bxs-home'></i>
-                            <span class="roboto">Início</span>
+                            <span class="roboto icone-space">Início</span>
                         </button>
                         <button id="search" class="aba-search aba-button">
                             <i class='bx bx-search'></i>
-                            <span class="roboto">Pesquisar</span>
+                            <span class="roboto icone-space">Pesquisar</span>
                         </button>
                         <button id="favorites" class="aba-favorites aba-button">
                             <i class='bx bxs-bookmark'></i>
-                            <span class="roboto">Favoritos</span>
+                            <span class="roboto icone-space">Favoritos</span>
                         </button>
                     </div>
                     <div id="post" class="button-write">
