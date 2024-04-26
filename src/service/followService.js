@@ -4,12 +4,6 @@ const getFollowersService = async (user_id) => {
     try {
         const result = await followRepository.getFollowersQuery(user_id);
 
-        if(result.length === 0) {
-            const error = new Error("Este usuário não tem seguidores.");
-            error.status = 404;
-            throw error;
-        }
-
         return result;
     } catch (error) {
         error.message = error.message || "Ocorreu um erro interno.";
@@ -21,12 +15,6 @@ const getFollowersService = async (user_id) => {
 const getFollowedService = async (user_id) => {
     try {
         const result = await followRepository.getFollowedQuery(user_id);
-
-        if(result.length === 0) {
-            const error = new Error("Este usuário não está seguindo ninguém.");
-            error.status = 404;
-            throw error;
-        }
 
         return result;
     } catch (error) {

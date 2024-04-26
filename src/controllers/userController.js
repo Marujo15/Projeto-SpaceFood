@@ -67,12 +67,6 @@ const registerUser = async (req, res) => {
             throw error;
         }
 
-        if (!validator.hasSpecialChars(name) || !validator.hasSpecialChars(username) || !validator.hasSpecialChars(email) || !validator.hasSpecialChars(password)) {
-            const error = new Error("Os campos não podem conter caracteres especiais.");
-            error.status = 422;
-            throw error;
-        }
-
         await userService.registerUserService(name, username, email, password);
 
         res.status(201).json({ message: 'Usuário criado com sucesso', status: 201 });
@@ -151,10 +145,10 @@ const updatePerfil = async (req, res) => {
                 const image = path.join(__dirname, '..', 'uploads', oldImage);
                 fs.unlink(image, (err) => {
                     if (err) {
-                        console.error('Imagem não encontrada.');
-                        return;
+                        console.error('Erro ao excluir o imagem:', err);
+                    } else {
+                        console.log("Imagem excluída com sucesso.");
                     }
-                    console.log("Imagem excluída com sucesso.")
                 });
             }
         }
@@ -167,8 +161,9 @@ const updatePerfil = async (req, res) => {
             fs.unlink(image, (err) => {
                 if (err) {
                     console.error('Erro ao excluir o imagem:', err);
+                } else {
+                    console.log('Imagem excluída com sucesso.');
                 }
-                console.log('Imagem excluída com sucesso.');
             });
         }
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
