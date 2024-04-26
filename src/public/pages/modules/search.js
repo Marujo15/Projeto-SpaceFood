@@ -1,7 +1,7 @@
 import { generateRecipeCards } from "./recipesCard.js";
 import { getCurrentTab } from "./tabIdentifier.js";
 
-async function search(feed, header) {
+async function search(feed) {
     const divSearch = document.createElement("div");
     const divSearchContent = document.createElement("div");
     const divResult = document.createElement("div");
@@ -12,6 +12,7 @@ async function search(feed, header) {
     const btnAddCategory = document.createElement("button");
     const categoriesSelected = document.createElement("p");
     const btnSearch = document.createElement("button");
+    const searchResults = document.createElement("p");
 
     const divinputCategory = document.createElement("div");
     const headerAll = document.getElementById("all");
@@ -27,13 +28,15 @@ async function search(feed, header) {
         headerSearchFavorite.style.display = "block";
 
         headerSearchFavorite.innerText = "Buscar receitas"
-        headerSearchFavorite.classList.add("roboto","searche-title")
+        headerSearchFavorite.classList.add("roboto", "searche-title")
     }
 
     divSearch.appendChild(divSearchContent);
+    divSearch.appendChild(searchResults);
     divSearch.appendChild(divResult);
 
     divSearchContent.classList.add("search-menu");
+    searchResults.classList.add("search-result");
 
     divRecipe.appendChild(divCategory);
 
@@ -75,25 +78,43 @@ async function search(feed, header) {
 
     btnSearch.textContent = "Buscar";
     btnSearch.addEventListener("click", async () => {
+        categoriesSelected.innerText = "";
+        categoriesSelected.value = "";
+
         let recipeName = inputRecipe.value;
         let recipeCategories = categories.join(",");
 
-        if (!recipeName) {
+        if (recipeName === undefined) {
             recipeName = "";
         }
-        if (!recipeCategories) {
+        if (recipeCategories === undefined) {
             recipeCategories = "";
         }
 
-
         const recipes = await getSearche(recipeName, recipeCategories);
+        let quantity;
 
-        const quantity = recipes.data.length;
+        if (recipes) {
+            quantity = recipes.data.length;
+        } else {
+            quantity = 0;
+        }
+        console.log("qaunt", quantity);
+
+        if (quantity === 1) {
+            searchResults.innerText = `${quantity} resultado encontrado.`
+        } else if (quantity === 0) {
+            searchResults.innerText = `Nenhum resultado encontrado.`
+        }
+        else {
+            searchResults.innerText = `${quantity} resultados encontrados.`
+        }
 
         inputCategory.value = "";
         inputRecipe.value = "";
         categories.value = "";
 
+        divResult.innerText = "";
         generateRecipeCards(recipes, quantity, divResult);
 
     });

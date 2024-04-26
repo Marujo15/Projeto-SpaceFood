@@ -477,7 +477,10 @@ input:focus {
     border-image: linear-gradient(to right, #DC1F1F, #FF8228) 1;
     text-align: center;
 }
-
+.search-result{
+    padding: 1%;
+    text-align: center;
+}
 /* Show Details */
 .modal {
     background: var(--B4);
