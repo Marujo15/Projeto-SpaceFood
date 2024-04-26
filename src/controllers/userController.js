@@ -25,7 +25,15 @@ const getPerfil = (req, res) => {
 
 const getPerfilById = async (req, res) => {
     try {
-        const user_id = req.params.user_id;
+        let user_id;
+
+        if(req.params.user_id){
+            user_id = req.params.user_id;
+        }else {
+            user_id = req.cookies.session_id;
+            user_id = jwt.verify(user_id, config.SECRET_KEY);
+            user_id = user_id.user.id;
+        }
 
         const result = await userService.getPerfilService(user_id);
         res.status(200).json({ data: result, status: 200 });

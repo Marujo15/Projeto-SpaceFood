@@ -36,19 +36,10 @@ function createRecipeCard() {
     const buttonAddIngredient = document.createElement("button");
     const buttonAddStep = document.createElement("button");
     const listIngredient = document.createElement("ul");
-    const listStep = document.createElement("ul");
+    const listStep = document.createElement("ol");
 
     errorMessage.classList.add("modal-error");
-    divPost.style.border = "2px solid red"; 
-    divTitle.style.border = "2px solid blue"; 
-    divDetails.style.border = "2px solid yellow"; 
-    divRecipe.style.border = "2px solid orange"; 
-    divElement.style.border = "2px solid purple"; 
-    divImage.style.border = "2px solid pink"; 
-    divButton.style.border = "2px solid brown"; 
-    divContent.style.border = "2px solid magenta"; 
-    divButtomIngredientMethodo.style.border = "2px solid lime";
-    
+    errorMessage.innerText = '';
 
     divPost.classList.add("post-recipe");
     divDetails.classList.add("post-recipe-name-category");
@@ -69,9 +60,11 @@ function createRecipeCard() {
 
     divTitle.appendChild(textTitle);
     textTitle.innerText = "Postar Receita";
+    textTitle.id = "post-title";
 
     divDetails.appendChild(div);
     divDetails.appendChild(divTag);
+    divTag.classList.add("post-tag");
 
     div.appendChild(inputTitleRcipe);
     div.appendChild(divCategory);
@@ -90,13 +83,9 @@ function createRecipeCard() {
 
     const formImage = document.createElement('form');
     formImage.classList.add("post-btn-contnt");
-    
+
     const imageName = document.createElement('div');
     imageName.classList.add('input-group');
-
-    const nameLabel = document.createElement('label');
-    nameLabel.setAttribute('for', 'name');
-    nameLabel.textContent = 'Nome da imagem';
 
     const nameInput = document.createElement('input');
     nameInput.setAttribute('name', 'name');
@@ -104,15 +93,12 @@ function createRecipeCard() {
     nameInput.setAttribute('placeholder', 'Nome da imagem');
     nameInput.classList.add("post-input");
 
-    imageName.appendChild(nameLabel);
     imageName.appendChild(nameInput);
 
     const imageFile = document.createElement('div');
-    imageFile.classList.add('input-group');
+    imageFile.classList.add('post-form-image');
+    imageFile.innerText = "Imagem";
 
-    const fileLabel = document.createElement('label');
-    fileLabel.textContent = 'Escolha a imagem';
-    
     const fileInput = document.createElement('input');
     fileInput.setAttribute('id', 'file');
     fileInput.setAttribute('type', 'file');
@@ -123,15 +109,13 @@ function createRecipeCard() {
     btnFileInput.classList.add("post-btn2")
     btnFileInput.appendChild(fileInput);
 
-    imageFile.appendChild(fileLabel);
-    imageFile.appendChild(btnFileInput);
-
     const uploadImage = document.createElement('button');
     uploadImage.classList.add('post-btn2');
     uploadImage.textContent = 'Fazer Upload';
 
     formImage.appendChild(imageName);
     formImage.appendChild(imageFile);
+    formImage.appendChild(btnFileInput);
     formImage.appendChild(uploadImage);
 
     divImage.appendChild(formImage);
@@ -139,18 +123,26 @@ function createRecipeCard() {
     let selectedFile = null;
 
     btnFileInput.addEventListener('click', () => {
-        fileInput.click(); 
+        fileInput.click();
     });
 
-    fileInput.addEventListener('change', (event) => {
+    fileInput.addEventListener('change', (event, id_image) => {
         selectedFile = event.target.files[0];
+        // imageFile.src = `./assets/${id_image}`
+        // imageFile.innerText = "";
+        //ver se é possivel antes
+        //talvez fazer um fetch...
+
     });
 
     formImage.addEventListener('submit', async (event) => {
         event.preventDefault();
         if (!selectedFile) {
             console.error('Nenhum arquivo selecionado');
+            errorMessage.style.display = "flex";
             errorMessage.innerText = "Nenhum arquivo selecionado";
+        } else {
+            errorMessage.style.display = "none";
         }
     });
 
@@ -168,14 +160,15 @@ function createRecipeCard() {
 
     divElement.appendChild(divElementIngredient);
     divElement.appendChild(divElementStep);
-
     divElement.id = "element";
 
-    divElementIngredient.appendChild(divAddIngredient);
+    const divInsertIngredient = document.createElement("div")
+    divInsertIngredient.appendChild(divAddIngredient);
+    divElementIngredient.appendChild(divInsertIngredient);
     divElementIngredient.appendChild(listIngredient);
-    // divElementIngredient.id = "div-ingredients";
-    divElementIngredient.classList.add("add-ingredients");
+    divElementIngredient.classList.add("post-element");
     listIngredient.id = "list-ingredient";
+    divInsertIngredient.classList.add("post-insert-ingredients-steps");
 
     divAddIngredient.appendChild(inputAddIngredient);
     divAddIngredient.appendChild(buttonAddIngredient);
@@ -184,11 +177,16 @@ function createRecipeCard() {
     buttonAddIngredient.innerText = "+";
     buttonAddIngredient.classList.add("post-btn-add");
 
-    divElementStep.appendChild(divAddStep);
+    const divInserStep = document.createElement("div")
+    divInserStep.appendChild(divAddStep);
+    divElementStep.appendChild(divInserStep);
     divElementStep.appendChild(listStep);
-    divElementStep.classList.add("post-component-input");
+    divAddStep.classList.add("post-component-input");
     divElementStep.style.display = "none";
+    divElementStep.classList.add("post-element");
     listStep.id = "list-step";
+    divInserStep.classList.add("post-insert-ingredients-steps");
+
 
     divAddStep.appendChild(inputAddStep);
     divAddStep.appendChild(buttonAddStep);
@@ -224,16 +222,17 @@ function createRecipeCard() {
         divElementIngredient.style.display = "none";
         btnStep.style.background = "#FF6A00";
         btnIngredient.style.background = "#FF8228";
-    
+
     });
 
     const categories = [];
+    const category = document.createElement("p");
     buttonCategory.addEventListener("click", () => {
         if (inputCategory.value.trim() !== "") {
             categories.push(inputCategory.value);
-            const category = document.createElement("p");
-            category.innerText += " " + inputCategory.value;
+            category.innerText = categories.join(",   ");
             divTag.appendChild(category);
+            inputCategory.value = "";
         }
     });
 
@@ -244,6 +243,7 @@ function createRecipeCard() {
             const list = document.createElement("li");
             list.innerText = inputAddIngredient.value;
             listIngredient.appendChild(list);
+            inputAddIngredient.value = "";
         }
     });
 
@@ -254,6 +254,7 @@ function createRecipeCard() {
             const list = document.createElement("li");
             list.innerText = inputAddStep.value;
             listStep.appendChild(list);
+            inputAddStep.value = "";
         }
     });
 

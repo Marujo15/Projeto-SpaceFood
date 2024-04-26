@@ -19,6 +19,7 @@ function buttonComment(recipe, divButtons, divCard, recipe_id) {
 
     imgComemnt.style.width = "20px";
     textComment.innerText = "Comentários";
+    textComment.classList.add("icone-space");
     toggleCommentButton(divComment, true, () => eventButton(recipe, divCard, recipe_id, divComment));
 
     divButtons.appendChild(divComment);

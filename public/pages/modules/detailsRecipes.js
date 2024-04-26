@@ -41,7 +41,7 @@ async function recipesDetails(recipe_id, recipe_name, name_user, recipe_image, r
         const titleIngredient = document.createElement("p");
         const listIngredient = document.createElement("ul");
         const titlePreparationMathod = document.createElement("p");
-        const listPreparationMathod = document.createElement("ul");
+        const listPreparationMathod = document.createElement("ol");
         const divTitle = document.createElement("div");
         const divInfo = document.createElement("div");
         const divUser = document.createElement("div");
@@ -76,6 +76,10 @@ async function recipesDetails(recipe_id, recipe_name, name_user, recipe_image, r
         divRecipe.appendChild(divImageRecipe);
         divRecipe.appendChild(divIngredients);
         divRecipe.appendChild(divPreparationMathod);
+
+        divImageRecipe.classList.add("div-recipe-details-itens");
+        divIngredients.classList.add("div-recipe-details-itens");
+        divPreparationMathod.classList.add("div-recipe-details-itens");
 
         divImageRecipe.appendChild(imgRecipe);
         imgRecipe.id = "recipe-image-details"; 
@@ -122,8 +126,9 @@ async function recipesDetails(recipe_id, recipe_name, name_user, recipe_image, r
         //     tags.innerText += " " + category;
         //     divTags.appendChild(tags);
         // });
+        //trocar para tags.innerText = recipe.category.join(",  ")?
 
-        imgRecipe.src = "";//ainda não vi como fazer
+        imgRecipe.src = `/assets/${recipe_image}`;
 
         modalContent.style.display = "block";
         modalContent.appendChild(divCard);
