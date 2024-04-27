@@ -1,6 +1,6 @@
 import { buttonComment } from "./btnComment.js";
 import { buttonLike } from "./btnlike.js";
-import { buttonSave } from "./btnfavorite.js";
+import { buttonSave, iconBtnFavorite, recipeFavoriteData } from "./btnfavorite.js";
 import { getCurrentTab, setCurrentTab } from "./tabIdentifier.js";
 
 async function recipesDetails(recipe_id, name_user, user_image, publication, recipeData) {
@@ -14,17 +14,6 @@ async function recipesDetails(recipe_id, name_user, user_image, publication, rec
     closeModal.style.display = "flex";
 
     errorMessage.innerHTML = "";
-
-    closeModal.addEventListener('click', () => {
-        const modal = document.getElementById('recipeModal');
-        modal.style.display = 'none';
-        setCurrentTab(currentTab);
-
-        if(modal.classList.contains("modal-details")){
-            modal.classList.remove("modal-details");
-            modal.classList.add("modal");
-        }
-    });
 
     if(modal.classList.contains("modal")){
         modal.classList.remove("modal");
@@ -41,6 +30,20 @@ async function recipesDetails(recipe_id, name_user, user_image, publication, rec
         }
 
         const recipe = data.data;
+        closeModal.addEventListener('click', () => {
+            const modal = document.getElementById('recipeModal');
+            modal.style.display = 'none';
+            setCurrentTab(currentTab);
+    
+            if(modal.classList.contains("modal-details")){
+                modal.classList.remove("modal-details");
+                modal.classList.add("modal");
+            }
+
+            const event = new CustomEvent('modalFechado');
+            document.dispatchEvent(event);
+            
+        });
 
         modalContent.innerHTML = '';
         modal.style.display = "flex";
