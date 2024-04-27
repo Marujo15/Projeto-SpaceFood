@@ -8,13 +8,11 @@ const validator = require('../utils/userValidator');
 
 const getPerfil = async (req, res) => {
     try {
-        let user_id;
+        let user_id = req.params.user_id;
 
-        if(req.params.user_id){
-            user_id = req.params.user_id;
-        }else {
+        if(user_id === "0"){
             user_id = req.cookies.session_id;
-            user_id = jwt.verify(user_id, config.SECRET_KEY);
+            user_id = jwt.verify(user_id, SECRET_KEY);
             user_id = user_id.user.id;
         }
 

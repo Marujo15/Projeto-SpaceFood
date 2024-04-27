@@ -46,7 +46,7 @@ export const homePage = () => {
                     </div>
                     <div class="button-user-div">
                         <button class="button-user">
-                            <img src="#" alt="user-photo">
+                            <img src="#" id="user-image" alt="user-photo">
                             <div class="user-details">
                                 <span id="user-name"></span>
                                 <span id="user-username"></span>
@@ -85,7 +85,7 @@ export async function homeScript() {
 
     async function getLogin() {
         try {
-            const response = await fetch(`/api/user/`, {
+            const response = await fetch(`/api/user/0`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -112,13 +112,16 @@ export async function homeScript() {
 
     }
 
-    // const data = await getLogin();
+    const data = await getLogin();
+    console.log(data);
 
     const userName = document.getElementById('user-name')
     const userUsername = document.getElementById('user-username')
+    const userImage = document.getElementById('user-image')
 
-    // userName.innerText = data.name
-    // userUsername.innerText = '@' + data.username
+    userName.innerText = data.data.user_name
+    userUsername.innerText = '@' + data.data.user_username
+    userImage.src = `/assets/${data.data.user_image}`
 
     home(feed, modal);
 
