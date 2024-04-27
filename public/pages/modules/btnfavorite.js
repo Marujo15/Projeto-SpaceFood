@@ -14,21 +14,11 @@ async function buttonSave(recipe, divButtons, recipesData, recipe_id) {
     textSave.classList.add("icone-space");
     imgSave.style.width = "20px";
 
+    
     const favoriteData = await recipeFavoriteData();
-
-    if (favoriteData && favoriteData.data) {
-        const isFavorited = favoriteData.data.some(fav => fav.recipe_id === recipe.recipe_id);
-        if (isFavorited) {
-            imgSave.src = "../static/svg/bookmark_fav.svg";
-            textSave.innerText = "Favoritado";
-        } else {
-            imgSave.src = "../static/svg/bookmark.svg";
-            textSave.innerText = "Favoritar";
-        }
-    } else {
-        imgSave.src = "../static/svg/bookmark.svg";
-        textSave.innerText = "Favoritar";
-    }
+    const icon = await iconBtnFavorite(favoriteData, recipe);
+    imgSave.src = icon.imgSave;
+    textSave.innerText = icon.textSave;
 
     divSave.addEventListener("click", async () => {
         const fav = await addFavorite(recipe_id, recipesData);
@@ -43,9 +33,38 @@ async function buttonSave(recipe, divButtons, recipesData, recipe_id) {
             const currentTab = getCurrentTab();
             if (currentTab === "favorite") {
                 favorites(feed, modal);
+                
             }
         }
     });
+
+    document.addEventListener('modalFechado', async () => {
+        const favoriteData = await recipeFavoriteData();
+        const icon = await iconBtnFavorite(favoriteData, recipe);
+        imgSave.src = icon.imgSave;
+        textSave.innerText = icon.textSave;
+    });
+}
+
+async function iconBtnFavorite(favoriteData, recipe) {
+    const data = {
+        imgSave: "",
+        textSave: "",
+    }
+    if (favoriteData && favoriteData.data) {
+        const isFavorited = favoriteData.data.some(fav => fav.recipe_id === recipe.recipe_id);
+        if (isFavorited) {
+            data.imgSave = "../static/svg/bookmark_fav.svg";
+            data.textSave = "Favoritado";
+        } else {
+            data.imgSave = "../static/svg/bookmark.svg";
+            data.textSave = "Favoritar";
+        }
+    } else {
+        data.imgSave = "../static/svg/bookmark.svg";
+        data.textSave = "Favoritar";
+    }
+    return data;
 }
 
 async function addFavorite(recipe_id, recipesData) {
@@ -108,4 +127,4 @@ async function recipeFavoriteData() {
     }
 }
 
-export { buttonSave, recipeFavoriteData }
+export { buttonSave, recipeFavoriteData, iconBtnFavorite }
