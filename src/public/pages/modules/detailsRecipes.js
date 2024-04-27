@@ -95,6 +95,7 @@ async function recipesDetails(recipe_id, name_user, user_image, publication, rec
 
         divUsernamePublication.appendChild(username);
         divUsernamePublication.appendChild(publicationDate)
+        divUsernamePublication.classList.add("details-info-username-date");
         
         username.id = "username-details";
         username.innerText = name_user;

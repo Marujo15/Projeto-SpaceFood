@@ -19,7 +19,7 @@ async function recipesData() {
     }
 }
 
-function elapseTime(postDate) {
+export function elapseTime(postDate) {
     const recipeDate = new Date(`${postDate}`);
     const end = new Date();
 
@@ -27,7 +27,9 @@ function elapseTime(postDate) {
     const hours = minutes / 60;
     const days = hours / 24;
 
-    if (minutes < 60) {
+    if (minutes < 1) {
+        return "Agora a pouco"
+    } else if (minutes >= 1 && minutes < 60) {
         return `${Math.floor(minutes)} m`;
     } else if (hours >= 1 && hours <= 24) {
         return `${Math.floor(hours)} h`; 
