@@ -25,6 +25,21 @@ const getLikeRecipeQuery = async (recipe_id) => {
     }
 }
 
+const getLikes = async (user_id) => {
+    const client = await connectToDatabase();
+    try {
+        const result = await client.query(`
+            SELECT*FROM recipe_like WHERE user_id = $1
+        `, [user_id]);
+
+        return result.rows;
+    } catch (error) {
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
 const likeRecipeQuery = async (recipe_id, user_id) => {
     const client = await connectToDatabase();
     try {
@@ -53,4 +68,5 @@ module.exports = {
     getLikeRecipeQuery,
     likeRecipeQuery,
     removeLikeRecipeQuery,
+    getLikes,
 }
