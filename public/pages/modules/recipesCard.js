@@ -3,6 +3,7 @@ import { buttonComment } from "./btnComment.js";
 import { buttonLike } from "./btnlike.js";
 import { buttonSave } from "./btnfavorite.js";
 
+
 async function recipesData() {
     try {
         const response = await fetch(`/api/recipe/`);

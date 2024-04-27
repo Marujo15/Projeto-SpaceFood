@@ -4,12 +4,12 @@
     --B3: #EAE7D3;
     --B5: #f5f3e4;
     --B4: #F6F3DE;
-    --C1: #03071E;
+    --C1: #DC1F1F;
     --C2: #B81E19;
-    --C3: #9D0208;
-    --C4: #6A040F;
-    --C5: #D00000;
-    --C6: #03071E;
+    --C3: #EE4510;
+    --C4: #FF6A00;
+    --C5: #FF7614;
+    --C6: #FF8228;
     --C7: #6EDA53;
 
     --star: #C3AC98;
@@ -119,8 +119,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 34px;
-    border-right: 1px solid #0000004f;
+    font-size: 24px;
 }
 
 .logo-space {
@@ -136,7 +135,6 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    border-bottom: 1px solid #0000004f;
 }
 
 .header-button-following,
@@ -181,9 +179,9 @@ main {
     flex-direction: column;
     justify-content: space-between;
     width: 550px;
-    margin: 0.5% 0;
+    margin: 2% 0;
     padding: 2.5%;
-    background: #FFFEFC;
+    background: var(--B3);
     border-radius: 10px;
     font-family: "Roboto", sans-serif;
     font-weight: 400;
@@ -195,39 +193,23 @@ main {
     font-weight: 500;
     padding: 1%;
 }
-#username-details {
-    font-size: 20px;
-    font-weight: 500;
-    padding: 1%;
-    width: 300px
-}
-.details-image-user{
-    height: 40px;
-    width: 40px;
-}
-.details-container-image-user{
-    height: 42px;
-    width: 42px;
-    border-radius: 50%;
-    margin: 0 1% 0 0;
-}
+
 .post-div-title {
     font-weight: 450;
 }
-.details-user{
-    display: flex;
-    padding: 1% 2%;
-}
+
 .post-div-title p {
     align-items: center;
     display: flex;
     flex-direction: column;
+    margin-top: -15px;
+    margin-bottom: 15px;
 }
 
 .post-div-buttons {
     display: flex;
     justify-content: space-between;
-    padding: 15px 0;
+    padding: 15px 0 0 0;
     cursor: auto;
 }
 
@@ -248,19 +230,17 @@ main {
 /* postRecipe */
 ul {
     list-style-type: none;
-    max-height: 100vh;
-    padding: 1% 3.5%;
+    overflow: scroll;
+    height: 160px;
+    padding: 3.5%;
     font-size: 14px;
 }
 
 ol {
-    max-height: 100vh;
-    padding: 1 0 0 9%;
+    overflow: scroll;
+    height: 160px;
+    padding: 0 0 0 9%;
     font-size: 14px;
-}
-
-li {
-    padding: 0.5% 0;
 }
 
 form {
@@ -325,7 +305,7 @@ form {
     flex-direction: row;
     flex: 1;
     justify-content: center;
-    background-color: var(--B3);
+    /* background-color: #fff; */
 }
 
 .post-image {
@@ -475,7 +455,6 @@ input:focus {
     align-items: center;
     justify-content: center;
     display: flex;
-    border-bottom: 1px solid #0000004f;
 }
 .search-categories-selected{
     height: 35px;
@@ -498,10 +477,7 @@ input:focus {
     border-image: linear-gradient(to right, #DC1F1F, #FF8228) 1;
     text-align: center;
 }
-.search-result{
-    padding: 1%;
-    text-align: center;
-}
+
 /* Show Details */
 .modal {
     background: var(--B4);
@@ -516,25 +492,6 @@ input:focus {
     transform: translate(-45%, -45%);
     min-height: 60%;
     max-height: 80%;
-    min-width: 60%;
-    max-width: 70%;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    overflow: auto;
-    font-family: 'Roboto';
-}
-.modal-details {
-    background: #f7f6f3;
-    display: none;
-    position: fixed;
-    z-index: 2;
-    flex-direction: column;
-    /* top: 50%; */
-    /* left: 50%; */
-    /* transform: translate(-45%, -45%); */
-    min-height: 60%;
-    max-height: 90%;
     min-width: 60%;
     max-width: 70%;
     padding: 20px;
@@ -567,10 +524,8 @@ input:focus {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     padding: 2%;
-    height: auto;
-    max-height: 100vh;
 }
 .div-recipe-details-itens{
     width: 33%;
@@ -633,7 +588,7 @@ input:focus {
 
 #recipe-title {
     font-size: 30px;
-    font-weight: 500;
+    font-weight: 600;
     text-align: center;
     padding: 1%;
 }
@@ -679,17 +634,19 @@ input:focus {
 
 /* Comemments */
 .comments {
-    background-color: #fffbfb;
+    background-color: var(--B3);
     border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     padding: 1.5%;
+
 }
 
 .comments-feed {
     width: 300px;
     position: relative;
-    left: 1px;
-    margin-top: 0.5%;
-    margin-bottom: 0.5%;
+    left: 2%;
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
 }
 
 .close-comment {
@@ -724,30 +681,17 @@ input:focus {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-top: 16%;
+    margin-top: 4%;
 }
 
 .write-comment input {
     border-radius: 10px;
     padding: 1.5%;
-    border: 1px solid #dbd4d4;
+    border: none;
     height: 25px;
     margin: 1%;
 }
-.details-write-comment {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
 
-.details-write-comment input {
-    border-radius: 10px;
-    padding: 0.75%;
-    border: 1px solid #dbd4d4;;
-    height: 30px;
-    margin: 1%;
-}
 .write-input-feed {
     width: 77%;
 }
@@ -757,7 +701,7 @@ input:focus {
 }
 
 .write-comment button {
-    background: var(--C1);
+    background: var(--C5);
     color: white;
     border-radius: 10px;
     border: none;
@@ -766,96 +710,43 @@ input:focus {
     padding: 1.5%;
     margin: 1%;
 }
-.details-write-comment button {
-    background: var(--C1);
-    color: white;
-    border-radius: 10px;
-    border: none;
-    font-size: 14px;
-    cursor: pointer;
-    padding: 1%;
-    margin: 1%;
-}
-.details-info-username-date{
-    margin: 0 1%;
-}
+
 .write-comment-btn-details {
     margin-top: 1.5%;
 }
 
 .published-comments {
-    background-color: #f4ebeb21;
+    background-color: #FFFEFC;
     height: 300px;
     border-radius: 10px;
     overflow: auto;
     padding: 1%;
 }
-.details-published-comments {
-    background-color: #f4ebeb21;
-    min-height: 0px;
-    border-radius: 10px;
-    overflow: auto;
-    padding: 1%;
-}
+
 .comment {
     display: flex;
     flex-direction: row;
-    padding: 3%;
-    border-bottom: solid #f8efef 1px;
-}
-.comment-details{
-    display: flex;
-    flex-direction: row;
     padding: 2%;
-    border-bottom: solid #f8efef 1px;
 }
+
 .comment-user-image {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     margin-right: 1%;
-    border: solid var(--B4) 1px;
-    text-align: center;
+    border: solid var(--C1) 2px;
 }
 
 .comment-txt {
     max-width: 210px;
-    font-family: "Roboto", sans-serif;
-    font-size: 14px;
 }
 
 .comment-txt-details {
     max-width: 600px;
-    font-family: "Roboto", sans-serif;
-    font-size: 16px;
 }
 
 .comment-username {
-    font-weight: 600;
-    width: 300px;
-}
-.info-user {
-    padding: 0 2%;
-}
-
-.image-user{
-    width: 30px;
-    height: 30px;
-    object-fit: cover;
-}
-
-.card-image-user{
-    align-content: center;
-}
-
-.card-user{
-    display: flex;
-    margin-bottom: 2%;
-}
-.card-published{
-    font-weight: 100;
-    font-size: small;
-    color: var(--B2);
+    font-weight: bold;
 }
 
 /* --- Aside --- */
@@ -866,7 +757,6 @@ input:focus {
     flex-direction: column;
     justify-content: space-between;
     height: 90dvh;
-    border-right: 1px solid #0000004f;
 }
 
 .abas {
@@ -978,11 +868,6 @@ input:focus {
     font-size: 12px;
 }
 
-#user-image {
-    width: 40px;
-    height: 40px;
-}
-
 /* perfil */
 .posts-feed,
 .perfil-page {
@@ -1010,7 +895,6 @@ input:focus {
     font-family: 'Roboto';
     border-bottom: 5px double black;
 }
-
 
 .perfil-img-name-username {
     /*  border: 5px solid yellow; */

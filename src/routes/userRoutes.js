@@ -17,7 +17,8 @@ const upload = multer({
     }),
 });
 
-router.get('/:user_id', authMiddleware, userController.getPerfil);
+router.get('/', authMiddleware, userController.getPerfil);
+router.get('/:user_id', authMiddleware, userController.getPerfilById);
 router.post('/login', userController.login);
 router.put('/:user_id', authMiddleware, upload.single('file'), userController.updatePerfil);
 router.delete('/login', authMiddleware, userController.clearCookies)

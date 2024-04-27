@@ -10,12 +10,14 @@ function pageRouter() {
         '/home': homePage,
     }
 
-    const getPage = (path) => routes[path]()
+    const getPage = (path) => {
+        return routes[path]()
+    }
 
     return {
         ...routes,
         getPage,
-    }
+    };
 }
 
 export default pageRouter;

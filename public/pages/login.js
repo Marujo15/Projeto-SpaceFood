@@ -83,7 +83,7 @@ export function loginScript() {
             });
 
             if (!response.ok) {
-                throw new Error('Erro ao fazer login');
+                throw new Error('Erro ao fazer login', response,error);
             }
 
             const data = await response.json();

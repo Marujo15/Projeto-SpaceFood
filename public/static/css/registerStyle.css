@@ -70,8 +70,10 @@ body{
     user-select: none;          
 }
 
+/* Panets + stars */
 .fundo{
     position: absolute;
+    left: 0;
     display: flex;
     width: 100%;
     height: 100dvh;
@@ -105,10 +107,13 @@ img{
     top: 200px;
 }
 
+/* Wlecome + Logo */
 .text-div{
     display: flex;
     flex-direction: column;
     position: relative;
+    left: 50%;
+    transform: translate( -50%, 0);
     width: 380px;
     height: 250px;
 }
@@ -136,15 +141,17 @@ img{
     top: 185px;
 }
 
+/* Login display + Inputs */
 .login-display{
     background: var(--B3);
     display: flex;
     width: 650px;
-    height: 350px;
+    height: 380px;
     border-radius: 30px;
     justify-content: center;
     align-items: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
 }
 
 form{
@@ -155,13 +162,13 @@ form{
     width: 100%;
     height: 100%;
 
-    margin-top: 100px; 
+    margin-top: 50px;
 }
 
-#username-input, #password-input{
-    height: 50px;
+#username-input, #password-input, #name-input, #email-input, #confirm-password-input{
+    height: 40px;
     width: 80%;
-    font-size: 25px;
+    font-size: 20px;
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -170,43 +177,11 @@ form{
     box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.3);
     outline: none;
     padding-left: 20px;
-}
-
-#username-input{
     margin-bottom: 15px;
 }
 
-#password-input{
+#submit-button{
     margin-top: 15px;
-}
-
-.options{
-    width: 80%;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 50px;
-}
-
-.options button, .options div label, .options div{
-    font-size: 18px;
-    color: var(--B1);
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: all 300ms ease;
-}
-
-.options button:hover, .options div:hover{
-    font-weight: 500;
-    scale: 1.01;
-}
-
-.options button{
-    color: var(--C3);
-}
-
-#login-submit-button{
-    margin-top: 30px;
     height: 40px;
     width: 130px;
     background: var(--C6);
@@ -219,7 +194,7 @@ form{
     transition: all 300ms ease;
 }
 
-#slogin-submit-button:hover{
+#submit-button:hover{
     scale: 1.03;
     background: var(--C5);
 }
