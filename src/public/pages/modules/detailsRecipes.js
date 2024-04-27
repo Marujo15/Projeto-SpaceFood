@@ -3,7 +3,7 @@ import { buttonLike } from "./btnlike.js";
 import { buttonSave } from "./btnfavorite.js";
 import { getCurrentTab, setCurrentTab } from "./tabIdentifier.js";
 
-async function recipesDetails(recipe_id, recipe_name, name_user, recipe_image, recipeData) {
+async function recipesDetails(recipe_id, name_user, user_image, publication, recipeData) {
     const currentTab = getCurrentTab();
     setCurrentTab("details");
 
@@ -13,29 +13,44 @@ async function recipesDetails(recipe_id, recipe_name, name_user, recipe_image, r
     const closeModal = document.getElementById('closeModal');
     closeModal.style.display = "flex";
 
-    modal.style.border = "solid 2px pink";
     errorMessage.innerHTML = "";
 
     closeModal.addEventListener('click', () => {
         const modal = document.getElementById('recipeModal');
         modal.style.display = 'none';
         setCurrentTab(currentTab);
+
+        if(modal.classList.contains("modal-details")){
+            modal.classList.remove("modal-details");
+            modal.classList.add("modal");
+        }
     });
+
+    if(modal.classList.contains("modal")){
+        modal.classList.remove("modal");
+        modal.classList.add("modal-details");
+    }
 
     try {
         const response = await fetch(`/api/recipe/${recipe_id}`);
 
         const data = await response.json();
-
+        console.log("data do try,",data);
         if (!response.ok) {
             throw new Error('Erro ao tentar recuperar os dados da receita');
         }
+
+        const recipe = data.data;
+
         modalContent.innerHTML = '';
         modal.style.display = "flex";
 
         const divCard = document.createElement("div");
+        const divImageUser = document.createElement("div");
         const imgUser = document.createElement("img");
         const username = document.createElement("p");
+        const publicationDate = document.createElement("p");
+        const divUsernamePublication = document.createElement("div");
         const recipeTitle = document.createElement("p");
         const imgRecipe = document.createElement("img");
         const titleIngredient = document.createElement("p");
@@ -60,17 +75,35 @@ async function recipesDetails(recipe_id, recipe_name, name_user, recipe_image, r
 
         divTitle.append(recipeTitle); 
         recipeTitle.id = "recipe-title";
-        recipeTitle.textContent = recipe_name;
+        recipeTitle.textContent = recipe.recipe_name;
 
         divInfo.append(divUser);
         divInfo.append(divTags);
         divTags.id = "tags";
 
-        divUser.appendChild(imgUser);
-        divUser.appendChild(username);
-        imgUser.id = "user-image"; //ainda não vi como fazer
-        username.id = "username";
+        divImageUser.appendChild(imgUser)
+        divImageUser.classList.add("details-image-user");
+        imgUser.classList.add("details-container-image-user");
+
+        divUser.appendChild(divImageUser);
+        divUser.appendChild(divUsernamePublication);
+        divUser.classList.add("details-user")
+        publicationDate.classList.add("card-published");
+        username.classList.add("comment-username");
+
+        publicationDate.innerText = publication;
+
+        divUsernamePublication.appendChild(username);
+        divUsernamePublication.appendChild(publicationDate)
+        
+        username.id = "username-details";
         username.innerText = name_user;
+
+        if (user_image === null) {
+            imgUser.src = "static/svg/newUser.svg"
+        } else {
+            imgUser.src = `./assets/${user_image}`;
+        }
 
         divRecipe.classList.add("div-recipe-details");
         divRecipe.appendChild(divImageRecipe);
@@ -83,9 +116,9 @@ async function recipesDetails(recipe_id, recipe_name, name_user, recipe_image, r
 
         divImageRecipe.appendChild(imgRecipe);
         imgRecipe.id = "recipe-image-details"; 
-        imgRecipe.src = `../assets/${recipe_image}`;
+        imgRecipe.src = `../assets/${recipe.recipe_image}`;
         console.log("imgRecipe",imgRecipe); 
-        console.log("recipe_image",recipe_image); 
+        console.log("recipe_image",recipe.recipe_image); 
 
         divIngredients.appendChild(titleIngredient);
         divIngredients.appendChild(listIngredient);
@@ -100,9 +133,8 @@ async function recipesDetails(recipe_id, recipe_name, name_user, recipe_image, r
         titlePreparationMathod.classList.add("list-title");
 
 
-        recipeTitle.innerText = recipe_name;
+        recipeTitle.innerText = recipe.recipe_name;
 
-        const recipe = data.data;
         console.log("recipe details",recipe);
         console.log("recipeData details",recipeData);
         divButtons.classList.add("post-div-buttons");
@@ -128,7 +160,6 @@ async function recipesDetails(recipe_id, recipe_name, name_user, recipe_image, r
         // });
         //trocar para tags.innerText = recipe.category.join(",  ")?
 
-        imgRecipe.src = `/assets/${recipe_image}`;
 
         modalContent.style.display = "block";
         modalContent.appendChild(divCard);
