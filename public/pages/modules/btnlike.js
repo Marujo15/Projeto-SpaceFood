@@ -4,38 +4,63 @@ async function buttonLike(recipesData, divButtons, recipe_id) {
     const textLike = document.createElement("p");
     divButtons.appendChild(divLike);
     divLike.id = "like";
-    textLike.classList.add("icone-space");
-
     divLike.appendChild(imgLike);
     divLike.appendChild(textLike);
-
-    const likeData = await getLikeData(recipe_id);
-
-    if (likeData === false) {
-        imgLike.src = "../static/svg/like.svg";
-        textLike.innerText = "Curtir";
-    } else {
-        imgLike.src = "../static/svg/liked.svg";
-        textLike.innerText = "Curtido";
-    }
-
     imgLike.style.width = "20px";
+
+    const likeData = await getLike(recipe_id);
+    const icon = await iconBtnLike(likeData);
+    imgLike.src = icon.imgLike;
+    textLike.innerText = icon.textLike;
 
     divLike.addEventListener("click", async () => {
 
         const like = await addLike(recipe_id, recipesData);
         if (like !== false) {
-            console.log("like?",like);
+            console.log("like?", like);
             imgLike.src = "../static/svg/liked.svg";
             textLike.innerText = "Curtido";
         } else {
             await deleteLike(recipe_id, recipesData);
             imgLike.src = "../static/svg/like.svg";
             textLike.innerText = "Curtir";
+            console.log("recipesData", recipesData);
         }
     });
 
-    async function getLikeData(recipe_id) {
+    document.addEventListener('modalFechado', async () => {
+        const likeData = await getLike(recipe_id);
+        const icon = await iconBtnLike(likeData);
+        imgLike.src = icon.imgLike;
+        textLike.innerText = icon.textLike;
+    });
+
+    async function iconBtnLike(likeData) {
+        console.log("likeData",likeData);
+        const data = {
+            imgLike: "",
+            textLike: "",
+        }
+
+        if (likeData && likeData.data) {
+            const isLiked = likeData.data.some(like => like.recipe_id === recipe_id)
+            if (isLiked) {
+                data.imgLike = "../static/svg/liked.svg";
+                data.textLike = "Curtido";
+            } else {
+                data.imgLike = "../static/svg/like.svg";
+                data.textLike = "Curtir";
+            }
+        } else {
+            data.imgLike = "../static/svg/like.svg";
+            data.textLike = "Curtir";
+        }
+        console.log("data",data);
+
+        return data;
+    }
+    
+    async function getLike(recipe_id) {
         try {
             const response = await fetch(`/api/like/${recipe_id}`);
             const data = await response.json();
@@ -53,7 +78,6 @@ async function buttonLike(recipesData, divButtons, recipe_id) {
     }
 
     async function addLike(recipe_id, recipesData) {
-        console.log("likeData:",likeData);
         try {
             const response = await fetch(`/api/like/${recipe_id}`, {
                 method: 'POST',
@@ -67,7 +91,7 @@ async function buttonLike(recipesData, divButtons, recipe_id) {
                 console.log(error.error);
                 return false;
             }
-            return true ;
+            return true;
         } catch (error) {
             console.error('Erro ao tentar verificar a existencia da receita em likes:', error.message);
         }
