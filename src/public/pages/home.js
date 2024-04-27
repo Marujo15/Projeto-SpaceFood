@@ -1,29 +1,28 @@
-    /* const jwt = require('jsonwebtoken');
-    const config = require('../.../src/config'); */
-    import { search } from "./modules/search.js";
-    import event from "./modules/event.js"
-    import { createRecipeCard } from "./modules/postRecipe.js";
-    import { generateRecipeCards, recipesData } from "./modules/recipesCard.js";
-    import { recipeFavoriteData } from "./modules/btnfavorite.js";
-    import { setCurrentTab, getCurrentTab } from "./modules/tabIdentifier.js";
+/* const jwt = require('jsonwebtoken');
+const config = require('../.../src/config'); */
+import { search } from "./modules/search.js";
+import event from "./modules/event.js"
+import { createRecipeCard } from "./modules/postRecipe.js";
+import { generateRecipeCards, recipesData } from "./modules/recipesCard.js";
+import { recipeFavoriteData } from "./modules/btnfavorite.js";
+import { setCurrentTab, getCurrentTab } from "./modules/tabIdentifier.js";
 
 
-    export const homePage = () => {
+export const homePage = () => {
 
-        const homeContent = document.createElement('div');
-        homeContent.classList.add('home-content')
-        homeContent.innerHTML = `
+    const homeContent = document.createElement('div');
+    homeContent.classList.add('home-content')
+    homeContent.innerHTML = `
             <link rel="stylesheet" href="../static/css/homeStyle.css">
             <header>
                 <div class="header-logo">
                     <span class="logo-space kaushan">Space</span>
                     <span class="logo-food kaushan">Food</span>
                 </div>
-                <div class="header-buttons">
+                <div id="header-btn" class="header-buttons">
                     <button id="all" class="roboto header-button-all selected">Todos</button>
                     <button id="following" class="roboto header-button-following">Seguindo</button>
                     <div id="search-header"></div>
-                    <div id="search-user"></div>
                 </div>
             </header>
             <div class="aside-main">
@@ -66,161 +65,155 @@
             </div>
             `;
 
-        document.getElementById("root").innerHTML = '';
-        document.getElementById("root").appendChild(homeContent);
-        homeScript();
+    document.getElementById("root").innerHTML = '';
+    document.getElementById("root").appendChild(homeContent);
+    homeScript();
 
-        root.appendChild(homeContent);
+    root.appendChild(homeContent);
 
-        return homeContent;
-    }
+    return homeContent;
+}
 
-    export async function homeScript() {
+export async function homeScript() {
 
-        const feed = document.getElementById("feed");
-        const modal = document.getElementById('recipeModal');
-        const btnHome = document.getElementById("home");
-        const btnPost = document.getElementById("post");
-        const btnSearch = document.getElementById("search");
-        const btnFavorites = document.getElementById("favorites");
-        
-        // const headerAll = document.getElementById("all");
-        // const headerFollowing = document.getElementById("following");
-        // const headerSeacherUser = document.getElementById("search-user");
-        // const headerSearchFavorite = document.getElementById("search-header");
+    const feed = document.getElementById("feed");
+    const modal = document.getElementById('recipeModal');
+    const btnHome = document.getElementById("home");
+    const btnPost = document.getElementById("post");
+    const btnSearch = document.getElementById("search");
+    const btnFavorites = document.getElementById("favorites");
 
-        async function getLogin() {
-            try {
-                const response = await fetch(`/api/user/`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
-                console.log("response:", response)
-                const data = await response.json();
-                console.log("data:", data)
-
-                if (!response.ok) {
-                    // deletar cookies
-                    const customEvent = event('/');
-                    window.dispatchEvent(customEvent);
-                    throw new Error("Erro ao recuperar dados do usuário");
+    async function getLogin() {
+        try {
+            const response = await fetch(`/api/user/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
                 }
-                return data;
-            }
+            })
+            console.log("response:", response)
+            const data = await response.json();
+            console.log("data:", data)
 
-            catch (error) {
-                console.error(error.message);
+            if (!response.ok) {
+                // deletar cookies
                 const customEvent = event('/');
                 window.dispatchEvent(customEvent);
+                throw new Error("Erro ao recuperar dados do usuário");
             }
-
+            return data;
         }
 
-        // const data = await getLogin();
+        catch (error) {
+            console.error(error.message);
+            const customEvent = event('/');
+            window.dispatchEvent(customEvent);
+        }
 
-        const userName = document.getElementById('user-name')
-        const userUsername = document.getElementById('user-username')
+    }
 
-        // userName.innerText = data.name
-        // userUsername.innerText = '@' + data.username
+    // const data = await getLogin();
 
+    const userName = document.getElementById('user-name')
+    const userUsername = document.getElementById('user-username')
+
+    // userName.innerText = data.name
+    // userUsername.innerText = '@' + data.username
+
+    home(feed, modal);
+
+    btnHome.addEventListener("click", () => {
+        setCurrentTab("home");
         home(feed, modal);
+    });
 
-        btnHome.addEventListener("click", () => {
-            setCurrentTab("home");
-            home(feed, modal);
-        });
+    btnPost.addEventListener("click", () => {
+        createRecipeCard();
+    });
 
-        btnPost.addEventListener("click", () => {
-            createRecipeCard();
-        });
-
-        btnSearch.addEventListener("click", () => {
-            feed.innerHTML = '';
-            setCurrentTab("search");
-            search(feed);
-        });
-
-        btnFavorites.addEventListener("click", () => {
-            setCurrentTab("favorite");
-            console.log("fav?", getCurrentTab());
-            favorites(feed, modal);
-        });
-
-        // btnPerfil.addEventListener('click', () => {
-        //     feed.innerHTML = ''
-        //     setCurrentTab('perfil')
-        //     Perfil(feed, userId)
-        // })
-
-    }
-
-    export function favorites(feed, modal) {
+    btnSearch.addEventListener("click", () => {
         feed.innerHTML = '';
-        modal.style.display = "none";
-        const headerAll = document.getElementById("all");
-        const headerFollowing = document.getElementById("following");
-        const headerSeacherUser = document.getElementById("search-user");
-        const headerSearchFavorite = document.getElementById("search-header");
+        setCurrentTab("search");
+        search(feed);
+    });
 
-        const currentTab = getCurrentTab();
-        if (currentTab === "favorite") {
-            headerAll.style.display = "none";
-            headerFollowing.style.display = "none";
-            headerSeacherUser.style.display = "none";
-            headerSearchFavorite.style.display = "block";
-            console.log("nova aba,", headerSearchFavorite);
-            headerSearchFavorite.innerText = "Favoritos";
-        }
+    btnFavorites.addEventListener("click", () => {
+        setCurrentTab("favorite");
+        console.log("fav?", getCurrentTab());
+        favorites(feed, modal);
+    });
 
-        recipeFavoriteData().then(data => {
-            getPosts(data, 10);
-        }).catch(error => {
-            console.error(error);
-        });
+    // btnPerfil.addEventListener('click', () => {
+    //     feed.innerHTML = ''
+    //     setCurrentTab('perfil')
+    //     Perfil(feed, userId)
+    // })
 
-        async function getPosts(data, quantity) {
-            try {
-                generateRecipeCards(data, quantity, feed);
-            } catch (error) {
-                console.error(error);
-            }
-        }
+}
+
+export function favorites(feed, modal) {
+    feed.innerHTML = '';
+    modal.style.display = "none";
+
+    const header = document.getElementById("header-btn");
+    const headerAll = document.getElementById("all");
+    const headerFollowing = document.getElementById("following");
+    const headerSearchFavorite = document.getElementById("search-header");
+
+    const currentTab = getCurrentTab();
+    if (currentTab === "favorite") {
+        headerAll.style.display = "none";
+        headerFollowing.style.display = "none";
+        headerSearchFavorite.style.display = "block";
+
+        header.style.borderBottom = "1px solid #0000004f";
+        headerSearchFavorite.innerText = "Favoritos";
+        headerSearchFavorite.classList.add("roboto", "searche-title");
     }
 
-    export function home(feed, modal) {
-        feed.innerHTML = '';
-        modal.style.display = "none";
+    recipeFavoriteData().then(data => {
+        getPosts(data, data.data.length);
+    }).catch(error => {
+        console.error(error);
+    });
 
-        const headerAll = document.getElementById("all");
-        const headerFollowing = document.getElementById("following");
-        const headerSeacherUser = document.getElementById("search-user");
-        const headerSearchFavorite = document.getElementById("search-header");
-
-        const currentTab = getCurrentTab();
-        if (currentTab === "home") {
-            headerAll.style.display = "block";
-            headerFollowing.style.display = "block";
-            headerSeacherUser.style.display = "block";
-            console.log("nova aba,", headerSearchFavorite);
-            
-            headerSearchFavorite.style.display = "none";
-            
-        }
-
-        recipesData().then(data => {
-            getPosts(data, 10);
-        }).catch(error => {
+    async function getPosts(data, quantity) {
+        try {
+            generateRecipeCards(data, quantity, feed);
+        } catch (error) {
             console.error(error);
-        });
-
-        async function getPosts(data, quantity) {
-            try {
-                generateRecipeCards(data, quantity, feed);
-            } catch (error) {
-                console.error(error);
-            }
         }
     }
+}
+
+export function home(feed, modal) {
+    feed.innerHTML = '';
+    modal.style.display = "none";
+
+    const header = document.getElementById("header-btn");
+    const headerAll = document.getElementById("all");
+    const headerFollowing = document.getElementById("following");
+    const headerSearchFavorite = document.getElementById("search-header");
+
+    const currentTab = getCurrentTab();
+    if (currentTab === "home") {
+        headerAll.style.display = "block";
+        headerFollowing.style.display = "block";
+        headerSearchFavorite.style.display = "none";
+        header.style.borderBottom = "1px solid #0000004f";
+    }
+
+    recipesData().then(data => {
+        getPosts(data, data.data.length);
+    }).catch(error => {
+        console.error(error);
+    });
+
+    async function getPosts(data, quantity) {
+        try {
+            generateRecipeCards(data, quantity, feed);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}

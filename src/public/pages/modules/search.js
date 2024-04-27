@@ -15,20 +15,21 @@ async function search(feed) {
     const searchResults = document.createElement("p");
 
     const divinputCategory = document.createElement("div");
+    
+    const header = document.getElementById("header-btn");
     const headerAll = document.getElementById("all");
     const headerFollowing = document.getElementById("following");
-    const headerSeacherUser = document.getElementById("search-user");
     const headerSearchFavorite = document.getElementById("search-header");
 
     const currentTab = getCurrentTab();
     if (currentTab === "search") {
         headerAll.style.display = "none";
         headerFollowing.style.display = "none";
-        headerSeacherUser.style.display = "none";
         headerSearchFavorite.style.display = "block";
 
+        header.style.borderBottom = "0px";
         headerSearchFavorite.innerText = "Buscar receitas"
-        headerSearchFavorite.classList.add("roboto", "searche-title")
+        headerSearchFavorite.classList.add("roboto", "searche-title");
     }
 
     divSearch.appendChild(divSearchContent);
