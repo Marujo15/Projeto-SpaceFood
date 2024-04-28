@@ -16,6 +16,8 @@ const getAllRecipesQuery = async () => {
                 recipe 
             INNER JOIN 
                 users ON recipe.user_id = users.id
+            ORDER BY
+                recipe_date DESC
         `);
         return result.rows;
     } catch (error) {
@@ -45,6 +47,8 @@ const getRecipeByFollowingQuery = async (user_id) => {
                 followed_follower ON followed_follower.followed_id = users.id 
             WHERE 
                 followed_follower.follower_id = $1
+            ORDER BY
+                recipe_date DESC
         `, [user_id]);
         return result.rows;
     } catch (error) {
@@ -120,8 +124,15 @@ const searchRecipeQuery = async (recipe_name, categories) => {
                     WHERE 
                         UNACCENT(LOWER(category.name)) = ANY($2)
                 )
+                ORDER BY
+                    recipe_date DESC
             `;
             params.push(categories);
+        } else {
+            query += `
+            ORDER BY
+                recipe_date DESC
+            `;
         }
 
         const result = await client.query(query, params);

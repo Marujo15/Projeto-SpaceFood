@@ -7,6 +7,11 @@ const getFollowers = async(req, res) => {
         const user_id = req.params.user_id;
         
         const result = await followService.getFollowersService(user_id);
+
+        if(result.length === 0) {
+            return res.status(200).json({ data: "Nenhum seguidor.", status: 200 });
+        }
+
         res.status(200).json({ data: result, status: 200 });
     } catch (error) {
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
@@ -18,6 +23,11 @@ const getFollowed = async(req, res) => {
         const user_id = req.params.user_id;
         
         const result = await followService.getFollowedService(user_id);
+
+        if(result.length === 0) {
+            return res.status(200).json({ data: "Este usuário não segue ninguém.", status: 200 });
+        }
+
         res.status(200).json({ data: result, status: 200 });
     } catch (error) {
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });

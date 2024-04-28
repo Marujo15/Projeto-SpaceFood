@@ -17,6 +17,8 @@ const getCommentaryQuery = async (recipe_id) => {
                 users ON commentary.user_id = users.id 
             WHERE 
                 commentary.recipe_id = $1
+            ORDER BY
+                commentary_date DESC
         `, [recipe_id]);
 
         return result.rows;
