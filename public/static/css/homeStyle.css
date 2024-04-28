@@ -1087,7 +1087,14 @@ input:focus {
 }
 
 /* perfil */
-.posts-feed,
+.posts-feed{
+    display: flex;
+    flex-direction: column;
+    height: 90dvh;
+    width: 100%;
+    background:#EAE7D3
+}
+
 .perfil-page {
     display: flex;
     flex-direction: column;

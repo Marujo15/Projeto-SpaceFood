@@ -142,7 +142,7 @@ function generateComments(recipe, card, recipe_id, divComment) {
         divPublishedComments.innerHTML = '';
         console.log("data showComments  :", commentary.data);
 
-        for (let i = commentary.data.length - 1; i >= 0; i--) {
+        for (let i = 0; i <= commentary.data.length ; i++) {
             const data = commentary.data[i];
             console.log("comentário  :", data.commentary_text);
 

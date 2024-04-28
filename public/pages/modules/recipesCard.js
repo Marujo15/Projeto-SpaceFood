@@ -47,7 +47,7 @@ export function elapseTime(postDate) {
 function generateRecipeCards(recipesData, quantity, feed) {
     const modalContent = document.getElementById('recipe-content');
 
-    for (let i = recipesData.data.length - 1; i >= recipesData.data.length - quantity && i >= 0; i--) {
+    for (let i = 0; i <= quantity; i++) {
         const recipe = recipesData.data[i];
 
         const post = document.createElement("div");
