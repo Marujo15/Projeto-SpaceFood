@@ -5,7 +5,7 @@ import event from "./modules/event.js"
 import { createRecipeCard } from "./modules/postRecipe.js";
 import { generateRecipeCards, recipesData } from "./modules/recipesCard.js";
 import { recipeFavoriteData } from "./modules/btnfavorite.js";
-import { setCurrentTab } from "./modules/tabIdentifier.js";
+import { setCurrentTab, getCurrentTab } from "./modules/tabIdentifier.js";
 
 
 export const homePage = () => {
@@ -13,56 +13,57 @@ export const homePage = () => {
     const homeContent = document.createElement('div');
     homeContent.classList.add('home-content')
     homeContent.innerHTML = `
-        <link rel="stylesheet" href="../static/css/homeStyle.css">
-        <header>
-            <div class="header-logo">
-                <span class="logo-space kaushan">Space</span>
-                <span class="logo-food kaushan">Food</span>
+            <link rel="stylesheet" href="../static/css/homeStyle.css">
+            <header>
+                <div class="header-logo">
+                    <span class="logo-space kaushan">Space</span>
+                    <span class="logo-food kaushan">Food</span>
+                </div>
+                <div id="header-btn" class="header-buttons">
+                    <button id="all" class="roboto header-button-all selected">Todos</button>
+                    <button id="following" class="roboto header-button-following">Seguindo</button>
+                    <div id="search-header"></div>
+                </div>
+            </header>
+            <div class="aside-main">
+                <aside>
+                    <div class="abas">
+                        <button id=home class="aba-home aba-button">
+                            <i class='bx bxs-home'></i>
+                            <span class="roboto icone-space">Início</span>
+                        </button>
+                        <button id="search" class="aba-search aba-button">
+                            <i class='bx bx-search'></i>
+                            <span class="roboto icone-space">Pesquisar</span>
+                        </button>
+                        <button id="favorites" class="aba-favorites aba-button">
+                            <i class='bx bxs-bookmark'></i>
+                            <span class="roboto icone-space">Favoritos</span>
+                        </button>
+                    </div>
+                    <div id="post" class="button-write">
+                        <button class="roboto-5">Escrever</button>
+                    </div>
+                    <div class="button-user-div">
+                        <button class="button-user">
+                            <img src="#" alt="user-photo">
+                            <div class="user-details">
+                                <span id="user-name"></span>
+                                <span id="user-username"></span>
+                            </div>
+                        </button>
+                    </div>
+                </aside>
+                <main class="posts">
+                    <div id="feed" class="posts-feed"></div>
+                    <div id="recipeModal" class="modal" style="display: none;">
+                        <button id="closeModal" class="close-modal">X</button>
+                        <div id="recipe-content" class="modal-content"></div>
+                        <div id="error-message" class="error-message" style="display: none;"></div>
+                    </div>
+                </main>
             </div>
-            <div class="header-buttons">
-                <button class="roboto header-button-all selected">Todos</button>
-                <button class="roboto header-button-following">Seguindo</button>
-            </div>
-        </header>
-        <div class="aside-main">
-            <aside>
-                <div class="abas">
-                    <button id=home class="aba-home aba-button">
-                        <i class='bx bxs-home'></i>
-                        <span class="roboto">Início</span>
-                    </button>
-                    <button id="search" class="aba-search aba-button">
-                        <i class='bx bx-search'></i>
-                        <span class="roboto">Pesquisar</span>
-                    </button>
-                    <button id="favorites" class="aba-favorites aba-button">
-                        <i class='bx bxs-bookmark'></i>
-                        <span class="roboto">Favoritos</span>
-                    </button>
-                </div>
-                <div id="post" class="button-write">
-                    <button class="roboto-5">Escrever</button>
-                </div>
-                <div class="button-user-div">
-                    <button class="button-user">
-                        <img src="#" alt="user-photo">
-                        <div class="user-details">
-                            <span id="user-name"></span>
-                            <span id="user-username"></span>
-                        </div>
-                    </button>
-                </div>
-            </aside>
-            <main class="posts">
-                <div id="feed" class="posts-feed"></div>
-                <div id="recipeModal" class="modal" style="display: none;">
-                    <button id="closeModal" class="close-modal">X</button>
-                    <div id="recipe-content" class="modal-content"></div>
-                    <div id="error-message" class="error-message" style="display: none;"></div>
-                </div>
-            </main>
-        </div>
-        `;
+            `;
 
     document.getElementById("root").innerHTML = '';
     document.getElementById("root").appendChild(homeContent);
@@ -84,7 +85,7 @@ export async function homeScript() {
 
     async function getLogin() {
         try {
-            const response = await fetch(`/api/user/login`, {
+            const response = await fetch(`/api/user/`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -102,7 +103,7 @@ export async function homeScript() {
             }
             return data;
         }
-        
+
         catch (error) {
             console.error(error.message);
             const customEvent = event('/');
@@ -132,11 +133,13 @@ export async function homeScript() {
 
     btnSearch.addEventListener("click", () => {
         feed.innerHTML = '';
+        setCurrentTab("search");
         search(feed);
     });
 
     btnFavorites.addEventListener("click", () => {
         setCurrentTab("favorite");
+        console.log("fav?", getCurrentTab());
         favorites(feed, modal);
     });
 
@@ -151,8 +154,25 @@ export async function homeScript() {
 export function favorites(feed, modal) {
     feed.innerHTML = '';
     modal.style.display = "none";
+
+    const header = document.getElementById("header-btn");
+    const headerAll = document.getElementById("all");
+    const headerFollowing = document.getElementById("following");
+    const headerSearchFavorite = document.getElementById("search-header");
+
+    const currentTab = getCurrentTab();
+    if (currentTab === "favorite") {
+        headerAll.style.display = "none";
+        headerFollowing.style.display = "none";
+        headerSearchFavorite.style.display = "block";
+
+        header.style.borderBottom = "1px solid #0000004f";
+        headerSearchFavorite.innerText = "Favoritos";
+        headerSearchFavorite.classList.add("roboto", "searche-title");
+    }
+
     recipeFavoriteData().then(data => {
-        getPosts(data, 10);
+        getPosts(data, data.data.length);
     }).catch(error => {
         console.error(error);
     });
@@ -169,11 +189,25 @@ export function favorites(feed, modal) {
 export function home(feed, modal) {
     feed.innerHTML = '';
     modal.style.display = "none";
+
+    const header = document.getElementById("header-btn");
+    const headerAll = document.getElementById("all");
+    const headerFollowing = document.getElementById("following");
+    const headerSearchFavorite = document.getElementById("search-header");
+
+    const currentTab = getCurrentTab();
+    if (currentTab === "home") {
+        headerAll.style.display = "block";
+        headerFollowing.style.display = "block";
+        headerSearchFavorite.style.display = "none";
+        header.style.borderBottom = "1px solid #0000004f";
+    }
+
     recipesData().then(data => {
-        getPosts(data, 10);
+        getPosts(data, data.data.length);
     }).catch(error => {
         console.error(error);
-    });  
+    });
 
     async function getPosts(data, quantity) {
         try {

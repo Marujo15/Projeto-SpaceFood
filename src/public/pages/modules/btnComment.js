@@ -19,6 +19,7 @@ function buttonComment(recipe, divButtons, divCard, recipe_id) {
 
     imgComemnt.style.width = "20px";
     textComment.innerText = "Comentários";
+    textComment.classList.add("icone-space");
     toggleCommentButton(divComment, true, () => eventButton(recipe, divCard, recipe_id, divComment));
 
     divButtons.appendChild(divComment);
@@ -38,28 +39,50 @@ function generateComments(recipe, card, recipe_id, divComment) {
     const divPublishedComments = document.createElement("div");
     const btnClose = document.createElement("button");
 
-    divComments.appendChild(btnClose);
-    divComments.appendChild(divPublishedComments);
-    divComments.appendChild(divWriteComent);
     divComments.classList.add("comments");
     btnClose.textContent = "X";
     btnClose.classList.add("close-comment");
+
     btnClose.addEventListener("click", () => {
         divComments.remove();
         toggleCommentButton(divComment, true, () => eventButton(recipe, divCard, recipe_id, divComment));
     });
 
-    divWriteComent.classList.add("write-comment");
-    divPublishedComments.classList.add("published-comments")
     divWriteComent.appendChild(inputComment);
     divWriteComent.appendChild(btnComment);
 
     if (getCurrentTab() !== "details") {
+
+        divComments.appendChild(btnClose);
+        divComments.appendChild(divPublishedComments);
+        divComments.appendChild(divWriteComent);
+
+        divWriteComent.classList.remove("details-write-comment");
+        divPublishedComments.classList.remove("details-published-comments")
+        btnComment.classList.remove("write-comment-btn-details");
+        btnClose.classList.remove("close-comment-details");
+        inputComment.classList.remove("write-input-details");
+
+        divWriteComent.classList.add("write-comment");
+        divPublishedComments.classList.add("published-comments")
         btnComment.classList.add("write-comment-btn-feed");
         divComments.classList.add("comments-feed");
         btnClose.classList.add("close-comment-feed");
         inputComment.classList.add("write-input-feed");
+
     } else {
+        divComments.appendChild(divWriteComent);
+        divComments.appendChild(divPublishedComments);
+
+        divWriteComent.classList.remove("write-comment");
+        divPublishedComments.classList.remove("published-comments")
+        btnComment.classList.remove("write-comment-btn-feed");
+        divComments.classList.remove("comments-feed");
+        btnClose.classList.remove("close-comment-feed");
+        inputComment.classList.remove("write-input-feed");
+
+        divWriteComent.classList.add("details-write-comment");
+        divPublishedComments.classList.add("details-published-comments")
         btnComment.classList.add("write-comment-btn-details");
         btnClose.classList.add("close-comment-details");
         inputComment.classList.add("write-input-details");
@@ -127,15 +150,22 @@ function generateComments(recipe, card, recipe_id, divComment) {
             const divinfo = document.createElement("div");
             const divUser = document.createElement("div");
             const divUserComment = document.createElement("div");
-            comment.classList.add("comment");
             imagUserComment.classList.add("comment-user-image");
 
-            const imagUser = document.createElement("img");
-            imagUser.src = ""; //data.user_image
-            imagUserComment.appendChild(imagUser);
+            const imageUser = document.createElement("img");
+            imageUser.classList.add("image-user");
+
+            if (data.user_image === null) {
+                imageUser.src = "static/svg/newUser.svg"
+            } else {
+                imageUser.src = `./assets/${recipe.user_image}`;
+            }
+
+            imagUserComment.appendChild(imageUser);
 
             divinfo.appendChild(divUser);
             divinfo.appendChild(divUserComment);
+            divinfo.classList.add("info-user");
 
             const username = document.createElement("p");
             username.innerText = data.name_user;
@@ -147,9 +177,11 @@ function generateComments(recipe, card, recipe_id, divComment) {
             divUserComment.appendChild(comentary);
 
             if (getCurrentTab() !== "details") {
+            comment.classList.add("comment");
                 comentary.classList.add("comment-txt");
 
             } else {
+            comment.classList.add("comment-details");
                 comentary.classList.add("comment-txt-details");
             }
 
