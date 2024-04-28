@@ -1,13 +1,11 @@
 /* const jwt = require('jsonwebtoken');
 const config = require('../.../src/config'); */
-
-import event from "./modules/event.js"
 import { search } from "./modules/search.js";
+import event from "./modules/event.js"
 import { createRecipeCard } from "./modules/postRecipe.js";
 import { generateRecipeCards, recipesData } from "./modules/recipesCard.js";
 import { recipeFavoriteData } from "./modules/btnfavorite.js";
-import { getCurrentTab, setCurrentTab } from "./modules/tabIdentifier.js";
-import { perfil } from "./modules/perfil.js";
+import { setCurrentTab, getCurrentTab } from "./modules/tabIdentifier.js";
 
 
 export const homePage = () => {
@@ -21,11 +19,10 @@ export const homePage = () => {
                     <span class="logo-space kaushan">Space</span>
                     <span class="logo-food kaushan">Food</span>
                 </div>
-                <div class="header-buttons">
+                <div id="header-btn" class="header-buttons">
                     <button id="all" class="roboto header-button-all selected">Todos</button>
                     <button id="following" class="roboto header-button-following">Seguindo</button>
                     <div id="search-header"></div>
-                    <div id="search-user"></div>
                 </div>
             </header>
             <div class="aside-main">
@@ -49,7 +46,7 @@ export const homePage = () => {
                     </div>
                     <div class="button-user-div">
                         <button class="button-user">
-                            <img src="#" alt="user-photo">
+                            <img src="#" id="user-image" alt="user-photo">
                             <div class="user-details">
                                 <span id="user-name"></span>
                                 <span id="user-username"></span>
@@ -72,6 +69,8 @@ export const homePage = () => {
     document.getElementById("root").appendChild(homeContent);
     homeScript();
 
+    root.appendChild(homeContent);
+
     return homeContent;
 }
 
@@ -83,16 +82,10 @@ export async function homeScript() {
     const btnPost = document.getElementById("post");
     const btnSearch = document.getElementById("search");
     const btnFavorites = document.getElementById("favorites");
-    const btnPerfil = document.querySelector(".button-user")
-
-    // const headerAll = document.getElementById("all");
-    // const headerFollowing = document.getElementById("following");
-    // const headerSeacherUser = document.getElementById("search-user");
-    // const headerSearchFavorite = document.getElementById("search-header");
 
     async function getLogin() {
         try {
-            const response = await fetch(`/api/user/`, {
+            const response = await fetch(`/api/user/0`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -116,24 +109,19 @@ export async function homeScript() {
             const customEvent = event('/');
             window.dispatchEvent(customEvent);
         }
-        if (!response.ok) {
-            // deletar cookies
-            const customEvent = event('/');
-            window.dispatchEvent(customEvent);
-            throw new Error("Erro ao recuperar dados do usuário");
-        }
-        return data;
+
     }
 
-
-
     const data = await getLogin();
+    console.log(data);
 
     const userName = document.getElementById('user-name')
     const userUsername = document.getElementById('user-username')
+    const userImage = document.getElementById('user-image')
 
-    // userName.innerText = data.name
-    // userUsername.innerText = '@' + data.username
+    userName.innerText = data.data.user_name
+    userUsername.innerText = '@' + data.data.user_username
+    userImage.src = `/assets/${data.data.user_image}`
 
     home(feed, modal);
 
@@ -154,37 +142,40 @@ export async function homeScript() {
 
     btnFavorites.addEventListener("click", () => {
         setCurrentTab("favorite");
+        console.log("fav?", getCurrentTab());
         favorites(feed, modal);
     });
 
-    btnPerfil.addEventListener('click', () => {
-        feed.innerHTML = ''
-        setCurrentTab('perfil')
-        perfil(feed, data, "edit")
-    })
+    // btnPerfil.addEventListener('click', () => {
+    //     feed.innerHTML = ''
+    //     setCurrentTab('perfil')
+    //     Perfil(feed, userId)
+    // })
 
 }
 
 export function favorites(feed, modal) {
     feed.innerHTML = '';
     modal.style.display = "none";
+
+    const header = document.getElementById("header-btn");
     const headerAll = document.getElementById("all");
     const headerFollowing = document.getElementById("following");
-    const headerSeacherUser = document.getElementById("search-user");
     const headerSearchFavorite = document.getElementById("search-header");
 
     const currentTab = getCurrentTab();
     if (currentTab === "favorite") {
         headerAll.style.display = "none";
         headerFollowing.style.display = "none";
-        headerSeacherUser.style.display = "none";
         headerSearchFavorite.style.display = "block";
-        console.log("nova aba,", headerSearchFavorite);
+
+        header.style.borderBottom = "1px solid #0000004f";
         headerSearchFavorite.innerText = "Favoritos";
+        headerSearchFavorite.classList.add("roboto", "searche-title");
     }
 
     recipeFavoriteData().then(data => {
-        getPosts(data, 10);
+        getPosts(data, data.data.length);
     }).catch(error => {
         console.error(error);
     });
@@ -198,29 +189,25 @@ export function favorites(feed, modal) {
     }
 }
 
-
 export function home(feed, modal) {
     feed.innerHTML = '';
     modal.style.display = "none";
 
+    const header = document.getElementById("header-btn");
     const headerAll = document.getElementById("all");
     const headerFollowing = document.getElementById("following");
-    const headerSeacherUser = document.getElementById("search-user");
     const headerSearchFavorite = document.getElementById("search-header");
 
     const currentTab = getCurrentTab();
     if (currentTab === "home") {
         headerAll.style.display = "block";
         headerFollowing.style.display = "block";
-        headerSeacherUser.style.display = "block";
-        console.log("nova aba,", headerSearchFavorite);
-
         headerSearchFavorite.style.display = "none";
-
+        header.style.borderBottom = "1px solid #0000004f";
     }
 
     recipesData().then(data => {
-        getPosts(data, 10);
+        getPosts(data, data.data.length);
     }).catch(error => {
         console.error(error);
     });

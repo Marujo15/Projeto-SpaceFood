@@ -10,7 +10,7 @@ async function search(feed) {
     const inputRecipe = document.createElement("input");
     const inputCategory = document.createElement("input");
     const btnAddCategory = document.createElement("button");
-    const categoriesSelected = document.createElement("p");
+    const categoriesSelected = document.createElement("div");
     const btnSearch = document.createElement("button");
     const searchResults = document.createElement("p");
 
@@ -66,13 +66,38 @@ async function search(feed) {
 
     inputCategory.placeholder = "Nome da categoria...";
     btnAddCategory.textContent = "+";
-    const categories = [];
 
+    const categories = [];
     btnAddCategory.addEventListener("click", () => {
-        const category = inputCategory.value.trim();
-        if (category !== "") {
-            categories.push(category);
-            categoriesSelected.innerText = categories.join(",  ");
+        const categoryValue = inputCategory.value.trim();
+
+        if (categoryValue !== "") {
+            categories.push(categoryValue);
+            categoriesSelected.style.display = "flex";
+
+            const divCategory = document.createElement("div");
+            const category = document.createElement("p");
+            const deleteCategory = document.createElement('div');
+            category.innerText = categoryValue;
+            deleteCategory.innerText = "X";
+
+            divCategory.classList.add("post-div-category");
+            category.classList.add("post-content-category");
+            deleteCategory.classList.add("post-delete");
+
+            deleteCategory.addEventListener("click", () => {
+                const index = categories.indexOf(categoryValue);
+
+                if (index !== -1) {
+                    categories.splice(index, 1);
+                    deleteCategory.parentNode.remove();
+                }
+            });
+
+            divCategory.appendChild(category);
+            divCategory.appendChild(deleteCategory);
+
+            categoriesSelected.appendChild(divCategory);
             inputCategory.value = "";
         }
     });
