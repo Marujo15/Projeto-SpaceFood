@@ -84,6 +84,7 @@ export async function homeScript() {
     const btnSearch = document.getElementById("search");
     const btnFavorites = document.getElementById("favorites");
     const btnPerfil = document.querySelector(".button-user")
+    const modalContent = document.getElementById('recipe-content')
 
     // const headerAll = document.getElementById("all");
     // const headerFollowing = document.getElementById("following");
@@ -132,35 +133,40 @@ export async function homeScript() {
     const userName = document.getElementById('user-name')
     const userUsername = document.getElementById('user-username')
 
-    // userName.innerText = data.name
-    // userUsername.innerText = '@' + data.username
+    userName.innerText = data.name
+    userUsername.innerText = '@' + data.username
 
     home(feed, modal);
 
     btnHome.addEventListener("click", () => {
         setCurrentTab("home");
         home(feed, modal);
+        modal.style.display = "none";
     });
 
     btnPost.addEventListener("click", () => {
+        modal.style.display = "none";
         createRecipeCard();
     });
 
     btnSearch.addEventListener("click", () => {
         feed.innerHTML = '';
+        modal.style.display = "none";
         setCurrentTab("search");
         search(feed);
     });
 
     btnFavorites.addEventListener("click", () => {
+        modal.style.display = "none";
         setCurrentTab("favorite");
         favorites(feed, modal);
     });
 
     btnPerfil.addEventListener('click', () => {
         feed.innerHTML = ''
+        modal.style.display = "none";
         setCurrentTab('perfil')
-        perfil(feed, data, "edit")
+        perfil(feed, data, "edit", modal , modalContent, { userName, userUsername })
     })
 
 }
