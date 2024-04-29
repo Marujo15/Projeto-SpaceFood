@@ -67,7 +67,7 @@ export function registerScript() {
             const response = await fetch(`/api/user/register/username/${username}`);
             const data = await response.json();
 
-            if (data.exists) {
+            if (!response.ok) {
                 alert('Este username já está em uso. Por favor, escolha outro.');
             }
         } catch (error) {
@@ -81,7 +81,7 @@ export function registerScript() {
             const response = await fetch(`/api/user/register/email/${email}`);
             const data = await response.json();
 
-            if (data.exists) {
+            if (!response.ok) {
                 alert('Este email já está cadastrado.');
             }
         } catch (error) {

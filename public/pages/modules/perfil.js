@@ -1,8 +1,9 @@
 import { home } from "../home.js"
+import { perfilModal } from "./perfilModalEdit.js"
 import { generateRecipeCards } from "./recipesCard.js"
 import { setCurrentTab } from "./tabIdentifier.js"
 
-export async function perfil(feed, data, editOrFollow) {
+export async function perfil(feed, data, editOrFollow, modal, modalContent, aside) {
 
     const perfilHeader = document.createElement('div')
     const perfilImgNameUsername = document.createElement('div')
@@ -47,7 +48,7 @@ export async function perfil(feed, data, editOrFollow) {
             console.error("Erro ao fazer requisição ao Banco de dados: ", error)
             feed.innerHTML = ""
             setCurrentTab("home");
-            home(feed, document.getElementById('recipeModal'));
+            home(feed, modal);
         }
     }
 
@@ -77,13 +78,13 @@ export async function perfil(feed, data, editOrFollow) {
     perfilClassName.appendChild(perfilIdName)
 
     perfilIdName.innerText = recipesData.data.user_name
-    perfilIdName.id="user-name"
+    perfilIdName.id = "user-name"
 
     perfilClassUsername.classList.add('perfil-class-username')
     perfilClassUsername.appendChild(perfilIdUsername)
 
     perfilIdUsername.innerText = '@' + recipesData.data.user_username
-    perfilIdUsername.id='user-username'
+    perfilIdUsername.id = 'user-username'
 
     perfilBioFollowingFollowers.classList.add('perfil-bio-following-followers')
     perfilBioFollowingFollowers.appendChild(perfilBio)
@@ -126,16 +127,17 @@ export async function perfil(feed, data, editOrFollow) {
 
     if (editOrFollow === "follow") {
         button.classList.add('follow')
-        button.innerText="Seguir"
+        button.innerText = "Seguir"
         button.addEventListener('click', () => {
             alert("follow")
         })
     }
     else if (editOrFollow === "edit") {
         button.classList.add('edit')
-        button.innerText="Editar"
+        button.innerText = "Editar"
         button.addEventListener('click', () => {
-            alert("edit")
+            modal.style.display = "block"
+            perfilModal(feed, data, editOrFollow, modalContent, modal, aside, { perfilIdUsername, perfilIdName, bio })
         })
     }
     else {

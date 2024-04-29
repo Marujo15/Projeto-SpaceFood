@@ -69,8 +69,6 @@ export const homePage = () => {
     document.getElementById("root").appendChild(homeContent);
     homeScript();
 
-    root.appendChild(homeContent);
-
     return homeContent;
 }
 
@@ -82,6 +80,13 @@ export async function homeScript() {
     const btnPost = document.getElementById("post");
     const btnSearch = document.getElementById("search");
     const btnFavorites = document.getElementById("favorites");
+    const btnPerfil = document.querySelector(".button-user")
+    const modalContent = document.getElementById('recipe-content')
+
+    // const headerAll = document.getElementById("all");
+    // const headerFollowing = document.getElementById("following");
+    // const headerSeacherUser = document.getElementById("search-user");
+    // const headerSearchFavorite = document.getElementById("search-header");
 
     async function getLogin() {
         try {
@@ -109,7 +114,7 @@ export async function homeScript() {
             const customEvent = event('/');
             window.dispatchEvent(customEvent);
         }
-
+        
     }
 
     const data = await getLogin();
@@ -128,29 +133,34 @@ export async function homeScript() {
     btnHome.addEventListener("click", () => {
         setCurrentTab("home");
         home(feed, modal);
+        modal.style.display = "none";
     });
 
     btnPost.addEventListener("click", () => {
+        modal.style.display = "none";
         createRecipeCard();
     });
 
     btnSearch.addEventListener("click", () => {
         feed.innerHTML = '';
+        modal.style.display = "none";
         setCurrentTab("search");
         search(feed);
     });
 
     btnFavorites.addEventListener("click", () => {
+        modal.style.display = "none";
         setCurrentTab("favorite");
         console.log("fav?", getCurrentTab());
         favorites(feed, modal);
     });
 
-    // btnPerfil.addEventListener('click', () => {
-    //     feed.innerHTML = ''
-    //     setCurrentTab('perfil')
-    //     Perfil(feed, userId)
-    // })
+    btnPerfil.addEventListener('click', () => {
+        feed.innerHTML = ''
+        modal.style.display = "none";
+        setCurrentTab('perfil')
+        Perfil(feed, data, "edit", modal , modalContent, { userName, userUsername })
+    })
 
 }
 

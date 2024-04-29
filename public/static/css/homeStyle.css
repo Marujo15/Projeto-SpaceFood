@@ -293,7 +293,7 @@ form {
     background-color: #e9e3ebb0;
 }
 
-.icone-space {
+.icone-space  {
     padding: 0 5%;
 }
 
@@ -376,7 +376,8 @@ form {
     background-color: var(--B3);
 }
 
-.post-content-modal {
+
+.post-image {
     display: flex;
     flex-direction: row;
     flex: 1;
@@ -386,6 +387,7 @@ form {
 }
 
 .post-image {
+
     display: flex;
     flex-direction: row;
     background: #f7f6f3;
@@ -399,6 +401,7 @@ form {
 }
 
 .post-recipe-content {
+
     display: flex;
     flex-direction: column;
     min-width: 400px;
@@ -528,7 +531,8 @@ input:focus {
     justify-content: center;
 }
 
-.search-menu {
+
+.search-menu  {
     background: var(--B4);
     align-items: center;
     justify-content: center;
@@ -548,11 +552,13 @@ input:focus {
     flex-wrap: wrap;
 }
 
-#searche-btn {
+
+#searche-btn  {
     margin: 0;
 }
 
-.searche-title {
+
+.searche-title  {
     display: block;
     font-size: 20px;
     width: 50%;
@@ -663,7 +669,8 @@ input:focus {
     max-height: 100vh;
 }
 
-.div-recipe-details-itens {
+
+.div-recipe-details-itens  {
     width: 33%;
 }
 
@@ -689,6 +696,7 @@ input:focus {
     top: -6px;
     right: -10px;
 }
+
 
 .modal-error {
     justify-content: center;
@@ -802,16 +810,19 @@ input:focus {
 }
 
 .close-comment-feed {
+
     right: -250px;
     top: -7px;
 }
 
 .close-comment-details {
+
     right: -605px;
     top: -5px;
 }
 
 .write-comment {
+
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -847,6 +858,7 @@ input:focus {
 }
 
 .write-input-details {
+
     width: 90%;
 }
 
@@ -1124,6 +1136,7 @@ input:focus {
 
 .perfil-img-name-username {
     /*  border: 5px solid yellow; */
+
     width: 25%;
     margin: 10px 0 10px 20px;
 }
@@ -1164,6 +1177,7 @@ input:focus {
 } */
 
 .perfil-img {
+
     height: 120px;
     width: 120px;
 }
@@ -1187,7 +1201,7 @@ input:focus {
     position: relative;
 }
 
-.perfil-button button {
+.perfil-button button  {
     position: absolute;
     right: 10px;
     bottom: -65px;
@@ -1232,19 +1246,16 @@ input:focus {
 } */
 
 .perfil-class-name {
+
     height: 40px;
     white-space: nowrap;
     overflow: auto;
 }
 
 .perfil-following {
+
     margin-right: 5px;
 }
-
-/* .perfil-class-username,
-.perfil-followers {
-    border: 5px solid rgb(180, 0, 135);
-} */
 
 .perfil-class-username {
     height: 40px;
@@ -1260,4 +1271,133 @@ input:focus {
     align-items: center;
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+/* Perfil Modal */
+.perfil-modal-edit-div {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+    height: 90%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: auto;
+}
+
+.perfil-modal-img-name-username {
+    padding: 20px;
+}
+
+.perfil-modal-container-img-inputs {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.perfil-modal-img {
+    height: 150px;
+    width: 150px;
+    background-color: var(--B2);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.perfil-modal-name-username {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 300px;
+}
+
+.perfil-modal-name-username input {
+    height: 100%;
+    margin: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 15px;
+    outline: none;
+    font-size: 18px;
+    border: 1px solid var(--B1);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.perfil-modal-input {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.perfil-modal-input input {
+    display: none;
+}
+
+.perfil-modal-input button {
+    cursor: pointer;
+    height: 40px;
+    width: 140px;
+    font-size: 18px;
+    color: white;
+    background: var(--C4);
+    border: none;
+    border-radius: 10px;
+    transition: all 300ms ease;
+}
+
+.perfil-modal-input button:hover {
+    scale: 1.05;
+    background: var(--C3);
+}
+
+.perfil-modal-input span {
+    padding: 5px 15px;
+    color: var(--C2);
+    font-size: 16px;
+}
+
+.perfil-modal-bio {
+    padding: 20px;
+}
+
+#perfil-modal-bio-input {
+    width: 100%;
+    font-size: 18px;
+    padding: 10px;
+
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    resize: none;
+    outline: none;
+}
+
+.perfil-modal-button-div {
+    /* border: 5px solid orange; */
+    padding: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#perfil-modal-button {
+    font-size: 20px;
+    width: 100px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background: var(--C4);
+    border: none;
+    border-radius: 10px;
+    transition: all 300ms ease;
+    cursor: pointer;
+}
+
+#perfil-modal-button:hover {
+    scale: 1.05;
+    background: var(--C3);
 }
