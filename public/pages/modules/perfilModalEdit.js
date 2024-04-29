@@ -1,3 +1,5 @@
+import { home } from "../home.js"
+import event from "./event.js"
 import { perfil } from "./perfil.js"
 import { setCurrentTab } from "./tabIdentifier.js"
 
@@ -227,11 +229,8 @@ export function perfilModal(feed, data, editOrFollow, modalContent, modal, aside
 
                             const data2 = await response.json()
 
-                            feed.innerHTML = ''
-                            modal.style.display = "none";
-                            setCurrentTab('perfil')
-                            const { userName, userUsername } = aside
-                            perfil(feed, data2, "edit", modal, modalContent, { userName, userUsername })
+                            const customEvent = event('/home');
+                            window.dispatchEvent(customEvent);
                         }
                         catch (error) {
                             console.error("terceiro trycatch:", error)
