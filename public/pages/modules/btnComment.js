@@ -107,7 +107,7 @@ function generateComments(recipe, card, recipe_id, divComment) {
             });
             if (!response.ok) {
                 const error = await response.json();
-                console.log(error.error);
+                console.error(error.error);
             }
             getComments(recipe_id);
         } catch (error) {

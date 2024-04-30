@@ -116,7 +116,6 @@ export async function homeScript() {
     }
 
     const data = await getLogin();
-    console.log('data home:', data)
 
     const userName = document.getElementById('user-name')
     const userUsername = document.getElementById('user-username')
@@ -154,10 +153,17 @@ export async function homeScript() {
     });
 
     btnPerfil.addEventListener('click', () => {
-        feed.innerHTML = ''
-        modal.style.display = "none";
-        setCurrentTab('perfil')
-        perfil(feed, data, "edit", modal , modalContent, { userName, userUsername })
+        fetch(`/api/user/0`)
+                .then(response => response.json())
+                .then(data => {
+                    feed.innerHTML=""
+                    setCurrentTab('perfil')
+                    perfil(feed, data, "edit", modal , modalContent, { userName, userUsername })
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+        
     })
 
 }

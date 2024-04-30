@@ -61,7 +61,6 @@ export function registerScript() {
     const buttonSubmit = document.getElementById('submit-button');
 
     inputUsename.addEventListener("blur", async () => {
-        console.log("entrou");
         const username = inputUsename.value;
         try {
             const response = await fetch(`/api/user/register/username/${username}`);
@@ -119,7 +118,6 @@ export function registerScript() {
             }
 
             const data = await response.json();
-            console.log('Usuário cadastrado com sucesso:', data);
             window.location.href = "/login";
 
         } catch (error) {
