@@ -17,7 +17,7 @@ class Validations {
     }
 
     static stepSize(step) {
-        return step.length <= 200;
+        return step.length <= 500;
     }
 }
 
