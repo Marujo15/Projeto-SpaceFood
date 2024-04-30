@@ -1440,3 +1440,9 @@ input:focus {
     scale: 1.05;
     background: var(--C3);
 }
+
+#followingButton{
+    background: white;
+    color: var(--B1);
+    transition: all 500ms ease;
+}

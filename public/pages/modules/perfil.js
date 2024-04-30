@@ -157,7 +157,7 @@ export async function perfil(feed, otherData, editOrFollow, modal, modalContent,
         }
 
         if (alreadyFollow) {
-            button.classList.add('follow')
+            button.id = 'followingButton'
             button.innerText = "Seguindo"
             button.addEventListener('click', async () => {
                 try {
@@ -189,7 +189,7 @@ export async function perfil(feed, otherData, editOrFollow, modal, modalContent,
             })
         }
         else {
-            button.classList.add('following')
+            button.id = 'followButton'
             button.innerText = "Seguir"
             button.addEventListener('click', async () => {
                 try {
