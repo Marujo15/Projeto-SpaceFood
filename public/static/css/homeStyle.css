@@ -931,6 +931,11 @@ input:focus {
     text-align: center;
 }
 
+.comment-user-image img{
+    border: 3px solid var(--B1);
+    border-radius: 50%;
+}
+
 .comment-txt {
     max-width: 210px;
     font-family: "Roboto", sans-serif;
@@ -960,6 +965,11 @@ input:focus {
 
 .card-image-user {
     align-content: center;
+}
+
+.card-image-user img {
+    border: 3px solid var(--B1);
+    border-radius: 50%;
 }
 
 .card-user {
@@ -1070,6 +1080,11 @@ input:focus {
     margin: 0 10px;
 }
 
+.button-user img{
+    border: 2px solid var(--B1);
+    border-radius: 50%;
+}
+
 .user-details {
     display: flex;
     flex-direction: column;
@@ -1127,7 +1142,7 @@ input:focus {
 .perfil-header {
     /* border: 5px solid blue; */
     display: flex;
-    height: 30dvh;
+    height: 40dvh;
     background: #fff;
     font-family: 'Roboto';
     border-bottom: 5px double black;
@@ -1177,9 +1192,18 @@ input:focus {
 } */
 
 .perfil-img {
-
-    height: 120px;
-    width: 120px;
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    background: var(--B1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.perfil-img img {
+    height: 140px;
+    width: 140px;
+    border-radius: 50%;
 }
 
 .perfil-bio {
@@ -1195,6 +1219,7 @@ input:focus {
 
 .perfil-button {
     width: fit-content;
+    height: 100%;
     align-self: center;
     justify-self: center;
     margin-bottom: 15px;
@@ -1307,6 +1332,12 @@ input:focus {
     align-items: center;
 }
 
+.perfil-modal-img img {
+    height: 140px;
+    width: 140px;
+    border-radius: 50%;
+}
+
 .perfil-modal-name-username {
     display: flex;
     flex-direction: column;
@@ -1379,7 +1410,15 @@ input:focus {
     /* border: 5px solid orange; */
     padding: 20px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+}
+
+.perfil-modal-button-div input{
+    padding-left: 15px;
+    border: 1px solid var(--B2);
+    outline: none;
+    border-radius: 10px;
+    font-size: 16px;
 }
 
 #perfil-modal-button {
