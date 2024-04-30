@@ -20,13 +20,9 @@ export const loginPage = () => {
 
         <main class="login-display">
             <form>
-                <input type="text" placeholder="Username" id="username-input" required>
-                <input type="password" placeholder="Password" id="password-input" required>
+                <input type="text" placeholder="Nome de usúario" id="username-input" required>
+                <input type="password" placeholder="Senha" id="password-input" required>
                 <div class="options">
-                    <div class="remember-checkbox">
-                        <input type="checkbox" id="remember">
-                        <label for="remember">Lembrar-se de mim</label>
-                    </div>
                     <button type="button" id="register-submit-button">Criar uma nova conta</button>
                 </div>
                 <div class="submit-btn-div">
@@ -49,16 +45,6 @@ export function loginScript() {
     const inputPassword = document.getElementById("password-input");
     const buttonRegister = document.getElementById("register-submit-button");
     const buttonLogin = document.getElementById("login-submit-button");
-    const checkboxRemember = document.getElementById('remember')
-
-
-
-    // checkboxRemenber.addEventListener("",()=>{
-    //     const remember = checkboxRemenber.value;
-    //     if(remember){
-
-    //     }
-    // });
 
     buttonRegister.addEventListener("click", (e) => {
         e.preventDefault();

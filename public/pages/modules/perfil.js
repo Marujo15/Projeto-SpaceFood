@@ -1,6 +1,6 @@
 import { home } from "../home.js"
 import { perfilModal } from "./perfilModalEdit.js"
-import { generateRecipeCards } from "./recipesCard.js"
+import { generateRecipeCards, recipesDataPerfil } from "./recipesCard.js"
 import { setCurrentTab } from "./tabIdentifier.js"
 
 export async function perfil(feed, otherData, editOrFollow, modal, modalContent, aside) {
@@ -233,6 +233,21 @@ export async function perfil(feed, otherData, editOrFollow, modal, modalContent,
         setCurrentTab("home");
         home(feed, modal);
     }
+
+    recipesDataPerfil(otherData.data.user_id).then(data => {
+        getPosts(data, data.length);
+    }).catch(error => {
+        console.error(error);
+    });
+
+    async function getPosts(data, quantity) {
+        try {
+            generateRecipeCards(data, quantity, feed);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
 
     feed.appendChild(perfilHeader)
 

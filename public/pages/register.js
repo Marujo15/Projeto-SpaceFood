@@ -33,11 +33,11 @@ export function registerPage() {
     
         <main class="login-display">
             <form>
-                <input type="text" placeholder="Username" id="username-input" required>
-                <input type="text" placeholder="Name" id="name-input" required>
+                <input type="text" placeholder="Nome de usuário" id="username-input" required>
+                <input type="text" placeholder="Nome" id="name-input" required>
                 <input type="email" placeholder="Email" id="email-input" required>
-                <input type="password" placeholder="Password" id="password-input" required>
-                <input type="password" placeholder="Confirm Password" id="confirm-password-input" required>
+                <input type="password" placeholder="Senha" id="password-input" required>
+                <input type="password" placeholder="Confirme a senha" id="confirm-password-input" required>
                 <div class="submit-btn-div">
                     <button class="roboto" type="submit" id="submit-button">Cadastrar</button>
                 </div>

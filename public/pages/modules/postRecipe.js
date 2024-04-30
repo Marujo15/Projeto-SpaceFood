@@ -23,8 +23,8 @@ function createRecipeCard() {
     const divTag = document.createElement("div");
     const inputCategory = document.createElement("input");
     const buttonCategory = document.createElement("button");
-    const btnIngredient = document.createElement("button");
-    const btnStep = document.createElement("button");
+    const txtIngredient = document.createElement("p");
+    const txtStep = document.createElement("p");
     const buttonAddRecipe = document.createElement("button");
     const buttonExit = document.createElement("button");
     const divElementIngredient = document.createElement("div");
@@ -47,7 +47,7 @@ function createRecipeCard() {
 
     divPost.classList.add("post-recipe");
     divDetails.classList.add("post-recipe-name-category");
-    divContent.classList.add("post-content");
+    divContent.classList.add("post-content-form");
     divImage.classList.add("post-image");
     divRecipe.classList.add("post-recipe-content");
     divCategory.classList.add("post-component-input");
@@ -92,13 +92,10 @@ function createRecipeCard() {
     const imageName = document.createElement('div');
     imageName.classList.add('input-group');
 
-    const nameInput = document.createElement('input');
-    nameInput.setAttribute('name', 'name');
-    nameInput.setAttribute('id', 'name');
-    nameInput.setAttribute('placeholder', 'Nome da imagem');
-    nameInput.classList.add("post-input");
+    const txtImagem = document.createElement("label");
+    txtImagem.innerText = "Selecione uma imagem:"
 
-    imageName.appendChild(nameInput);
+    imageName.appendChild(txtImagem);
 
     const imageFile = document.createElement('div');
     imageFile.classList.add('post-form-image');
@@ -117,14 +114,13 @@ function createRecipeCard() {
     btnFileInput.classList.add("post-btn2")
     btnFileInput.appendChild(fileInput);
 
-    const uploadImage = document.createElement('button');
-    uploadImage.classList.add('post-btn2');
-    uploadImage.textContent = 'Fazer Upload';
+    const formInput = document.createElement("div");
+    formInput.appendChild(imageName);
+    formInput.appendChild(btnFileInput);
+    formInput.classList.add("form-input-width");
 
-    formImage.appendChild(imageName);
+    formImage.appendChild(formInput);
     formImage.appendChild(imageFile);
-    formImage.appendChild(btnFileInput);
-    formImage.appendChild(uploadImage);
 
     divImage.appendChild(formImage);
 
@@ -150,17 +146,11 @@ function createRecipeCard() {
         event.preventDefault();
     });
 
-    divRecipe.appendChild(divButtomIngredientMethodo);
     divRecipe.appendChild(divElement);
     divRecipe.appendChild(divButton);
 
-    divButtomIngredientMethodo.classList.add("post-btn-contnt");
-    divButtomIngredientMethodo.appendChild(btnIngredient);
-    divButtomIngredientMethodo.appendChild(btnStep);
-    btnIngredient.innerText = "Ingredientes";
-    btnStep.innerText = "Modo de Preparo";
-    btnIngredient.classList.add("post-btn2");
-    btnStep.classList.add("post-btn2");
+    txtIngredient.innerText = "Ingredientes";
+    txtStep.innerText = "Modo de Preparo";
 
     divElement.appendChild(divElementIngredient);
     divElement.appendChild(divElementStep);
@@ -168,6 +158,7 @@ function createRecipeCard() {
 
     const divInsertIngredient = document.createElement("div")
     divInsertIngredient.appendChild(divAddIngredient);
+    divElementIngredient.appendChild(txtIngredient);
     divElementIngredient.appendChild(divInsertIngredient);
     divElementIngredient.appendChild(listIngredient);
     divElementIngredient.classList.add("post-element");
@@ -183,10 +174,10 @@ function createRecipeCard() {
 
     const divInserStep = document.createElement("div")
     divInserStep.appendChild(divAddStep);
+    divElementStep.appendChild(txtStep);
     divElementStep.appendChild(divInserStep);
     divElementStep.appendChild(listStep);
     divAddStep.classList.add("post-component-input");
-    divElementStep.style.display = "none";
     divElementStep.classList.add("post-element");
     listStep.id = "list-step";
     divInserStep.classList.add("post-insert-ingredients-steps");
@@ -212,23 +203,6 @@ function createRecipeCard() {
     modal.appendChild(modalContent);
 
     modal.style.display = "block";
-
-    btnIngredient.style.background = "#03071E";
-    btnStep.style.background = "#03071ee7";
-    btnIngredient.addEventListener("click", () => {
-        divElementStep.style.display = "none";
-        divElementIngredient.style.display = "flex";
-        btnIngredient.style.background = "#03071E";
-        btnStep.style.background = "#03071ee7";
-    });
-
-    btnStep.addEventListener("click", () => {
-        divElementStep.style.display = "flex";
-        divElementIngredient.style.display = "none";
-        btnStep.style.background = "#03071E";
-        btnIngredient.style.background = "#03071ee7";
-
-    });
 
     const categories = [];
     buttonCategory.addEventListener("click", () => {
@@ -286,8 +260,7 @@ function createRecipeCard() {
 
                 if (index !== -1) {
                     ingredients.splice(index, 1);
-                    deleteIngredient.parentNode.remove();
-
+                    list.remove();
                 }
             });
 
@@ -301,43 +274,77 @@ function createRecipeCard() {
     });
 
     const steps = [];
+
     buttonAddStep.addEventListener("click", () => {
-        const inputValue = inputAddStep.value;
-
-        if (inputValue.trim() !== "") {
+        const inputValue = inputAddStep.value.trim();
+    
+        if (inputValue !== "") {
             steps.push(inputValue);
-
-            const list = document.createElement("li");
-            const container = document.createElement("div");
-            const step = document.createElement("p");
-            const deleteStep = document.createElement('div');
-            step.innerText = inputValue;
-            deleteStep.innerText = "X";
-
-            deleteStep.addEventListener("click", () => {
-                const index = steps.indexOf(inputValue);
-
-                if (index !== -1) {
-                    steps.splice(index, 1);
-                    list.remove();
-                    // deleteStep.parentNode.remove();
-                }
-
-            });
-
-            container.classList.add("post-recipe-list");
-            deleteStep.classList.add("post-delete");
-
-
-            container.appendChild(step);
-            container.appendChild(deleteStep);
-            list.appendChild(container);
-            listStep.appendChild(list);
+            renderSteps();
+            console.log(steps);
 
             inputAddStep.value = "";
         }
     });
+    
+    function renderSteps() {
+        listStep.innerHTML = ""; 
+    
+        steps.forEach((step, index) => {
+            const list = document.createElement("li");
+            const container = document.createElement("div");
+            const stepElement = document.createElement("p");
+            const deleteStep = document.createElement('div');
+            const moveUpButton = document.createElement('div');
+            const moveDownButton = document.createElement('div');
+    
+            stepElement.innerText = step;
+            deleteStep.innerText = "X";
+            moveUpButton.innerText = "▲";
+            moveDownButton.innerText = "▼";
+    
+            deleteStep.addEventListener("click", () => {
+                steps.splice(index, 1);
+                renderSteps();
+            });
+    
+            moveDownButton.addEventListener("click", () => {
+                if (index < steps.length - 1) {
+                    const temp = steps[index];
+                    steps[index] = steps[index + 1];
+                    steps[index + 1] = temp;
+                    renderSteps();
+                }
+                console.log(steps);
 
+            });
+    
+            moveUpButton.addEventListener("click", () => {
+                if (index > 0) {
+                    const temp = steps[index];
+                    steps[index] = steps[index - 1];
+                    steps[index - 1] = temp;
+                    renderSteps();
+                    console.log(steps);
+                }
+            });
+    
+            container.classList.add("post-recipe-list");
+            deleteStep.classList.add("post-delete");
+            moveUpButton.classList.add("post-move-list");
+            moveDownButton.classList.add("post-move-list");
+    
+            container.appendChild(stepElement);
+            container.appendChild(moveUpButton);
+            container.appendChild(moveDownButton);
+            container.appendChild(deleteStep);
+
+
+            list.appendChild(container);
+            listStep.appendChild(list);
+        });
+    }   
+    
     buttonAddRecipe.addEventListener("click", async () => {
         const recipeData = {
             "name": inputTitleRcipe.value,

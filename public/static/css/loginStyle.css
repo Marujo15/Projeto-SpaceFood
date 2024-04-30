@@ -2,13 +2,14 @@
     --B1: #1B1B1B;
     --B2: #2A2A2A;
     --B3: #EAE7D3;
+    --B5: #f5f3e4;
     --B4: #F6F3DE;
-    --C1: #DC1F1F;
+    --C1: #03071E;
     --C2: #B81E19;
-    --C3: #EE4510;
-    --C4: #FF6A00;
-    --C5: #FF7614;
-    --C6: #FF8228;
+    --C3: #9D0208;
+    --C4: #6A040F;
+    --C5: #D00000;
+    --C6: #03071E;
     --C7: #6EDA53;
 
     --star: #C3AC98;
@@ -133,7 +134,7 @@ img{
 
 .txt-sp3{
     font-size: 45px;
-    color: var(--C4);
+    color: var(--C5);
     position: absolute;
     left: 140px;
     top: 185px;
@@ -205,7 +206,7 @@ form{
 }
 
 .options button{
-    color: var(--C3);
+    color: var(--C5);
 }
 
 #login-submit-button{

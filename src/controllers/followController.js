@@ -2,10 +2,10 @@ const followService = require('../service/followService');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 
-const getFollowers = async(req, res) => {
+const getFollowers = async (req, res) => {
     try {
         const user_id = req.params.user_id;
-        
+
         const result = await followService.getFollowersService(user_id);
 
         res.status(200).json({ data: result, status: 200 });
@@ -14,10 +14,17 @@ const getFollowers = async(req, res) => {
     }
 }
 
-const getFollowed = async(req, res) => {
+const getFollowed = async (req, res) => {
     try {
-        const user_id = req.params.user_id;
-        
+
+        let user_id = req.params.user_id;
+        if (user_id === undefined) {
+            user_id = req.cookies.session_id;
+            user_id = jwt.verify(user_id, config.SECRET_KEY);
+            user_id = user_id.user.id;
+        }
+        console.log("user_id", user_id);
+
         const result = await followService.getFollowedService(user_id);
 
         res.status(200).json({ data: result, status: 200 });
