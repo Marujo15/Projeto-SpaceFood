@@ -74,7 +74,7 @@ export function loginScript() {
 
             const data = await response.json();
 
-            const switchPage = event('/home');
+            const switchPage = event('/');
             window.dispatchEvent(switchPage);
 
             return data;
