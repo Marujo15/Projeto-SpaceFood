@@ -6,7 +6,7 @@ import { createRecipeCard } from "./modules/postRecipe.js";
 import { generateRecipeCards, recipesData } from "./modules/recipesCard.js";
 import { recipeFavoriteData } from "./modules/btnfavorite.js";
 import { setCurrentTab, getCurrentTab } from "./modules/tabIdentifier.js";
-
+import { perfil } from "./modules/perfil.js"
 
 export const homePage = () => {
 
@@ -96,9 +96,7 @@ export async function homeScript() {
                     'Content-Type': 'application/json',
                 }
             })
-            console.log("response:", response)
             const data = await response.json();
-            console.log("data:", data)
 
             if (!response.ok) {
                 // deletar cookies
@@ -159,7 +157,7 @@ export async function homeScript() {
         feed.innerHTML = ''
         modal.style.display = "none";
         setCurrentTab('perfil')
-        Perfil(feed, data, "edit", modal , modalContent, { userName, userUsername })
+        perfil(feed, data.data, "edit", modal , modalContent, { userName, userUsername })
     })
 
 }

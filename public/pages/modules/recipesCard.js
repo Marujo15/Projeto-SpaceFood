@@ -47,8 +47,9 @@ export function elapseTime(postDate) {
 function generateRecipeCards(recipesData, quantity, feed) {
     const modalContent = document.getElementById('recipe-content');
 
-    for (let i = 0; i <= quantity; i++) {
+    for (let i = 0; i < quantity; i++) {
         const recipe = recipesData.data[i];
+        console.log('recipe:', recipe)
 
         const post = document.createElement("div");
         const divCard = document.createElement("div");
@@ -102,7 +103,6 @@ function generateRecipeCards(recipesData, quantity, feed) {
         buttonComment(recipe, divButtons, post, recipe_id);
         buttonLike(recipe, divButtons, recipe_id);
 
-        console.log("recipe", recipe);
         if (recipe.user_image === null) {
             imgUser.src = "static/svg/newUser.svg"
         } else {

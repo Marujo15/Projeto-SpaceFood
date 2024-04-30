@@ -7,7 +7,7 @@ window.addEventListener('customEvent', (e) => {
 
     const page = pageRouter.getPage(path);
 
-    history.pushState({}, '', path);
+    history.pushState(null, null, path);
 
     document.getElementById('root').innerHTML = "";
     document.getElementById('root').appendChild(page);

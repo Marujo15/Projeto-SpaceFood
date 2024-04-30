@@ -5,6 +5,8 @@ import { setCurrentTab } from "./tabIdentifier.js"
 
 export async function perfil(feed, data, editOrFollow, modal, modalContent, aside) {
 
+
+    console.log(`Data do perfil: ${JSON.parse(data)}`)
     const perfilHeader = document.createElement('div')
     const perfilImgNameUsername = document.createElement('div')
     const perfilImg = document.createElement('div')

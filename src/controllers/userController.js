@@ -8,7 +8,7 @@ const validator = require('../utils/userValidator');
 
 const getPerfil = (req, res) => {
     const { id, name, username, email, biography, image, created_at, updated_at } = req.user
-    
+
     return res.status(200).json(
         {
             id,
@@ -27,7 +27,7 @@ const getPerfilById = async (req, res) => {
     try {
         let user_id = req.params.user_id;
 
-        if(user_id === "0"){
+        if (user_id === "0") {
             user_id = req.cookies.session_id;
             user_id = jwt.verify(user_id, SECRET_KEY);
             user_id = user_id.user.id;
@@ -103,8 +103,20 @@ const updatePerfil = async (req, res) => {
         const { name, username, biography } = req.body;
 
         const updates = {};
-        if (name) updates.name = name.trim();
-        if (username) updates.username = username.trim();
+        if (!validator.isEmpty(name)) { updates.name = name.trim() }
+        else {
+            const error = new Error("Nome não pode estar vazio.");
+            error.status = 400;
+            throw error;
+        };
+
+        if (!validator.isEmpty(username)) { updates.username = username.trim() }
+        else {
+            const error = new Error("Nome de usuário não pode estar vazio.");
+            error.status = 400;
+            throw error;
+        }
+
         if (biography) updates.biography = biography.trim();
 
         if (req.file) {
@@ -112,12 +124,6 @@ const updatePerfil = async (req, res) => {
         }
 
         if (updates.name) {
-            if (validator.isEmpty(updates.name)) {
-                const error = new Error("Nome não pode estar vazio.");
-                error.status = 400;
-                throw error;
-            }
-
             if (!validator.nameSize(updates.name)) {
                 const error = new Error("O nome não pode ser maior que 100 caracteres.");
                 error.status = 422;
@@ -126,12 +132,6 @@ const updatePerfil = async (req, res) => {
         }
 
         if (updates.username) {
-            if (validator.isEmpty(updates.username)) {
-                const error = new Error("Nome de usuário não pode estar vazio.");
-                error.status = 400;
-                throw error;
-            }
-
             if (validator.hasSpace(updates.username)) {
                 const error = new Error("Nome de usuário não pode conter espaços.");
                 error.status = 400;
@@ -164,7 +164,7 @@ const updatePerfil = async (req, res) => {
         const oldImage = await userService.updatePerfilService(user_id, updates);
 
         if (updates.image) {
-            if (oldImage !== "DEFAULT.png") {
+            if ((oldImage !== "DEFAULT.png") && oldImage) {
                 const image = path.join(__dirname, '..', 'uploads', oldImage);
                 fs.unlink(image, (err) => {
                     if (err) {
