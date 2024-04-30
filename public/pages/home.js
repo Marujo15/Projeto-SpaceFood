@@ -153,6 +153,15 @@ export async function homeScript() {
     });
 
     btnPerfil.addEventListener('click', () => {
+        setCurrentTab("perfil");
+
+        const header = document.getElementById("header-btn");   
+        const currentTab = getCurrentTab();
+        
+        if (currentTab === "perfil") {
+            header.style.display = "none";
+        }
+ 
         fetch(`/api/user/0`)
                 .then(response => response.json())
                 .then(data => {
@@ -179,6 +188,7 @@ export function favorites(feed, modal) {
 
     const currentTab = getCurrentTab();
     if (currentTab === "favorite") {
+        header.style.display = "flex";
         headerAll.style.display = "none";
         headerFollowing.style.display = "none";
         headerSearchFavorite.style.display = "block";
@@ -214,6 +224,7 @@ export function home(feed, modal) {
 
     const currentTab = getCurrentTab();
     if (currentTab === "home") {
+        header.style.display = "flex";
         headerAll.style.display = "block";
         headerFollowing.style.display = "block";
         headerSearchFavorite.style.display = "none";

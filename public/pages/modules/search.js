@@ -23,6 +23,7 @@ async function search(feed) {
 
     const currentTab = getCurrentTab();
     if (currentTab === "search") {
+        header.style.display = "flex";
         headerAll.style.display = "none";
         headerFollowing.style.display = "none";
         headerSearchFavorite.style.display = "block";

@@ -118,6 +118,12 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
     let selectedFile = null
     inputPerfilPhoto.addEventListener('change', (e) => {
         selectedFile = e.target.files[0]
+        const photo = e.target.files;
+        const fr = new FileReader();
+        fr.onload = function () {
+            img.src = fr.result;
+        }
+        fr.readAsDataURL(photo[0]);
     })
 
     perfilModalInput.appendChild(spanPerfilModalMessage)

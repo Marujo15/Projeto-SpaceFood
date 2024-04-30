@@ -33,11 +33,11 @@ export function elapseTime(postDate) {
     if (minutes < 1) {
         return "Agora a pouco"
     } else if (minutes >= 1 && minutes < 60) {
-        return `${Math.floor(minutes)} m`;
+        return `A ${Math.floor(minutes)} m`;
     } else if (hours >= 1 && hours <= 24) {
-        return `${Math.floor(hours)} h`; 
+        return `A ${Math.floor(hours)} h`; 
     } else if (days >= 1 && days <= 7) {
-        return `${Math.floor(days)} d`; 
+        return `A ${Math.floor(days)} d`; 
     } else {
         const options = { day: 'numeric', month: 'short', year: 'numeric' };
         const localDate = recipeDate.toLocaleDateString(undefined, options);
