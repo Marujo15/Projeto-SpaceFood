@@ -100,7 +100,7 @@ const registerUser = async (req, res) => {
 
 const updatePerfil = async (req, res) => {
     try {
-        const { name, username, biography } = req.body;
+        const { name, username, biography } = JSON.parse(req.body.data);
 
         const updates = {};
         if (!validator.isEmpty(name)) { updates.name = name.trim() }
@@ -193,7 +193,7 @@ const updatePerfil = async (req, res) => {
     }
 }
 
-const checkUsername = async (req, res, next) => {
+const checkUsername = async (req, res) => {
     try {
         const username = req.params.username;
 
