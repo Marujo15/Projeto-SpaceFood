@@ -3,7 +3,7 @@ import event from "./event.js"
 import { perfil } from "./perfil.js"
 import { setCurrentTab } from "./tabIdentifier.js"
 
-export function perfilModal(feed, data, editOrFollow, modalContent, modal, aside, perfilDiv) {
+export async function perfilModal(feed, data, editOrFollow, modalContent, modal, aside, perfilDiv) {
     modalContent.innerHTML = ""
 
     /* div's */
@@ -55,7 +55,7 @@ export function perfilModal(feed, data, editOrFollow, modalContent, modal, aside
     perfilModalImg.appendChild(img)
 
     img.alt = "perfil-photo"
-    img.src = data.image
+    img.src = "/assets/" + data.data.user_image
 
     perfilModalContainerImgInputs.appendChild(perfilModalNameUsername)
 
@@ -64,25 +64,29 @@ export function perfilModal(feed, data, editOrFollow, modalContent, modal, aside
 
     nameInput.type = "text"
     nameInput.placeholder = "Nome:"
-    nameInput.value = data.name
+    nameInput.value = data.data.user_name
     nameInput.id = 'perfil-modal-name-input'
 
     perfilModalNameUsername.appendChild(usernameInput)
 
     usernameInput.type = "text"
     usernameInput.placeholder = "Nome de usuário:"
-    usernameInput.value = data.username
+    usernameInput.value = data.data.user_username
     usernameInput.id = 'perfil-modal-username-input'
     usernameInput.addEventListener('blur', async () => {
         try {
             const response = await fetch(`/api/user/register/username/${document.getElementById('perfil-modal-username-input').value.trim()}`)
 
-            const data = await response.json()
+            const data1 = await response.json()
 
             console.log('response:', response)
-            console.log('data', data)
+            console.log('data1', data1)
 
-            if (!response.ok) {
+            if (document.getElementById('perfil-modal-username-input').value.trim() === data.data.user_username) {
+                spanPerfilModalMessage.innerText = 'Este é o seu nome de usuário 😊'
+                spanPerfilModalMessage.style.color = '#6EDA53'
+            }
+            else if (!response.ok) {
                 spanPerfilModalMessage.innerText = 'Nome de usuário ja cadastrado'
                 spanPerfilModalMessage.style.color = '#B81E19'
             }
@@ -92,7 +96,7 @@ export function perfilModal(feed, data, editOrFollow, modalContent, modal, aside
             }
         }
         catch (error) {
-            console.log("Erro ao requisitar /api/user/register/username username:", error)
+            console.log("Erro ao requisitar /api/user/register/username: ", error)
         }
 
     })
@@ -129,7 +133,7 @@ export function perfilModal(feed, data, editOrFollow, modalContent, modal, aside
     perfilModalBioInput.placeholder = "Bio:"
     perfilModalBioInput.cols = "30"
     perfilModalBioInput.rows = "10"
-    perfilModalBioInput.innerText = data.biography
+    perfilModalBioInput.innerText = data.data.user_biography
 
     perfilModalEditDiv.appendChild(perfilModalButtonDiv)
 
@@ -153,7 +157,7 @@ export function perfilModal(feed, data, editOrFollow, modalContent, modal, aside
         const newBiography = String(perfilModalBioInput.value)
         const password = perfilModalPasswordInput.value
 
-        const oldUsername = String(data.username)
+        const oldUsername = String(data.data.user_username)
 
         /* Primeiro ele verifica se a senha esta correta */
         try {
@@ -171,6 +175,7 @@ export function perfilModal(feed, data, editOrFollow, modalContent, modal, aside
             })
 
             if (!response.ok) {
+                message.style.color = '#B81E19'
                 message.innerText = "Senha incorreta"
             }
             else {
@@ -188,7 +193,10 @@ export function perfilModal(feed, data, editOrFollow, modalContent, modal, aside
 
                     const bodyObj = selectedFile !== null ? formData : JSON.stringify(newDates)
 
-                    const response = await fetch(`/api/user/${data.id}`, {
+                    console.log('bodyObj: ', bodyObj);
+                    console.log('data.data.user_id: ', data.data.user_id)
+
+                    const response = await fetch(`/api/user/${String(data.data.user_id)}`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
@@ -197,8 +205,8 @@ export function perfilModal(feed, data, editOrFollow, modalContent, modal, aside
                     })
 
                     if (!response.ok) {
+                        message.style.color = '#B81E19'
                         message.innerText = "Erro, por favor verifique os campos"
-                        console.error(data)
                     }
 
                     else {
@@ -227,8 +235,6 @@ export function perfilModal(feed, data, editOrFollow, modalContent, modal, aside
                                 console.error("Erro ao atualizar dados na pagina, favor sair e reentrar")
                             }
 
-                            const data2 = await response.json()
-
                             const customEvent = event('/home');
                             window.dispatchEvent(customEvent);
                         }
@@ -252,12 +258,14 @@ export function perfilModal(feed, data, editOrFollow, modalContent, modal, aside
                     modal.style.display = 'none'
                 }
                 catch (error) {
+                    message.style.color = '#B81E19'
                     message.innerText = "Erro, por favor tente de novo"
-                    console.error("Erro ao atualizar dados no banco de dados: ", data.error)
+                    console.error("Erro ao atualizar dados no banco de dados: ", error)
                 }
             }
         }
         catch (error) {
+            message.style.color = '#B81E19'
             message.innerText = "Erro ao verificar senha, por favor tente de novo."
         }
     })

@@ -5,8 +5,9 @@ import { setCurrentTab } from "./tabIdentifier.js"
 
 export async function perfil(feed, data, editOrFollow, modal, modalContent, aside) {
 
+    
+    console.log('data perfil:', data)
 
-    console.log(`Data do perfil: ${JSON.parse(data)}`)
     const perfilHeader = document.createElement('div')
     const perfilImgNameUsername = document.createElement('div')
     const perfilImg = document.createElement('div')
@@ -33,29 +34,6 @@ export async function perfil(feed, data, editOrFollow, modal, modalContent, asid
 
     const button = document.createElement('button')
 
-    async function perfilGET(id) {
-        try {
-            const response = await fetch(`/api/user/${id}`)
-
-            const data = await response.json()
-
-            if (!response.ok) {
-                throw console.error(data.error)
-            }
-
-            return data
-        }
-
-        catch (error) {
-            console.error("Erro ao fazer requisição ao Banco de dados: ", error)
-            feed.innerHTML = ""
-            setCurrentTab("home");
-            home(feed, modal);
-        }
-    }
-
-    const recipesData = await perfilGET(data.id)
-
     perfilHeader.classList.add('perfil-header')
     perfilHeader.appendChild(perfilImgNameUsername)
     perfilHeader.appendChild(perfilBioFollowingFollowers)
@@ -69,7 +47,7 @@ export async function perfil(feed, data, editOrFollow, modal, modalContent, asid
     perfilImg.classList.add('perfil-img')
     perfilImg.appendChild(perfilPhoto)
 
-    perfilPhoto.src = recipesData.data.user_image
+    perfilPhoto.src = "/assets/" + data.data.user_image
     perfilPhoto.alt = 'perfil-photo'
 
     perfilNameUsername.classList.add('perfil-name-username')
@@ -79,13 +57,13 @@ export async function perfil(feed, data, editOrFollow, modal, modalContent, asid
     perfilClassName.classList.add('perfil-class-name')
     perfilClassName.appendChild(perfilIdName)
 
-    perfilIdName.innerText = recipesData.data.user_name
+    perfilIdName.innerText = data.data.user_name
     perfilIdName.id = "user-name"
 
     perfilClassUsername.classList.add('perfil-class-username')
     perfilClassUsername.appendChild(perfilIdUsername)
 
-    perfilIdUsername.innerText = '@' + recipesData.data.user_username
+    perfilIdUsername.innerText = '@' + data.data.user_username
     perfilIdUsername.id = 'user-username'
 
     perfilBioFollowingFollowers.classList.add('perfil-bio-following-followers')
@@ -95,7 +73,7 @@ export async function perfil(feed, data, editOrFollow, modal, modalContent, asid
     perfilBio.classList.add('perfil-bio')
     perfilBio.appendChild(bio)
 
-    bio.innerText = recipesData.data.user_biography
+    bio.innerText = data.data.user_biography
 
     perfilFollowingFollowers.classList.add('perfil-following-followers')
     perfilFollowingFollowers.appendChild(perfilFollowing)
@@ -109,7 +87,7 @@ export async function perfil(feed, data, editOrFollow, modal, modalContent, asid
     perfilFollowingSpan.innerText = 'Following: '
 
     perfilIdFollowing.id = 'perfil-id-following'
-    perfilIdFollowing.innerText = recipesData.data.following_count
+    perfilIdFollowing.innerText = data.data.following_count
 
     perfilFollowers.classList.add('perfil-followers')
     perfilFollowers.appendChild(perfilFollowerSpan)
@@ -119,7 +97,7 @@ export async function perfil(feed, data, editOrFollow, modal, modalContent, asid
     perfilFollowerSpan.innerText = 'Followers: '
 
     perfilIdFollowers.id = 'perfil-id-followers'
-    perfilIdFollowers.innerText = recipesData.data.followers_count
+    perfilIdFollowers.innerText = data.data.followers_count
 
     perfilButtonDiv.classList.add('perfil-button-div')
     perfilButtonDiv.appendChild(perfilButton)
@@ -152,5 +130,5 @@ export async function perfil(feed, data, editOrFollow, modal, modalContent, asid
 
 
 
-    generateRecipeCards(recipesData, parseInt(recipesData.data.length), feed)
+    generateRecipeCards(data, parseInt(data.data.length), feed)
 }

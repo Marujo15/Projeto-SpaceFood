@@ -116,7 +116,7 @@ export async function homeScript() {
     }
 
     const data = await getLogin();
-    console.log(data);
+    console.log('data home:', data)
 
     const userName = document.getElementById('user-name')
     const userUsername = document.getElementById('user-username')
@@ -157,7 +157,7 @@ export async function homeScript() {
         feed.innerHTML = ''
         modal.style.display = "none";
         setCurrentTab('perfil')
-        perfil(feed, data.data, "edit", modal , modalContent, { userName, userUsername })
+        perfil(feed, data, "edit", modal , modalContent, { userName, userUsername })
     })
 
 }
