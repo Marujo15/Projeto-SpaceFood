@@ -2,6 +2,8 @@ import { recipesDetails } from "./detailsRecipes.js";
 import { buttonComment } from "./btnComment.js";
 import { buttonLike } from "./btnlike.js";
 import { buttonSave } from "./btnfavorite.js";
+import { perfil } from "./perfil.js";
+import { setCurrentTab } from "./tabIdentifier.js";
 
 
 async function recipesData() {
@@ -78,6 +80,23 @@ function generateRecipeCards(recipesData, quantity, feed) {
         divUser.appendChild(divImageUser);
         divUser.appendChild(divUsernamePublication);
         divUser.classList.add("card-user")
+        divUser.addEventListener("click", () => {
+            console.log('recipe.user_id: ', recipe.user_id)
+
+            const userID = recipe.user_id
+
+            fetch(`/api/user/${userID}`)
+                .then(response => response.json())
+                .then(data => {
+                    feed.innerHTML=""
+                    setCurrentTab('perfil')
+                    perfil(feed, data, 'follow')  
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+            
+        })
 
         divImageUser.appendChild(imgUser);
         divImageUser.classList.add("card-image-user");
