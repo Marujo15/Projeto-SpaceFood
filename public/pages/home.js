@@ -282,14 +282,19 @@ export async function folowed(feed, modal) {
         }
     }
 
-    const followedData = await recipesDataFollowers(); // Obter os IDs dos usuários seguidos
-    console.log("followedData",followedData);
-    const followedUserIds = followedData.data.map(item => item.user_id);
+    recipesDataFollowers().then(data => {
+        console.log("data home follow",data)
+        getPosts(data, data.data.length);
+    }).catch(error => {
+        console.error(error);
+    });
 
-    const allRecipes = await recipesData(); // Obter todas as receitas
-    const filteredRecipes = allRecipes.data.filter(recipe => followedUserIds.includes(recipe.user_id));
-    console.log(filteredRecipes);
-
-    generateRecipeCards(filteredRecipes, filteredRecipes.length, feed);
+    async function getPosts(data, quantity) {
+        try {
+            generateRecipeCards(data, quantity, feed);
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
 }

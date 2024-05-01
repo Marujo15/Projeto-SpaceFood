@@ -23,10 +23,10 @@ async function recipesData() {
 
 async function recipesDataFollowers() {
     try {
-        const response = await fetch(`/api/follow/followed/`);
+        const response = await fetch(`/api/recipe/following/`);
         console.log("response do data follow",response);
         const data = await response.json();
-        console.log(data);
+        console.log("data",data);
         if (!response.ok) {
             throw new Error('Erro ao tentar recuperar os dados da receita');
         }
