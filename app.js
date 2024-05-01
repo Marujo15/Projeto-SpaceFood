@@ -7,15 +7,10 @@ const port = config.PORT;
 const ip = config.ADDRESS;
 const cookieParser = require('cookie-parser');
 
-const publicPath = path.join(__dirname, 'public')
-
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.json({ limit: '50mb' }));
 
-app.use(express.static(publicPath))
-
-app.use('/assets', express.static(path.join(__dirname, 'src', 'uploads')));
 app.use('/api', routes);
 
 app.get('/*', (req, res) => {
