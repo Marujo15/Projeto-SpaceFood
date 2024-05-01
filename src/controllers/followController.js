@@ -10,6 +10,7 @@ const getFollowers = async (req, res) => {
 
         res.status(200).json({ data: result, status: 200 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 }
@@ -29,6 +30,7 @@ const getFollowed = async (req, res) => {
 
         res.status(200).json({ data: result, status: 200 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 }
@@ -44,6 +46,7 @@ const follow = async (req, res) => {
         await followService.followService(followed, user_id);
         res.status(200).json({ message: "Usuário seguido com sucesso.", status: 200 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 }
@@ -58,6 +61,7 @@ const unfollow = async (req, res) => {
         await followService.unfollowService(followed, user_id);
         res.status(200).json({ message: "Usuário deixado de seguir com sucesso.", status: 200 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 }

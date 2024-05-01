@@ -12,6 +12,7 @@ const getFavorites = async (req, res) => {
 
         res.status(200).json({ data: result, status: 200 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 }
@@ -26,6 +27,7 @@ const addFavorite = async (req, res) => {
         await favoriteService.addFavoriteService(recipeId, user_id);
         res.status(200).json({ message: "Receita favoritada com sucesso.", status: 200 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 }
@@ -41,6 +43,7 @@ const delFavorite = async (req, res) => {
         await favoriteService.delFavoriteService(recipeId, user_id);
         res.status(200).json({ message: "Receita removida dos favoritos com sucesso.", status: 200 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 }

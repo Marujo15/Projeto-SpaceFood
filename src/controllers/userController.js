@@ -36,6 +36,7 @@ const getPerfilById = async (req, res) => {
         const result = await userService.getPerfilService(user_id);
         res.status(200).json({ data: result, status: 200 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 }
@@ -94,6 +95,7 @@ const registerUser = async (req, res) => {
 
         res.status(201).json({ message: 'Usuário criado com sucesso', status: 201 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 };
@@ -179,13 +181,12 @@ const updatePerfil = async (req, res) => {
         res.status(200).json({ message: 'Usuário atualizado com sucesso', status: 200 });
 
     } catch (error) {
+        console.log("\nError:", error.message);
         if (req.file) {
             const image = path.join(__dirname, '..', 'uploads', req.file.filename);
             fs.unlink(image, (err) => {
                 if (err) {
                     console.error('Erro ao excluir o imagem:', err);
-                } else {
-                    console.log('Imagem excluída com sucesso.');
                 }
             });
         }
@@ -217,6 +218,7 @@ const checkUsername = async (req, res) => {
 
         res.status(200).json({ exists });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 };
@@ -245,6 +247,7 @@ const checkEmail = async (req, res) => {
         const exists = await userService.checkEmailExistsService(email);
         res.status(200).json({ exists });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 };
@@ -271,7 +274,7 @@ const login = async (req, res) => {
         res.status(200).json({ sessionToken });
 
     } catch (error) {
-        console.error('Erro ao tentar fazer login:', error);
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 };
