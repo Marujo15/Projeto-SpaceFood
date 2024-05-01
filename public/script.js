@@ -1,7 +1,6 @@
 import createRouter from './pages/router.js';
 
 const pageRouter = createRouter();
-const root = document.getElementById('root');
 
 window.addEventListener('customEvent', (e) => {
     const path = e.detail.path;
@@ -10,19 +9,20 @@ window.addEventListener('customEvent', (e) => {
 
     history.pushState(null, null, path);
 
-    root.innerHTML = "";
-    root.appendChild(page);
+    document.getElementById('root').innerHTML = "";
+    document.getElementById('root').appendChild(page);
 });
 
-const actualPath = window.location.pathname
+const actualPath = window.location.pathname;
 const actualPage = pageRouter.getPage(actualPath)
-root.appendChild(actualPage)
+document.getElementById('root').innerHTML = "";
+document.getElementById('root').appendChild(actualPage)
 
 window.addEventListener('popstate', () => {
     const newPath = window.location.pathname; 
     
     const page = pageRouter.getPage(newPath); 
     
-    root.innerHTML = '';
-    root.appendChild(page);
+    document.getElementById('root').innerHTML = '';
+    document.getElementById('root').appendChild(page);
 });

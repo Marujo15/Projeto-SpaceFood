@@ -3,10 +3,10 @@ const config = require('../.../src/config'); */
 import { search } from "./modules/search.js";
 import event from "./modules/event.js"
 import { createRecipeCard } from "./modules/postRecipe.js";
-import { generateRecipeCards, recipesData } from "./modules/recipesCard.js";
+import { generateRecipeCards, recipesData, recipesDataFollowers } from "./modules/recipesCard.js";
 import { recipeFavoriteData } from "./modules/btnfavorite.js";
 import { setCurrentTab, getCurrentTab } from "./modules/tabIdentifier.js";
-
+import { perfil } from "./modules/perfil.js"
 
 export const homePage = () => {
 
@@ -46,7 +46,7 @@ export const homePage = () => {
                     </div>
                     <div class="button-user-div">
                         <button class="button-user">
-                            <img src="#" alt="user-photo">
+                            <img src="#" id="user-image" alt="user-photo">
                             <div class="user-details">
                                 <span id="user-name"></span>
                                 <span id="user-username"></span>
@@ -69,8 +69,6 @@ export const homePage = () => {
     document.getElementById("root").appendChild(homeContent);
     homeScript();
 
-    root.appendChild(homeContent);
-
     return homeContent;
 }
 
@@ -82,22 +80,29 @@ export async function homeScript() {
     const btnPost = document.getElementById("post");
     const btnSearch = document.getElementById("search");
     const btnFavorites = document.getElementById("favorites");
+    const btnPerfil = document.querySelector(".button-user")
+    const modalContent = document.getElementById('recipe-content')
+    const headerFollowing = document.getElementById("following");
+    const btnAll = document.getElementById("all");
 
     async function getLogin() {
         try {
-            const response = await fetch(`/api/user/`, {
+            const response = await fetch(`/api/user/0`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 }
             })
-            console.log("response:", response)
             const data = await response.json();
-            console.log("data:", data)
 
             if (!response.ok) {
-                // deletar cookies
-                const customEvent = event('/');
+                await fetch(`/api/user/login`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                const customEvent = event('/login');
                 window.dispatchEvent(customEvent);
                 throw new Error("Erro ao recuperar dados do usuário");
             }
@@ -105,49 +110,93 @@ export async function homeScript() {
         }
 
         catch (error) {
+            await fetch(`/api/user/login`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
             console.error(error.message);
-            const customEvent = event('/');
+            const customEvent = event('/login');
             window.dispatchEvent(customEvent);
         }
-
     }
 
-    // const data = await getLogin();
+    const data = await getLogin();
+
+
 
     const userName = document.getElementById('user-name')
     const userUsername = document.getElementById('user-username')
+    const userImage = document.getElementById('user-image')
 
-    // userName.innerText = data.name
-    // userUsername.innerText = '@' + data.username
+    userName.innerText = data.data.user_name
+    userUsername.innerText = '@' + data.data.user_username
+    userImage.src = `/assets/${data.data.user_image}`
 
     home(feed, modal);
+
+    headerFollowing.addEventListener("click", () => {
+        folowed(feed, modal)
+        history.pushState(null, null, '/following');
+    });
+
+    btnAll.addEventListener("click", () => {
+        setCurrentTab("home");
+        home(feed, modal);
+        modal.style.display = "none";
+        history.pushState(null, null, '/posts');
+    })
 
     btnHome.addEventListener("click", () => {
         setCurrentTab("home");
         home(feed, modal);
+        modal.style.display = "none";
+        history.pushState(null, null, '/posts');
     });
 
     btnPost.addEventListener("click", () => {
+        modal.style.display = "none";
         createRecipeCard();
     });
 
     btnSearch.addEventListener("click", () => {
         feed.innerHTML = '';
+        modal.style.display = "none";
         setCurrentTab("search");
         search(feed);
+        history.pushState(null, null, '/search');
     });
 
     btnFavorites.addEventListener("click", () => {
+        modal.style.display = "none";
         setCurrentTab("favorite");
         console.log("fav?", getCurrentTab());
         favorites(feed, modal);
+        history.pushState(null, null, '/favorites');
     });
 
-    // btnPerfil.addEventListener('click', () => {
-    //     feed.innerHTML = ''
-    //     setCurrentTab('perfil')
-    //     Perfil(feed, userId)
-    // })
+    btnPerfil.addEventListener('click', () => {
+        setCurrentTab("perfil");
+
+        const header = document.getElementById("header-btn");
+        const currentTab = getCurrentTab();
+
+        if (currentTab === "perfil") {
+            header.style.display = "none";
+        }
+
+        fetch(`/api/user/0`)
+            .then(response => response.json())
+            .then(data => {
+                feed.innerHTML = ""
+                perfil(feed, data, "edit", modal, modalContent, { userName, userUsername })
+            })
+            .catch(err => {
+                console.error(err);
+            })
+        history.pushState(null, null, '/perfil');
+    })
 
 }
 
@@ -162,6 +211,7 @@ export function favorites(feed, modal) {
 
     const currentTab = getCurrentTab();
     if (currentTab === "favorite") {
+        header.style.display = "flex";
         headerAll.style.display = "none";
         headerFollowing.style.display = "none";
         headerSearchFavorite.style.display = "block";
@@ -197,10 +247,16 @@ export function home(feed, modal) {
 
     const currentTab = getCurrentTab();
     if (currentTab === "home") {
+        header.style.display = "flex";
         headerAll.style.display = "block";
         headerFollowing.style.display = "block";
         headerSearchFavorite.style.display = "none";
         header.style.borderBottom = "1px solid #0000004f";
+
+        if (headerFollowing.classList.contains("selected")) {
+            headerAll.classList.add("selected");
+            headerFollowing.classList.remove("selected");
+        }
     }
 
     recipesData().then(data => {
@@ -216,4 +272,44 @@ export function home(feed, modal) {
             console.error(error);
         }
     }
+}
+
+export async function folowed(feed, modal) {
+    feed.innerHTML = '';
+    modal.style.display = "none";
+
+    const header = document.getElementById("header-btn");
+    const headerAll = document.getElementById("all");
+    const headerFollowing = document.getElementById("following");
+    const headerSearchFavorite = document.getElementById("search-header");
+
+    const currentTab = getCurrentTab();
+    if (currentTab === "home") {
+        header.style.display = "flex";
+        headerAll.style.display = "block";
+        headerFollowing.style.display = "block";
+        headerSearchFavorite.style.display = "none";
+        header.style.borderBottom = "1px solid #0000004f";
+
+        if (headerAll.classList.contains("selected")) {
+            headerAll.classList.remove("selected");
+            headerFollowing.classList.add("selected");
+        }
+    }
+
+    recipesDataFollowers().then(data => {
+        console.log("data home follow", data)
+        getPosts(data, data.data.length);
+    }).catch(error => {
+        console.error(error);
+    });
+
+    async function getPosts(data, quantity) {
+        try {
+            generateRecipeCards(data, quantity, feed);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
 }

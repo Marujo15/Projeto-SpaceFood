@@ -5,6 +5,7 @@ const authMiddleware = require('../middlewares/authMiddleware');
 
 router.get('/followers/:user_id', authMiddleware, followController.getFollowers);
 router.get('/followed/:user_id', authMiddleware, followController.getFollowed);
+router.get('/followed', authMiddleware, followController.getFollowed);
 router.post('/:user_id', authMiddleware, followController.follow);
 router.delete('/:user_id', authMiddleware, followController.unfollow);
 

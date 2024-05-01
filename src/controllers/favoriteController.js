@@ -2,17 +2,13 @@ const favoriteService = require('../service/favoriteService');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 
-const getFavorites = async(req, res) => {
+const getFavorites = async (req, res) => {
     try {
         let user_id = req.cookies.session_id;
         user_id = jwt.verify(user_id, config.SECRET_KEY);
         user_id = user_id.user.id;
-        
-        const result = await favoriteService.getFavoritesService(user_id);
 
-        if(result.length === 0) {
-            return res.status(200).json({ data: "Nenhuma receita favoritada.", status: 200 });
-        }
+        const result = await favoriteService.getFavoritesService(user_id);
 
         res.status(200).json({ data: result, status: 200 });
     } catch (error) {
@@ -40,8 +36,8 @@ const delFavorite = async (req, res) => {
         let user_id = req.cookies.session_id;
         user_id = jwt.verify(user_id, config.SECRET_KEY);
         user_id = user_id.user.id;
-        console.log("user_id:",user_id);
-        console.log("recipe_id:",recipeId);
+        console.log("user_id:", user_id);
+        console.log("recipe_id:", recipeId);
         await favoriteService.delFavoriteService(recipeId, user_id);
         res.status(200).json({ message: "Receita removida dos favoritos com sucesso.", status: 200 });
     } catch (error) {

@@ -11,7 +11,22 @@ const getLikesRecipe = async(req, res) => {
         if(result.length === 0) {
             return res.status(200).json({ data: "Sem curtidas nessa receita.", status: 200 });
         }
+      
+        res.status(200).json({ data: result, status: 200 });
+      
+    } catch (error) {
+        res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
+    }
+}
 
+const getLikes = async(req, res) => {
+    try {
+        let user_id = req.cookies.session_id;
+        user_id = jwt.verify(user_id, config.SECRET_KEY);
+        user_id = user_id.user.id;
+
+        const result = await likeService.getLikesService(user_id);
+      
         res.status(200).json({ data: result, status: 200 });
     } catch (error) {
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
@@ -49,4 +64,5 @@ module.exports = {
     getLikesRecipe,
     likeRecipe,
     removeLikeRecipe,
+    getLikes,
 }

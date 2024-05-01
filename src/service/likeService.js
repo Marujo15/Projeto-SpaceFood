@@ -12,6 +12,24 @@ const getLikesRecipeService = async (recipe_id) => {
     }
 }
 
+const getLikesService = async (user_id) => {
+    try {
+        const result = await likeRepository.getLikes(user_id);
+
+        if(result.length === 0) {
+            const error = new Error("Ainda não há curtidas.");
+            error.status = 404;
+            throw error;
+        }
+
+        return result;
+    } catch (error) {
+        error.message = error.message || "Ocorreu um erro interno.";
+        error.status = error.status || 500;
+        throw error;
+    }
+}
+
 const likeRecipeService = async(recipe_id, user_id) => {
     try {
         await likeRepository.likeRecipeQuery(recipe_id, user_id);
@@ -46,4 +64,5 @@ module.exports = {
     getLikesRecipeService,
     likeRecipeService,
     removeLikeRecipeService,
+    getLikesService,
 }

@@ -2,13 +2,14 @@
     --B1: #1B1B1B;
     --B2: #2A2A2A;
     --B3: #EAE7D3;
+    --B5: #f5f3e4;
     --B4: #F6F3DE;
-    --C1: #DC1F1F;
+    --C1: #03071E;
     --C2: #B81E19;
-    --C3: #EE4510;
-    --C4: #FF6A00;
-    --C5: #FF7614;
-    --C6: #FF8228;
+    --C3: #9D0208;
+    --C4: #6A040F;
+    --C5: #D00000;
+    --C6: #03071E;
     --C7: #6EDA53;
 
     --star: #C3AC98;
@@ -70,9 +71,9 @@ body{
     user-select: none;          
 }
 
-/* Panets + stars */
 .fundo{
     position: absolute;
+    left: 0;
     display: flex;
     width: 100%;
     height: 100dvh;
@@ -106,11 +107,12 @@ img{
     top: 200px;
 }
 
-/* Wlecome + Logo */
 .text-div{
     display: flex;
     flex-direction: column;
     position: relative;
+    left: 50%;
+    transform: translate( -50%, 0);
     width: 380px;
     height: 250px;
 }
@@ -132,23 +134,21 @@ img{
 
 .txt-sp3{
     font-size: 45px;
-    color: var(--C4);
+    color: var(--C5);
     position: absolute;
     left: 140px;
     top: 185px;
 }
 
-/* Login display + Inputs */
 .login-display{
     background: var(--B3);
     display: flex;
     width: 650px;
-    height: 380px;
+    height: 350px;
     border-radius: 30px;
     justify-content: center;
     align-items: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-    overflow: hidden;
 }
 
 form{
@@ -159,13 +159,13 @@ form{
     width: 100%;
     height: 100%;
 
-    margin-top: 50px;
+    margin-top: 100px; 
 }
 
-#username-input, #password-input, #name-input, #email-input, #confirm-password-input{
-    height: 40px;
+#username-input, #password-input{
+    height: 50px;
     width: 80%;
-    font-size: 20px;
+    font-size: 25px;
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -174,11 +174,43 @@ form{
     box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.3);
     outline: none;
     padding-left: 20px;
+}
+
+#username-input{
     margin-bottom: 15px;
 }
 
-#submit-button{
+#password-input{
     margin-top: 15px;
+}
+
+.options{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+}
+
+.options button, .options div label, .options div{
+    font-size: 18px;
+    color: var(--B1);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all 300ms ease;
+}
+
+.options button:hover, .options div:hover{
+    font-weight: 500;
+    scale: 1.01;
+}
+
+.options button{
+    color: var(--C5);
+}
+
+#login-submit-button{
+    margin-top: 30px;
     height: 40px;
     width: 130px;
     background: var(--C6);
@@ -191,7 +223,7 @@ form{
     transition: all 300ms ease;
 }
 
-#submit-button:hover{
+#slogin-submit-button:hover{
     scale: 1.03;
     background: var(--C5);
 }

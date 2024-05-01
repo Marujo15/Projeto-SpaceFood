@@ -2,15 +2,11 @@ const followService = require('../service/followService');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 
-const getFollowers = async(req, res) => {
+const getFollowers = async (req, res) => {
     try {
         const user_id = req.params.user_id;
-        
-        const result = await followService.getFollowersService(user_id);
 
-        if(result.length === 0) {
-            return res.status(200).json({ data: "Nenhum seguidor.", status: 200 });
-        }
+        const result = await followService.getFollowersService(user_id);
 
         res.status(200).json({ data: result, status: 200 });
     } catch (error) {
@@ -18,15 +14,18 @@ const getFollowers = async(req, res) => {
     }
 }
 
-const getFollowed = async(req, res) => {
+const getFollowed = async (req, res) => {
     try {
-        const user_id = req.params.user_id;
-        
-        const result = await followService.getFollowedService(user_id);
 
-        if(result.length === 0) {
-            return res.status(200).json({ data: "Este usuário não segue ninguém.", status: 200 });
+        let user_id = req.params.user_id;
+        if (user_id === undefined) {
+            user_id = req.cookies.session_id;
+            user_id = jwt.verify(user_id, config.SECRET_KEY);
+            user_id = user_id.user.id;
         }
+        console.log("user_id", user_id);
+
+        const result = await followService.getFollowedService(user_id);
 
         res.status(200).json({ data: result, status: 200 });
     } catch (error) {

@@ -119,7 +119,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 34px;
     border-right: 1px solid #0000004f;
 }
 
@@ -181,6 +181,7 @@ main {
     flex-direction: column;
     justify-content: space-between;
     width: 550px;
+    height: 400px;
     margin: 0.5% 0;
     padding: 2.5%;
     background: #FFFEFC;
@@ -195,28 +196,35 @@ main {
     font-weight: 500;
     padding: 1%;
 }
+
 #username-details {
     font-size: 20px;
     font-weight: 500;
     padding: 1%;
+    width: 300px
 }
-.details-image-user{
+
+.details-image-user {
     height: 40px;
     width: 40px;
 }
-.details-container-image-user{
+
+.details-container-image-user {
     height: 42px;
     width: 42px;
     border-radius: 50%;
     margin: 0 1% 0 0;
 }
+
 .post-div-title {
     font-weight: 450;
 }
-.details-user{
+
+.details-user {
     display: flex;
     padding: 1% 2%;
 }
+
 .post-div-title p {
     align-items: center;
     display: flex;
@@ -248,14 +256,24 @@ main {
 ul {
     list-style-type: none;
     max-height: 100vh;
-    padding: 1% 3.5%;
+    padding: 0;
     font-size: 14px;
+    min-height: 150px;
+    min-width: 50%;
+    /* min-height: 50%; */
+    margin: 1%;
+    border: solid #8080804d 2px;
 }
 
 ol {
     max-height: 100vh;
-    padding: 1 0 0 9%;
+    padding: 0 4%;
     font-size: 14px;
+    min-height: 150px;
+    min-width: 50%;
+    /* min-height: 50%; */
+    margin: 1%;
+    border: solid #8080804d 2px;
 }
 
 li {
@@ -265,27 +283,42 @@ li {
 form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 0;
-    position: relative;
-    bottom: -5px;
+    margin-top: 3%;
     padding: 2%;
+    flex-direction: row;
+    flex-grow: 1;
 }
 
-.icone-space{
+.post-recipe-list {
+    display: flex;
+    margin: 1%;
+    max-width: max-content;
+    border-radius: 15px;
+    border: solid #0000004f 1px;
+    padding: 1% 3%;
+    background-color: #e9e3ebb0;
+}
+
+.icone-space  {
     padding: 0 5%;
 }
 
 #post-title {
     font-size: x-large;
+    background: #f7f6f3;
+    padding-bottom: 5%;
 }
 
 .post-tag {
-    height: 50px;
-    overflow: auto;
     padding: 1%;
     font-size: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    background: #f7f6f3;
+    min-width: 50%;
+    min-height: 50%;
+    margin: 1%;
+    border: solid #8080804d 2px;
 }
 
 .post-recipe {
@@ -304,7 +337,6 @@ form {
 
 .post-insert-ingredients-steps {
     width: 100%;
-    height: 40px;
 }
 
 .post-element {
@@ -312,11 +344,45 @@ form {
     display: flex;
     text-align: justify;
     margin: 1%;
+    min-width: 100%;
+    padding: 1%;
 }
 
 .post-recipe-name-category {
     display: flex;
     flex-direction: row;
+    width: 100%;
+    background: #f7f6f3;
+}
+
+.post-div-category {
+    display: flex;
+    flex-direction: row;
+    margin: 1%;
+    border-radius: 15px;
+    border: solid #0000004f 1px;
+    padding: 1% 3%;
+    background-color: #e9e3ebb0;
+}
+.post-delete{
+    padding: 0 0 0 10px;
+    color: var(--C5);
+    font-weight: 600;
+    cursor: pointer;
+}
+.post-move-list{
+    padding: 0 0 0 10px;
+    color: var(--C4);
+    font-weight: 600;
+    cursor: pointer;
+}
+.post-content-category {
+    padding: 1%;
+    display: contents;
+}
+
+.post-div-input-category {
+    background-color: #f7f6f3;
 }
 
 .post-content {
@@ -326,10 +392,28 @@ form {
     justify-content: center;
     background-color: var(--B3);
 }
+.post-content-form {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    background-color: var(--B3);
+}
 
 .post-image {
     display: flex;
     flex-direction: row;
+    flex: 1;
+    justify-content: center;
+    background-color: var(--B3);
+    border-top: solid 1px #eee6e6;
+}
+
+.post-image {
+
+    display: flex;
+    flex-direction: row;
+    background: #f7f6f3;
 }
 
 .pos-tag {
@@ -340,10 +424,11 @@ form {
 }
 
 .post-recipe-content {
+
     display: flex;
     flex-direction: column;
-    width: 100%;
-    margin-left: 3%;
+    min-width: 400px;
+    background: #f7f6f3;
 }
 
 .post-add-category {
@@ -353,7 +438,6 @@ form {
 
 .post-btn-contnt {
     text-align: center;
-    align-content: center;
 }
 
 .post-component-input {
@@ -399,7 +483,7 @@ form {
     margin: 2%;
     height: 30px;
     width: 80px;
-    color: var(--B3);
+    color: #fff;
 }
 
 .post-btn2 {
@@ -407,38 +491,38 @@ form {
     background-color: var(--C6);
     border: none;
     padding: 0.5%;
-    margin: 2%;
+    margin: 1%;
     height: 30px;
     width: 150px;
-    color: var(--B3);
+    color: #fff;
 }
 
 input:focus {
     outline: none;
 }
 
-.post-btn-add:hover {
-    background-color: var(--C4);
-    cursor: pointer;
-}
-
-.post-btn1:hover {
-    background-color: var(--C4);
-    cursor: pointer;
-}
-
-.post-btn2:hover {
+.post-btn-add:hover, .post-btn1:hover ,.post-btn2:hover{
     background-color: var(--C4);
     cursor: pointer;
 }
 
 .post-form-image {
-    width: 150px;
-    height: 150px;
-    background: var(--B2);
-    color: var(--B3);
-    margin: 5%;
+    width: 50%;
     align-content: center;
+    border-radius: 5px;
+    object-fit: cover;
+    padding: 1px;
+}
+.form-input-width{
+    width: 250px;
+}
+#preview-image {
+    max-height: fit-content;
+    width: 50%;
+    max-width: fit-content;
+    object-fit: cover;
+    border: black solid 1px;
+    border-radius: 5px;
 }
 
 #div-step,
@@ -449,7 +533,6 @@ input:focus {
 /* search */
 .search-category {
     display: flex;
-    height: 50px;
     align-items: center;
     margin: 0 1%;
 }
@@ -461,46 +544,60 @@ input:focus {
     padding: 0.75%;
     margin: 0 1%;
 }
-.search-recipe{
-    padding: 0 1%;
-    height: 35px;
+
+.search-recipe {
+    padding: 1%;
+    min-height: fit-content;
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
     justify-content: center;
 }
-.search-menu{
+
+
+.search-menu  {
     background: var(--B4);
     align-items: center;
     justify-content: center;
     display: flex;
     border-bottom: 1px solid #0000004f;
 }
-.search-categories-selected{
-    height: 35px;
-    width: 320px;
+
+.search-categories-selected {
+    min-height: 35px;
+    max-width: fit-content;
+    min-width: 200px; 
     background-color: #fff;
     border: solid var(--B3) 2px;
     border-radius: 5px;
-    overflow: auto;
+    padding: 2%;
+    display: none;
+    flex-wrap: wrap;
 }
-#searche-btn{
+
+
+#searche-btn  {
     margin: 0;
 }
-.searche-title{
+
+
+.searche-title  {
     display: block;
     font-size: 20px;
     width: 50%;
     padding-bottom: 1%;
     border-width: 4px;
     border-bottom: solid;
-    border-image: linear-gradient(to right, #DC1F1F, #FF8228) 1;
+    border-image: linear-gradient(to right, #03071E, #D00000) 1;
     text-align: center;
 }
-.search-result{
+
+.search-result {
     padding: 1%;
     text-align: center;
+    background: #EAE7D3;
 }
+
 /* Show Details */
 .modal {
     background: var(--B4);
@@ -523,6 +620,29 @@ input:focus {
     overflow: auto;
     font-family: 'Roboto';
 }
+
+.modal-post {
+    background: #f7f6f3;
+    ;
+
+    display: none;
+    position: fixed;
+    z-index: 2;
+
+    flex-direction: column;
+    top: 50%;
+    left: 50%;
+    transform: translate(-45%, -45%);
+    min-height: 60%;
+    max-height: 80%;
+    max-width: 70%;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    overflow: auto;
+    font-family: 'Roboto';
+}
+
 .modal-details {
     background: #f7f6f3;
     display: none;
@@ -571,7 +691,9 @@ input:focus {
     height: auto;
     max-height: 100vh;
 }
-.div-recipe-details-itens{
+
+
+.div-recipe-details-itens  {
     width: 33%;
 }
 
@@ -597,6 +719,7 @@ input:focus {
     top: -6px;
     right: -10px;
 }
+
 
 .modal-error {
     justify-content: center;
@@ -710,16 +833,19 @@ input:focus {
 }
 
 .close-comment-feed {
+
     right: -250px;
     top: -7px;
 }
 
 .close-comment-details {
+
     right: -605px;
     top: -5px;
 }
 
 .write-comment {
+
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -729,28 +855,33 @@ input:focus {
 .write-comment input {
     border-radius: 10px;
     padding: 1.5%;
-    border: none;
+    border: 1px solid #dbd4d4;
     height: 25px;
     margin: 1%;
 }
+
 .details-write-comment {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
 
 .details-write-comment input {
     border-radius: 10px;
-    padding: 1.5%;
-    border: none;
-    height: 25px;
+    padding: 0.75%;
+    border: 1px solid #dbd4d4;
+    ;
+    height: 30px;
     margin: 1%;
 }
+
 .write-input-feed {
     width: 77%;
 }
 
 .write-input-details {
+
     width: 90%;
 }
 
@@ -764,6 +895,7 @@ input:focus {
     padding: 1.5%;
     margin: 1%;
 }
+
 .details-write-comment button {
     background: var(--C1);
     color: white;
@@ -771,9 +903,14 @@ input:focus {
     border: none;
     font-size: 14px;
     cursor: pointer;
-    padding: 1.5%;
+    padding: 1%;
     margin: 1%;
 }
+
+.details-info-username-date {
+    margin: 0 1%;
+}
+
 .write-comment-btn-details {
     margin-top: 1.5%;
 }
@@ -782,9 +919,10 @@ input:focus {
     background-color: #f4ebeb21;
     height: 300px;
     border-radius: 10px;
-    overflow: auto;
+    overflow-x: hidden;
     padding: 1%;
 }
+
 .details-published-comments {
     background-color: #f4ebeb21;
     min-height: 0px;
@@ -792,18 +930,21 @@ input:focus {
     overflow: auto;
     padding: 1%;
 }
+
 .comment {
     display: flex;
     flex-direction: row;
     padding: 3%;
     border-bottom: solid #f8efef 1px;
 }
-.comment-details{
+
+.comment-details {
     display: flex;
     flex-direction: row;
     padding: 2%;
     border-bottom: solid #f8efef 1px;
 }
+
 .comment-user-image {
     width: 32px;
     height: 32px;
@@ -811,6 +952,11 @@ input:focus {
     margin-right: 1%;
     border: solid var(--B4) 1px;
     text-align: center;
+}
+
+.comment-user-image img{
+    border: 3px solid var(--B1);
+    border-radius: 50%;
 }
 
 .comment-txt {
@@ -827,28 +973,37 @@ input:focus {
 
 .comment-username {
     font-weight: 600;
+    width: 300px;
 }
+
 .info-user {
     padding: 0 2%;
 }
 
-.image-user{
+.image-user {
     width: 30px;
     height: 30px;
     object-fit: cover;
 }
 
-.card-image-user{
+.card-image-user {
     align-content: center;
 }
 
-.card-user{
+.card-image-user img {
+    border: 3px solid var(--B1);
+    border-radius: 50%;
+}
+
+.card-user {
     display: flex;
     margin-bottom: 2%;
 }
-.card-published{
+
+.card-published {
     font-weight: 100;
     font-size: small;
+    color: var(--B2);
 }
 
 /* --- Aside --- */
@@ -948,6 +1103,11 @@ input:focus {
     margin: 0 10px;
 }
 
+.button-user img{
+    border: 2px solid var(--B1);
+    border-radius: 50%;
+}
+
 .user-details {
     display: flex;
     flex-direction: column;
@@ -963,6 +1123,11 @@ input:focus {
     font-size: 14px;
 }
 
+#user-image {
+    width: 40px;
+    height: 40px;
+}
+
 #user-username {
     font-family: "Roboto", sans-serif;
     font-weight: 300;
@@ -972,7 +1137,14 @@ input:focus {
 }
 
 /* perfil */
-.posts-feed,
+.posts-feed{
+    display: flex;
+    flex-direction: column;
+    height: 90dvh;
+    width: 100%;
+    background:#EAE7D3
+}
+
 .perfil-page {
     display: flex;
     flex-direction: column;
@@ -993,7 +1165,7 @@ input:focus {
 .perfil-header {
     /* border: 5px solid blue; */
     display: flex;
-    height: 30dvh;
+    height: 40dvh;
     background: #fff;
     font-family: 'Roboto';
     border-bottom: 5px double black;
@@ -1002,6 +1174,7 @@ input:focus {
 
 .perfil-img-name-username {
     /*  border: 5px solid yellow; */
+
     width: 25%;
     margin: 10px 0 10px 20px;
 }
@@ -1042,8 +1215,18 @@ input:focus {
 } */
 
 .perfil-img {
-    height: 120px;
-    width: 120px;
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    background: var(--B1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.perfil-img img {
+    height: 140px;
+    width: 140px;
+    border-radius: 50%;
 }
 
 .perfil-bio {
@@ -1059,13 +1242,14 @@ input:focus {
 
 .perfil-button {
     width: fit-content;
+    height: 100%;
     align-self: center;
     justify-self: center;
     margin-bottom: 15px;
     position: relative;
 }
 
-.perfil-button button {
+.perfil-button button  {
     position: absolute;
     right: 10px;
     bottom: -65px;
@@ -1110,19 +1294,16 @@ input:focus {
 } */
 
 .perfil-class-name {
+
     height: 40px;
     white-space: nowrap;
     overflow: auto;
 }
 
 .perfil-following {
+
     margin-right: 5px;
 }
-
-/* .perfil-class-username,
-.perfil-followers {
-    border: 5px solid rgb(180, 0, 135);
-} */
 
 .perfil-class-username {
     height: 40px;
@@ -1138,4 +1319,153 @@ input:focus {
     align-items: center;
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+/* Perfil Modal */
+.perfil-modal-edit-div {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+    height: 90%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: auto;
+}
+
+.perfil-modal-img-name-username {
+    padding: 20px;
+}
+
+.perfil-modal-container-img-inputs {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.perfil-modal-img {
+    height: 150px;
+    width: 150px;
+    background-color: var(--B2);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.perfil-modal-img img {
+    height: 140px;
+    width: 140px;
+    border-radius: 50%;
+}
+
+.perfil-modal-name-username {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 300px;
+}
+
+.perfil-modal-name-username input {
+    height: 100%;
+    margin: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 15px;
+    outline: none;
+    font-size: 18px;
+    border: 1px solid var(--B1);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.perfil-modal-input {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.perfil-modal-input input {
+    display: none;
+}
+
+.perfil-modal-input button {
+    cursor: pointer;
+    height: 40px;
+    width: 140px;
+    font-size: 18px;
+    color: white;
+    background: var(--C4);
+    border: none;
+    border-radius: 10px;
+    transition: all 300ms ease;
+}
+
+.perfil-modal-input button:hover {
+    scale: 1.05;
+    background: var(--C3);
+}
+
+.perfil-modal-input span {
+    padding: 5px 15px;
+    color: var(--C2);
+    font-size: 16px;
+}
+
+.perfil-modal-bio {
+    padding: 20px;
+}
+
+#perfil-modal-bio-input {
+    width: 100%;
+    font-size: 18px;
+    padding: 10px;
+
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    resize: none;
+    outline: none;
+}
+
+.perfil-modal-button-div {
+    /* border: 5px solid orange; */
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.perfil-modal-button-div input{
+    padding-left: 15px;
+    border: 1px solid var(--B2);
+    outline: none;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+#perfil-modal-button {
+    font-size: 20px;
+    width: 100px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background: var(--C4);
+    border: none;
+    border-radius: 10px;
+    transition: all 300ms ease;
+    cursor: pointer;
+}
+
+#perfil-modal-button:hover {
+    scale: 1.05;
+    background: var(--C3);
+}
+
+#followingButton{
+    background: white;
+    color: var(--B1);
+    transition: all 500ms ease;
 }

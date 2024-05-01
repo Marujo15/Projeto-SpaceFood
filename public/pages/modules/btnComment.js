@@ -1,3 +1,4 @@
+import { elapseTime } from "./recipesCard.js";
 import { getCurrentTab } from "./tabIdentifier.js";
 
 function toggleCommentButton(divComment, add, eventHandler) {
@@ -88,7 +89,7 @@ function generateComments(recipe, card, recipe_id, divComment) {
         inputComment.classList.add("write-input-details");
     }
 
-    inputComment.placeholder = "Escreva um comnentário...";
+    inputComment.placeholder = "Escreva um comentário...";
     btnComment.textContent = "Publicar";
     btnComment.addEventListener("click", async () => {
         const data = {
@@ -106,7 +107,7 @@ function generateComments(recipe, card, recipe_id, divComment) {
             });
             if (!response.ok) {
                 const error = await response.json();
-                console.log(error.error);
+                console.error(error.error);
             }
             getComments(recipe_id);
         } catch (error) {
@@ -141,7 +142,7 @@ function generateComments(recipe, card, recipe_id, divComment) {
         divPublishedComments.innerHTML = '';
         console.log("data showComments  :", commentary.data);
 
-        for (let i = commentary.data.length - 1; i >= 0; i--) {
+        for (let i = 0; i <= commentary.data.length ; i++) {
             const data = commentary.data[i];
             console.log("comentário  :", data.commentary_text);
 
@@ -149,11 +150,17 @@ function generateComments(recipe, card, recipe_id, divComment) {
             const imagUserComment = document.createElement("div");
             const divinfo = document.createElement("div");
             const divUser = document.createElement("div");
+
             const divUserComment = document.createElement("div");
             imagUserComment.classList.add("comment-user-image");
 
             const imageUser = document.createElement("img");
             imageUser.classList.add("image-user");
+
+            const publishedComment = document.createElement("p");
+            publishedComment.innerText = elapseTime(data.commentary_date);
+            publishedComment.classList.add("card-published")
+            
 
             if (data.user_image === null) {
                 imageUser.src = "static/svg/newUser.svg"
@@ -164,6 +171,7 @@ function generateComments(recipe, card, recipe_id, divComment) {
             imagUserComment.appendChild(imageUser);
 
             divinfo.appendChild(divUser);
+            divinfo.appendChild(publishedComment);
             divinfo.appendChild(divUserComment);
             divinfo.classList.add("info-user");
 

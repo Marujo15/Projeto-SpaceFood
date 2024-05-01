@@ -1,3 +1,5 @@
+import event from './modules/event.js'
+
 export function registerPage() {
     const registerContent = document.createElement('div')
     registerContent.innerHTML = `
@@ -33,13 +35,23 @@ export function registerPage() {
     
         <main class="login-display">
             <form>
-                <input type="text" placeholder="Username" id="username-input" required>
-                <input type="text" placeholder="Name" id="name-input" required>
+                <input type="text" placeholder="Nome de usuário" id="username-input" required>
+                <input type="text" placeholder="Nome" id="name-input" required>
                 <input type="email" placeholder="Email" id="email-input" required>
-                <input type="password" placeholder="Password" id="password-input" required>
-                <input type="password" placeholder="Confirm Password" id="confirm-password-input" required>
+                <input type="password" placeholder="Senha" id="password-input" required>
+                <input type="password" placeholder="Confirme a senha" id="confirm-password-input" required>
                 <div class="submit-btn-div">
-                    <button class="roboto" type="submit" id="submit-button">Cadastrar</button>
+                    <button class="roboto" id="back-login-button">
+                        <i class='bx bx-arrow-back'></i>
+                    </button>
+
+                    <span id="message-register-span">
+                        
+                    </span>
+
+                    <button class="roboto" type="submit" id="submit-button">
+                        Cadastrar
+                        </button>
                 </div>
             </form>
         </main>
@@ -58,34 +70,65 @@ export function registerScript() {
     const inputEmail = document.getElementById("email-input");
     const inputPassword = document.getElementById("password-input");
     const inputConfirmPassword = document.getElementById("confirm-password-input");
-    const buttonSubmit = document.querySelector('button');
+    const buttonSubmit = document.getElementById('submit-button');
+    const message = document.getElementById('message-register-span')
+    const backButton = document.getElementById('back-login-button')
 
     inputUsename.addEventListener("blur", async () => {
-        console.log("entrou");
-        const username = inputUsename.value;
         try {
-            const response = await fetch(`/api/user/register/username/${username}`);
-            const data = await response.json();
+            const username = String(inputUsename.value);
 
-            if (data.exists) {
-                alert('Este username já está em uso. Por favor, escolha outro.');
+            if (username.trim() === "") {
+                message.style.color = '#B81E19'
+                message.innerText = 'Username não pode ser um campo vazio';
+                return
             }
-        } catch (error) {
-            alert('Ocorreu um erro ao verificar o username.');
+
+            const response = await fetch(`/api/user/register/username/${username}`);
+            const data = await response.json()
+
+            if (!response.ok) {
+                message.style.color = '#B81E19'
+                message.innerText = data.error;
+                return 
+            }
+
+            message.style.color = '#6EDA53'
+            message.innerText = 'Username disponível ✅'
+        } 
+        catch (error) {
+            message.style.color = '#B81E19'
+            message.innerText = 'Erro ao verificar o username.'
+            console.error(`Erro ao verificar o username: `, error);
         }
     });
 
     inputEmail.addEventListener("blur", async () => {
-        const email = inputEmail.value;
         try {
-            const response = await fetch(`/api/user/register/email/${email}`);
-            const data = await response.json();
+            const email = String(inputEmail.value);
 
-            if (data.exists) {
-                alert('Este email já está cadastrado.');
+            if (email.trim() === "") {
+                message.style.color = '#B81E19'
+                message.innerText = 'Email não pode ser um campo vazio';
+                return
             }
-        } catch (error) {
-            console.error('Ocorreu um erro ao verificar o email.');
+
+            const response = await fetch(`/api/user/register/email/${email}`);
+            const data = await response.json()
+
+            if (!response.ok) {
+                message.style.color = '#B81E19'
+                message.innerText = data.error;
+                return 
+            }
+
+            message.style.color = '#6EDA53'
+            message.innerText = 'Email disponível ✅'
+        } 
+        catch (error) {
+            message.style.color = '#B81E19'
+            message.innerText = 'Erro ao verificar o email.'
+            console.error(`Erro ao verificar o email: `, error);
         }
     });
 
@@ -119,7 +162,6 @@ export function registerScript() {
             }
 
             const data = await response.json();
-            console.log('Usuário cadastrado com sucesso:', data);
             window.location.href = "/login";
 
         } catch (error) {
@@ -128,4 +170,9 @@ export function registerScript() {
         }
 
     });
+    backButton.addEventListener('click', (e) => {
+        e.preventDefault()
+        const switchPage = event('/login')
+        window.dispatchEvent(switchPage);
+    })
 }

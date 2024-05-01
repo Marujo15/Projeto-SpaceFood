@@ -2,12 +2,14 @@ import { recipesDetails } from "./detailsRecipes.js";
 import { buttonComment } from "./btnComment.js";
 import { buttonLike } from "./btnlike.js";
 import { buttonSave } from "./btnfavorite.js";
+import { perfil } from "./perfil.js";
+import { setCurrentTab } from "./tabIdentifier.js";
+
 
 async function recipesData() {
     try {
         const response = await fetch(`/api/recipe/`);
         const data = await response.json();
-        console.log("data recipeData:", data);
 
         if (!response.ok) {
             throw new Error('Erro ao tentar recuperar os dados da receita');
@@ -19,7 +21,46 @@ async function recipesData() {
     }
 }
 
-function elapseTime(postDate) {
+async function recipesDataFollowers() {
+    try {
+        const response = await fetch(`/api/recipe/following/`);
+        console.log("response do data follow",response);
+        const data = await response.json();
+        console.log("data",data);
+        if (!response.ok) {
+            throw new Error('Erro ao tentar recuperar os dados da receita');
+        }
+        return data;
+
+    } catch (error) {
+        console.error('Erro ao recuperar dados da receita:', error.message);
+    }
+}
+
+async function recipesDataPerfil(user_id) {
+    try {
+        const response = await fetch(`/api/recipe/`);
+        const data = await response.json();
+        
+        const dataPerfil = [];
+        for (let index = 0; index < data.data.length; index++) {
+            const dataRecipes = data.data;
+            if (dataRecipes[index].user_id === user_id) {
+                dataPerfil.push(dataRecipes[index]);
+            }
+        }
+
+        if (!response.ok) {
+            throw new Error('Erro ao tentar recuperar os dados da receita');
+        }
+        return dataPerfil;
+
+    } catch (error) {
+        console.error('Erro ao recuperar dados da receita:', error.message);
+    }
+}
+
+export function elapseTime(postDate) {
     const recipeDate = new Date(`${postDate}`);
     const end = new Date();
 
@@ -27,12 +68,14 @@ function elapseTime(postDate) {
     const hours = minutes / 60;
     const days = hours / 24;
 
-    if (minutes < 60) {
-        return `${Math.floor(minutes)} m`;
+    if (minutes < 1) {
+        return "Agora a pouco"
+    } else if (minutes >= 1 && minutes < 60) {
+        return `A ${Math.floor(minutes)} m`;
     } else if (hours >= 1 && hours <= 24) {
-        return `${Math.floor(hours)} h`; 
+        return `A ${Math.floor(hours)} h`;
     } else if (days >= 1 && days <= 7) {
-        return `${Math.floor(days)} d`; 
+        return `A ${Math.floor(days)} d`;
     } else {
         const options = { day: 'numeric', month: 'short', year: 'numeric' };
         const localDate = recipeDate.toLocaleDateString(undefined, options);
@@ -43,9 +86,18 @@ function elapseTime(postDate) {
 
 function generateRecipeCards(recipesData, quantity, feed) {
     const modalContent = document.getElementById('recipe-content');
+    let recipes;
+    
+    if (recipesData.data) {
+        recipes = recipesData.data;
+    } else {
+        recipes = recipesData;
+    }
 
-    for (let i = recipesData.data.length - 1; i >= recipesData.data.length - quantity && i >= 0; i--) {
-        const recipe = recipesData.data[i];
+    for (let i = 0; i < quantity && i < recipes.length; i++) {
+        const recipe = recipes[i];
+        
+        console.log('recipe:', recipe)
 
         const post = document.createElement("div");
         const divCard = document.createElement("div");
@@ -74,6 +126,23 @@ function generateRecipeCards(recipesData, quantity, feed) {
         divUser.appendChild(divImageUser);
         divUser.appendChild(divUsernamePublication);
         divUser.classList.add("card-user")
+        divUser.addEventListener("click", () => {
+            console.log('recipe.user_id: ', recipe.user_id)
+
+            const userID = recipe.user_id
+
+            fetch(`/api/user/${userID}`)
+                .then(response => response.json())
+                .then(data => {
+                    feed.innerHTML = ""
+                    setCurrentTab('perfil')
+                    perfil(feed, data, 'follow')
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+
+        })
 
         divImageUser.appendChild(imgUser);
         divImageUser.classList.add("card-image-user");
@@ -99,7 +168,6 @@ function generateRecipeCards(recipesData, quantity, feed) {
         buttonComment(recipe, divButtons, post, recipe_id);
         buttonLike(recipe, divButtons, recipe_id);
 
-        console.log("recipe", recipe);
         if (recipe.user_image === null) {
             imgUser.src = "static/svg/newUser.svg"
         } else {
@@ -108,7 +176,7 @@ function generateRecipeCards(recipesData, quantity, feed) {
 
         username.innerText = recipe.name_user;
 
-        const elapseDate = elapseTime(recipe.recipe_date); 
+        const elapseDate = elapseTime(recipe.recipe_date);
 
         publicationDate.innerText = elapseDate;
         recipeTitle.innerText = recipe.recipe_name;
@@ -123,4 +191,4 @@ function generateRecipeCards(recipesData, quantity, feed) {
 
 }
 
-export { generateRecipeCards, recipesData };
+export { generateRecipeCards, recipesData, recipesDataPerfil, recipesDataFollowers };
