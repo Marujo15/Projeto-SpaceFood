@@ -3,7 +3,7 @@ const config = require('../.../src/config'); */
 import { search } from "./modules/search.js";
 import event from "./modules/event.js"
 import { createRecipeCard } from "./modules/postRecipe.js";
-import { generateRecipeCards, recipesData } from "./modules/recipesCard.js";
+import { generateRecipeCards, recipesData, recipesDataFollowers } from "./modules/recipesCard.js";
 import { recipeFavoriteData } from "./modules/btnfavorite.js";
 import { setCurrentTab, getCurrentTab } from "./modules/tabIdentifier.js";
 import { perfil } from "./modules/perfil.js"
@@ -82,11 +82,8 @@ export async function homeScript() {
     const btnFavorites = document.getElementById("favorites");
     const btnPerfil = document.querySelector(".button-user")
     const modalContent = document.getElementById('recipe-content')
-
-    // const headerAll = document.getElementById("all");
-    // const headerFollowing = document.getElementById("following");
-    // const headerSeacherUser = document.getElementById("search-user");
-    // const headerSearchFavorite = document.getElementById("search-header");
+    const headerFollowing = document.getElementById("following");
+    const btnAll = document.getElementById("all");
 
     async function getLogin() {
         try {
@@ -112,10 +109,12 @@ export async function homeScript() {
             const customEvent = event('/');
             window.dispatchEvent(customEvent);
         }
-        
+
     }
 
     const data = await getLogin();
+
+
 
     const userName = document.getElementById('user-name')
     const userUsername = document.getElementById('user-username')
@@ -126,6 +125,16 @@ export async function homeScript() {
     userImage.src = `/assets/${data.data.user_image}`
 
     home(feed, modal);
+
+    headerFollowing.addEventListener("click", () => {
+        folowed(feed, modal)
+    });
+
+    btnAll.addEventListener("click", () => {
+        setCurrentTab("home");
+        home(feed, modal);
+        modal.style.display = "none";
+    })
 
     btnHome.addEventListener("click", () => {
         setCurrentTab("home");
@@ -155,24 +164,23 @@ export async function homeScript() {
     btnPerfil.addEventListener('click', () => {
         setCurrentTab("perfil");
 
-        const header = document.getElementById("header-btn");   
+        const header = document.getElementById("header-btn");
         const currentTab = getCurrentTab();
-        
+
         if (currentTab === "perfil") {
             header.style.display = "none";
         }
- 
+
         fetch(`/api/user/0`)
-                .then(response => response.json())
-                .then(data => {
-                    feed.innerHTML=""
-                    setCurrentTab('perfil')
-                    perfil(feed, data, "edit", modal , modalContent, { userName, userUsername })
-                })
-                .catch(err => {
-                    console.error(err);
-                })
-        
+            .then(response => response.json())
+            .then(data => {
+                feed.innerHTML = ""
+                perfil(feed, data, "edit", modal, modalContent, { userName, userUsername })
+            })
+            .catch(err => {
+                console.error(err);
+            })
+
     })
 
 }
@@ -229,6 +237,11 @@ export function home(feed, modal) {
         headerFollowing.style.display = "block";
         headerSearchFavorite.style.display = "none";
         header.style.borderBottom = "1px solid #0000004f";
+
+        if (headerFollowing.classList.contains("selected")){
+            headerAll.classList.add("selected");
+            headerFollowing.classList.remove("selected");
+        }
     }
 
     recipesData().then(data => {
@@ -244,4 +257,39 @@ export function home(feed, modal) {
             console.error(error);
         }
     }
+}
+
+export async function folowed(feed, modal) {
+    feed.innerHTML = '';
+    modal.style.display = "none";
+
+    const header = document.getElementById("header-btn");
+    const headerAll = document.getElementById("all");
+    const headerFollowing = document.getElementById("following");
+    const headerSearchFavorite = document.getElementById("search-header");
+
+    const currentTab = getCurrentTab();
+    if (currentTab === "home") {
+        header.style.display = "flex";
+        headerAll.style.display = "block";
+        headerFollowing.style.display = "block";
+        headerSearchFavorite.style.display = "none";
+        header.style.borderBottom = "1px solid #0000004f";
+
+        if (headerAll.classList.contains("selected")){
+            headerAll.classList.remove("selected");
+            headerFollowing.classList.add("selected");
+        }
+    }
+
+    const followedData = await recipesDataFollowers(); // Obter os IDs dos usuários seguidos
+    console.log("followedData",followedData);
+    const followedUserIds = followedData.data.map(item => item.user_id);
+
+    const allRecipes = await recipesData(); // Obter todas as receitas
+    const filteredRecipes = allRecipes.data.filter(recipe => followedUserIds.includes(recipe.user_id));
+    console.log(filteredRecipes);
+
+    generateRecipeCards(filteredRecipes, filteredRecipes.length, feed);
+
 }

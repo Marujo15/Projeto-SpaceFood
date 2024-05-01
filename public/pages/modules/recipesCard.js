@@ -10,12 +10,50 @@ async function recipesData() {
     try {
         const response = await fetch(`/api/recipe/`);
         const data = await response.json();
-        console.log("data recipeData:", data);
 
         if (!response.ok) {
             throw new Error('Erro ao tentar recuperar os dados da receita');
         }
         return data;
+
+    } catch (error) {
+        console.error('Erro ao recuperar dados da receita:', error.message);
+    }
+}
+
+async function recipesDataFollowers() {
+    try {
+        const response = await fetch(`/api/follow/followed/`);
+        console.log("response do data follow",response);
+        const data = await response.json();
+        console.log(data);
+        if (!response.ok) {
+            throw new Error('Erro ao tentar recuperar os dados da receita');
+        }
+        return data;
+
+    } catch (error) {
+        console.error('Erro ao recuperar dados da receita:', error.message);
+    }
+}
+
+async function recipesDataPerfil(user_id) {
+    try {
+        const response = await fetch(`/api/recipe/`);
+        const data = await response.json();
+        
+        const dataPerfil = [];
+        for (let index = 0; index < data.data.length; index++) {
+            const dataRecipes = data.data;
+            if (dataRecipes[index].user_id === user_id) {
+                dataPerfil.push(dataRecipes[index]);
+            }
+        }
+
+        if (!response.ok) {
+            throw new Error('Erro ao tentar recuperar os dados da receita');
+        }
+        return dataPerfil;
 
     } catch (error) {
         console.error('Erro ao recuperar dados da receita:', error.message);
@@ -35,9 +73,9 @@ export function elapseTime(postDate) {
     } else if (minutes >= 1 && minutes < 60) {
         return `A ${Math.floor(minutes)} m`;
     } else if (hours >= 1 && hours <= 24) {
-        return `A ${Math.floor(hours)} h`; 
+        return `A ${Math.floor(hours)} h`;
     } else if (days >= 1 && days <= 7) {
-        return `A ${Math.floor(days)} d`; 
+        return `A ${Math.floor(days)} d`;
     } else {
         const options = { day: 'numeric', month: 'short', year: 'numeric' };
         const localDate = recipeDate.toLocaleDateString(undefined, options);
@@ -48,9 +86,17 @@ export function elapseTime(postDate) {
 
 function generateRecipeCards(recipesData, quantity, feed) {
     const modalContent = document.getElementById('recipe-content');
+    let recipes;
+    
+    if (recipesData.data) {
+        recipes = recipesData.data;
+    } else {
+        recipes = recipesData;
+    }
 
-    for (let i = 0; i < quantity; i++) {
-        const recipe = recipesData.data[i];
+    for (let i = 0; i < quantity && i < recipes.length; i++) {
+        const recipe = recipes[i];
+        
         console.log('recipe:', recipe)
 
         const post = document.createElement("div");
@@ -88,14 +134,14 @@ function generateRecipeCards(recipesData, quantity, feed) {
             fetch(`/api/user/${userID}`)
                 .then(response => response.json())
                 .then(data => {
-                    feed.innerHTML=""
+                    feed.innerHTML = ""
                     setCurrentTab('perfil')
-                    perfil(feed, data, 'follow')  
+                    perfil(feed, data, 'follow')
                 })
                 .catch(err => {
                     console.error(err);
                 })
-            
+
         })
 
         divImageUser.appendChild(imgUser);
@@ -130,7 +176,7 @@ function generateRecipeCards(recipesData, quantity, feed) {
 
         username.innerText = recipe.name_user;
 
-        const elapseDate = elapseTime(recipe.recipe_date); 
+        const elapseDate = elapseTime(recipe.recipe_date);
 
         publicationDate.innerText = elapseDate;
         recipeTitle.innerText = recipe.recipe_name;
@@ -145,4 +191,4 @@ function generateRecipeCards(recipesData, quantity, feed) {
 
 }
 
-export { generateRecipeCards, recipesData };
+export { generateRecipeCards, recipesData, recipesDataPerfil, recipesDataFollowers };
