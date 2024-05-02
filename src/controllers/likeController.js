@@ -21,8 +21,8 @@ const getLikesRecipe = async(req, res) => {
 const getLikes = async(req, res) => {
     try {
         let user_id = req.cookies.session_id;
-        user_id = jwt.verify(user_id, config.SECRET_KEY);
-        user_id = user_id.user.id;
+            user_id = jwt.verify(user_id, config.SECRET_KEY);
+            user_id = user_id.user.id;
 
         const result = await likeService.getLikesService(user_id);
         res.status(200).json({ data: result, status: 200 });

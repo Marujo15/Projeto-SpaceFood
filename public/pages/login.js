@@ -1,3 +1,5 @@
+import { recipeFavoriteData } from './modules/btnfavorite.js';
+import { getLike } from './modules/btnlike.js';
 import event from './modules/event.js'
 
 export const loginPage = () => {
@@ -39,7 +41,7 @@ export const loginPage = () => {
     return loginContent
 }
 
-export function loginScript() {
+export async function loginScript() {
 
     const inputUsername = document.getElementById("username-input");
     const inputPassword = document.getElementById("password-input");
@@ -73,11 +75,18 @@ export function loginScript() {
             }
 
             const data = await response.json();
-
+            
+            const favoriteData = await recipeFavoriteData();
+            localStorage.setItem('favoriteData', JSON.stringify(favoriteData));
+            
+            const likeData = await getLike();
+            localStorage.setItem('likeData', JSON.stringify(likeData));
+            
             const switchPage = event('/home');
             window.dispatchEvent(switchPage);
 
-            return data;
+            return {data};
+
         } catch (error) {
             console.error('Erro ao fazer login:', error.message);
             alert('Erro ao fazer login.');

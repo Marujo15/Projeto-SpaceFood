@@ -1,5 +1,3 @@
-/* const jwt = require('jsonwebtoken');
-const config = require('../.../src/config'); */
 import { search } from "./modules/search.js";
 import event from "./modules/event.js"
 import { createRecipeCard } from "./modules/postRecipe.js";
