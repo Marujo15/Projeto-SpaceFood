@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { SECRET_KEY, SESSION_DURATION } = require('../config');
-const fs = require('fs');
+const { exec } = require('child_process');
 const path = require('path');
 
 const userService = require('../service/userService');
@@ -168,11 +168,10 @@ const updatePerfil = async (req, res) => {
         if (updates.image) {
             if ((oldImage !== "DEFAULT.png") && oldImage) {
                 const image = path.join(__dirname, '..', 'uploads', oldImage);
-                fs.unlink(image, (err) => {
+                const comando = `rm -f ${image}`;
+                exec(comando, (err, stdout, stderr) => {
                     if (err) {
                         console.error('Erro ao excluir o imagem:', err);
-                    } else {
-                        console.log("Imagem excluída com sucesso.");
                     }
                 });
             }
@@ -184,7 +183,8 @@ const updatePerfil = async (req, res) => {
         console.log("\nError:", error.message);
         if (req.file) {
             const image = path.join(__dirname, '..', 'uploads', req.file.filename);
-            fs.unlink(image, (err) => {
+            const comando = `rm -f ${image}`;
+            exec(comando, (err, stdout, stderr) => {
                 if (err) {
                     console.error('Erro ao excluir o imagem:', err);
                 }
