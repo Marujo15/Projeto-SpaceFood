@@ -11,6 +11,7 @@ const getCommentaries = async (req, res) => {
 
         res.status(200).json({ data: result, status: 200 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 }
@@ -40,6 +41,7 @@ const addCommentary = async (req, res) => {
         await commentaryService.addCommentaryService(recipeId, user_id, commentaryText);
         res.status(200).json({ message: "Comentário adicionado com sucesso.", status: 200 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 }

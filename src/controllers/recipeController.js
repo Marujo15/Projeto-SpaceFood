@@ -10,6 +10,7 @@ const getAllRecipes = async (req, res) => {
         const recipes = await recipeService.getAllRecipesService();
         res.status(200).json({ data: recipes, status: 200 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 }
@@ -20,6 +21,7 @@ const getRecipesByPerfil = async (req, res) => {
         const recipes = await recipeService.getRecipesByPerfilService(user_id);
         res.status(200).json({ data: recipes, status: 200 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 }
@@ -32,6 +34,7 @@ const getRecipeByFollowing = async (req, res) => {
         const recipes = await recipeService.getRecipeByFollowingService(user_id);
         res.status(200).json({ data: recipes, status: 200 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 }
@@ -42,6 +45,7 @@ const getRecipeDetailed = async (req, res) => {
         const recipe = await recipeService.getRecipeDetailedService(recipeid);
         res.status(200).json({ data: recipe, status: 200 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 }
@@ -53,6 +57,7 @@ const searchRecipes = async (req, res) => {
         const recipes = await recipeService.searchRecipeService(recipeName, categories);
         res.status(200).json({ data: recipes, status: 200 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 }
@@ -175,6 +180,7 @@ const createRecipe = async (req, res) => {
                 }
             });
         }
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 };
