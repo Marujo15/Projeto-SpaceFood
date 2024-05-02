@@ -7,32 +7,33 @@ export const loginPage = () => {
     loginContent.classList.add("login-content")
 
     loginContent.innerHTML = `
-        <link rel="stylesheet" href="../static/css/loginStyle.css">
-        <div class="fundo">
-            <img class="stars" src="../static/svg/stars.svg">
-            <img class="planeta1" src="../static/svg/planeta.svg">
-            <img class="planeta2" src="../static/svg/planeta2.svg">
+<link rel="stylesheet" href="../static/css/loginStyle.css">
+<div class="fundo">
+    <img class="stars" src="../static/svg/stars.svg">
+    <img class="planeta1" src="../static/svg/planeta.svg">
+    <img class="planeta2" src="../static/svg/planeta2.svg">
+</div>
+
+<header class="text-div">
+    <span class="kaushan txt-sp1">Bem-vindo ao</span>
+    <span class="kaushan txt-sp2">Space</span>
+    <span class="kaushan txt-sp3">Food</span>
+</header>
+
+<main class="login-display">
+    <form>
+        <input type="text" placeholder="Nome de usúario" id="username-input" required>
+        <input type="password" placeholder="Senha" id="password-input" required>
+        <div class="options">
+            <button type="button" id="register-submit-button">Criar uma nova conta</button>
+            <button class="roboto" type="submit" id="login-submit-button">Entrar</button>
         </div>
-
-        <header class="text-div">
-            <span class="kaushan txt-sp1">Welcome to</span>
-            <span class="kaushan txt-sp2">Space</span>
-            <span class="kaushan txt-sp3">Food</span>
-        </header>
-
-        <main class="login-display">
-            <form>
-                <input type="text" placeholder="Nome de usúario" id="username-input" required>
-                <input type="password" placeholder="Senha" id="password-input" required>
-                <div class="options">
-                    <button type="button" id="register-submit-button">Criar uma nova conta</button>
-                </div>
-                <div class="submit-btn-div">
-                    <button class="roboto" type="submit" id="login-submit-button">Entrar</button>
-                </div>
-            </form>
-        </main>
-    `;
+        <div class="submit-btn-div">
+            <span class="error-message"></span>
+        </div>
+    </form>
+</main>
+`;
     document.getElementById("root").innerHTML = '';
     document.getElementById("root").appendChild(loginContent);
 
@@ -47,6 +48,7 @@ export async function loginScript() {
     const inputPassword = document.getElementById("password-input");
     const buttonRegister = document.getElementById("register-submit-button");
     const buttonLogin = document.getElementById("login-submit-button");
+    const message = document.querySelector(".error-message");
 
     buttonRegister.addEventListener("click", (e) => {
         e.preventDefault();
@@ -69,20 +71,18 @@ export async function loginScript() {
                 },
                 body: JSON.stringify(userData)
             });
+            const data = await response.json();
 
             if (!response.ok) {
-                throw new Error('Erro ao fazer login', response,error);
+                const errorMessage = data.error
+                throw 'Erro ao fazer login: ' + errorMessage;
             }
-
-            const data = await response.json();
             
             const favoriteData = await recipeFavoriteData();
             localStorage.setItem('favoriteData', JSON.stringify(favoriteData));
             
             const likeData = await getLike();
             localStorage.setItem('likeData', JSON.stringify(likeData));
-            
-            const switchPage = event('/home');
 
             const switchPage = event('/');
           
@@ -91,8 +91,8 @@ export async function loginScript() {
             return {data};
 
         } catch (error) {
-            console.error('Erro ao fazer login:', error.message);
-            alert('Erro ao fazer login.');
+            message.innerText = "Erro ao fazer login."
+            console.error(error);
         }
     });
 }

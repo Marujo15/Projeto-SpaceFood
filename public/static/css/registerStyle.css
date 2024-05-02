@@ -155,6 +155,10 @@ img {
     overflow: hidden;
 }
 
+.login-display span {
+    font-family: 'Roboto';
+}
+
 form {
     display: flex;
     align-items: center;
@@ -216,7 +220,7 @@ form {
 
 #message-register-span {
     margin-top: 15px;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 #submit-button:hover {

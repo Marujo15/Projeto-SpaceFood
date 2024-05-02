@@ -73,6 +73,13 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
     usernameInput.placeholder = "Nome de usuário:"
     usernameInput.value = data.data.user_username
     usernameInput.id = 'perfil-modal-username-input'
+    usernameInput,addEventListener('input', () => {
+        usernameInput.value = usernameInput.value
+            .toLowerCase()
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .replace(/[^a-z0-9]/g, "_");
+        
+    })
     usernameInput.addEventListener('blur', async () => {
         try {
             const response = await fetch(`/api/user/register/username/${document.getElementById('perfil-modal-username-input').value.trim()}`)
@@ -134,6 +141,7 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
 
     perfilModalBio.classList.add("perfil-modal-bio")
     perfilModalBio.appendChild(perfilModalBioInput)
+    perfilModalBio.appendChild(perfilModalButtonDiv)
 
     perfilModalBioInput.id = "perfil-modal-bio-input"
     perfilModalBioInput.placeholder = "Bio:"
@@ -141,15 +149,13 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
     perfilModalBioInput.rows = "10"
     perfilModalBioInput.innerText = data.data.user_biography
 
-    perfilModalEditDiv.appendChild(perfilModalButtonDiv)
-
     perfilModalButtonDiv.classList.add('perfil-modal-button-div')
     perfilModalButtonDiv.appendChild(perfilModalPasswordInput)
     perfilModalButtonDiv.appendChild(perfilModalButton)
 
     perfilModalPasswordInput.id = "perfil-modal-password-input"
     perfilModalPasswordInput.type = 'password'
-    perfilModalPasswordInput.placeholder = "Confirme com sua senha:"
+    perfilModalPasswordInput.placeholder = "Confirme com senha:"
 
     perfilModalButton.id = "perfil-modal-button"
     perfilModalButton.innerText = "Salvar"
