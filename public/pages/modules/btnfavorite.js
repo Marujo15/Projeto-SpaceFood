@@ -14,8 +14,8 @@ async function buttonSave(recipe, divButtons, recipesData, recipe_id) {
     textSave.classList.add("icone-space");
     imgSave.style.width = "20px";
 
-    
-    const favoriteData = await recipeFavoriteData();
+    const favoriteData = JSON.parse(localStorage.getItem('favoriteData'));
+
     const icon = await iconBtnFavorite(favoriteData, recipe);
     imgSave.src = icon.imgSave;
     textSave.innerText = icon.textSave;
@@ -25,21 +25,29 @@ async function buttonSave(recipe, divButtons, recipesData, recipe_id) {
         if (fav) {
             imgSave.src = "../static/svg/bookmark_fav.svg";
             textSave.innerText = "Favoritado";
+
+            const newFavorite = { "recipe_id":recipe_id, "recipe_name": recipe.recipe_name, "recipe_image": recipe.recipe_image };
+            favoriteData.data.push(newFavorite);
+            localStorage.setItem('favoriteData', JSON.stringify(favoriteData));
+
         } else {
             await deleteFavorite(recipe_id, recipesData);
             imgSave.src = "../static/svg/bookmark.svg";
             textSave.innerText = "Favoritar";
 
+            favoriteData.data = favoriteData.data.data.filter(item => item.recipe_id !== recipe_id);
+            localStorage.setItem('favoriteData', JSON.stringify(favoriteData));
+
             const currentTab = getCurrentTab();
             if (currentTab === "favorite") {
                 favorites(feed, modal);
-                
+
             }
         }
     });
 
     document.addEventListener('modalFechado', async () => {
-        const favoriteData = await recipeFavoriteData();
+        const favoriteData = JSON.parse(localStorage.getItem('favoriteData'));
         const icon = await iconBtnFavorite(favoriteData, recipe);
         imgSave.src = icon.imgSave;
         textSave.innerText = icon.textSave;
@@ -104,7 +112,6 @@ async function deleteFavorite(recipe_id, recipesData) {
 
     } catch (error) {
         console.error('Erro ao recuperar dados da receita:', error.message);
-        // errorMessage.innerText = error.message;
     }
 }
 
