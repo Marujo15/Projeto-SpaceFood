@@ -14,28 +14,23 @@ async function buttonSave(recipe, divButtons, recipesData, recipe_id) {
     textSave.classList.add("icone-space");
     imgSave.style.width = "20px";
 
-    const favoriteData = JSON.parse(localStorage.getItem('favoriteData'));
-
-    const icon = await iconBtnFavorite(favoriteData, recipe);
+    const icon = await iconBtnFavorite(recipe);
     imgSave.src = icon.imgSave;
     textSave.innerText = icon.textSave;
 
     divSave.addEventListener("click", async () => {
-        const fav = await addFavorite(recipe_id, recipesData);
-        if (fav) {
-            imgSave.src = "../static/svg/bookmark_fav.svg";
-            textSave.innerText = "Favoritado";
+        const favoriteData = JSON.parse(localStorage.getItem('favoriteData'));
 
-            const newFavorite = { "recipe_id":recipe_id, "recipe_name": recipe.recipe_name, "recipe_image": recipe.recipe_image };
-            favoriteData.data.push(newFavorite);
-            localStorage.setItem('favoriteData', JSON.stringify(favoriteData));
+        const isFavorited = favoriteData.data.some(item => item.recipe_id === recipe_id);
 
-        } else {
-            await deleteFavorite(recipe_id, recipesData);
+        if (isFavorited) {
+            deleteFavorite(recipe_id, recipesData);
+
             imgSave.src = "../static/svg/bookmark.svg";
             textSave.innerText = "Favoritar";
 
-            favoriteData.data = favoriteData.data.data.filter(item => item.recipe_id !== recipe_id);
+            favoriteData.data = favoriteData.data.filter(item => item.recipe_id !== recipe_id);
+
             localStorage.setItem('favoriteData', JSON.stringify(favoriteData));
 
             const currentTab = getCurrentTab();
@@ -43,18 +38,32 @@ async function buttonSave(recipe, divButtons, recipesData, recipe_id) {
                 favorites(feed, modal);
 
             }
+
+        } else {
+
+            addFavorite(recipe_id, recipesData);
+
+            imgSave.src = "../static/svg/bookmark_fav.svg";
+            textSave.innerText = "Favoritado";
+
+            const newFavorite = { "recipe_id": recipe_id, "recipe_name": recipe.recipe_name, "recipe_image": recipe.recipe_image };
+
+            favoriteData.data.push(newFavorite);
+
+            localStorage.setItem('favoriteData', JSON.stringify(favoriteData));
         }
     });
 
     document.addEventListener('modalFechado', async () => {
-        const favoriteData = JSON.parse(localStorage.getItem('favoriteData'));
-        const icon = await iconBtnFavorite(favoriteData, recipe);
+        const icon = await iconBtnFavorite(recipe);
         imgSave.src = icon.imgSave;
         textSave.innerText = icon.textSave;
     });
 }
 
-async function iconBtnFavorite(favoriteData, recipe) {
+async function iconBtnFavorite(recipe) {
+    const favoriteData = JSON.parse(localStorage.getItem('favoriteData'));
+
     const data = {
         imgSave: "",
         textSave: "",

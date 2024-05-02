@@ -8,41 +8,44 @@ async function buttonLike(recipesData, divButtons, recipe_id) {
     divLike.appendChild(textLike);
     imgLike.style.width = "20px";
 
-    const likeData = JSON.parse(localStorage.getItem('likeData'));
-    
-    const icon = await iconBtnLike(likeData, recipe_id);
+    const icon = await iconBtnLike(recipe_id);
     imgLike.src = icon.imgLike;
     textLike.innerText = icon.textLike;
 
     divLike.addEventListener("click", async () => {
+        const likeData = JSON.parse(localStorage.getItem('likeData'));
+        const isLiked = likeData.data.some(item => item.recipe_id === recipe_id);
 
-        const like = await addLike(recipe_id, recipesData);
-        if (like !== false) {
-            imgLike.src = "../static/svg/liked.svg";
-            textLike.innerText = "Curtido";
-
-            const newLike = { "recipe_id":recipe_id, "user_id": "", };
-            likeData.data.push(newLike);
-            localStorage.setItem('likeData', JSON.stringify(likeData));
-        } else {
-            await deleteLike(recipe_id, recipesData);
+        if (isLiked) {
+            deleteLike(recipe_id, recipesData);
             imgLike.src = "../static/svg/like.svg";
             textLike.innerText = "Curtir";
 
-            likeData.data = likeData.data.data.filter(item => item.recipe_id !== recipe_id);
+            likeData.data = likeData.data.filter(item => item.recipe_id !== recipe_id);
+            localStorage.setItem('likeData', JSON.stringify(likeData));
+
+        } else {
+            addLike(recipe_id, recipesData);
+
+            imgLike.src = "../static/svg/liked.svg";
+            textLike.innerText = "Curtido";
+
+            const newLike = { "recipe_id": recipe_id, "user_id": "", };
+            likeData.data.push(newLike);
             localStorage.setItem('likeData', JSON.stringify(likeData));
         }
     });
 
     document.addEventListener('modalFechado', async () => {
-        const likeData = JSON.parse(localStorage.getItem('likeData'));
-        const icon = await iconBtnLike(likeData, recipe_id);
+        const icon = await iconBtnLike(recipe_id);
         imgLike.src = icon.imgLike;
         textLike.innerText = icon.textLike;
-    });    
+    });
 }
 
-async function iconBtnLike(likeData, recipe_id) {
+async function iconBtnLike(recipe_id) {
+    const likeData = JSON.parse(localStorage.getItem('likeData'));
+
     const data = {
         imgLike: "",
         textLike: "",
