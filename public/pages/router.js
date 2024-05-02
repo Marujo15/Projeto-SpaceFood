@@ -4,13 +4,19 @@ import { homePage } from "./home.js";
 
 function pageRouter() {
     const routes = {
-        '/': loginPage,
+        '/': homePage,
         '/login': loginPage,
         '/register': registerPage,
         '/home': homePage,
     }
 
     const getPage = (path) => {
+
+        if (routes[path] === undefined || routes[path] === null) {
+            history.pushState(null, null, '/');
+            return routes['/']()
+        }
+
         return routes[path]()
     }
 

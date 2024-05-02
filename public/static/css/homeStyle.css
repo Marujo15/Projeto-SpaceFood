@@ -181,6 +181,7 @@ main {
     flex-direction: column;
     justify-content: space-between;
     width: 550px;
+    height: 400px;
     margin: 0.5% 0;
     padding: 2.5%;
     background: #FFFEFC;

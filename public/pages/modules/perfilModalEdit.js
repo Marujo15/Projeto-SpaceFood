@@ -199,16 +199,10 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
 
                     const bodyObj = selectedFile !== null ? formData : JSON.stringify(newDates)
 
-                    console.log('bodyObj: ', bodyObj);
-                    console.log('data.data.user_id: ', data.data.user_id)
-
-                    const response = await fetch(`/api/user/${String(data.data.user_id)}`, {
+                    const response = await fetch(`/api/user/${data.data.user_id}`, {
                         method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
                         body: bodyObj
-                    })
+                    });
 
                     if (!response.ok) {
                         message.style.color = '#B81E19'

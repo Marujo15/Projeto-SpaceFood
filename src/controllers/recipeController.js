@@ -14,6 +14,16 @@ const getAllRecipes = async (req, res) => {
     }
 }
 
+const getRecipesByPerfil = async (req, res) => {
+    try {
+        const user_id = req.params.user_id;
+        const recipes = await recipeService.getRecipesByPerfilService(user_id);
+        res.status(200).json({ data: recipes, status: 200 });
+    } catch (error) {
+        res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
+    }
+}
+
 const getRecipeByFollowing = async (req, res) => {
     try {
         let user_id = req.cookies.session_id;
@@ -171,6 +181,7 @@ const createRecipe = async (req, res) => {
 
 module.exports = {
     getAllRecipes,
+    getRecipesByPerfil,
     getRecipeDetailed,
     getRecipeByFollowing,
     searchRecipes,

@@ -351,7 +351,7 @@ function createRecipeCard() {
             "ingredient": ingredients,
             "step": steps,
             "category": categories,
-            "image": nameInput.value,
+            "image": inputTitleRcipe.value,
         };
         const formData = new FormData();
         formData.append('file', selectedFile);

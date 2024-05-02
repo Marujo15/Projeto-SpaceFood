@@ -83,6 +83,9 @@ export async function loginScript() {
             localStorage.setItem('likeData', JSON.stringify(likeData));
             
             const switchPage = event('/home');
+
+            const switchPage = event('/');
+          
             window.dispatchEvent(switchPage);
 
             return {data};

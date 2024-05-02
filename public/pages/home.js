@@ -94,8 +94,13 @@ export async function homeScript() {
             const data = await response.json();
 
             if (!response.ok) {
-                // deletar cookies
-                const customEvent = event('/');
+                await fetch(`/api/user/login`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                const customEvent = event('/login');
                 window.dispatchEvent(customEvent);
                 throw new Error("Erro ao recuperar dados do usuário");
             }
@@ -103,11 +108,16 @@ export async function homeScript() {
         }
 
         catch (error) {
+            await fetch(`/api/user/login`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
             console.error(error.message);
-            const customEvent = event('/');
+            const customEvent = event('/login');
             window.dispatchEvent(customEvent);
         }
-
     }
 
     const data = await getLogin();
@@ -126,18 +136,21 @@ export async function homeScript() {
 
     headerFollowing.addEventListener("click", () => {
         folowed(feed, modal)
+        history.pushState(null, null, '/following');
     });
 
     btnAll.addEventListener("click", () => {
         setCurrentTab("home");
         home(feed, modal);
         modal.style.display = "none";
+        history.pushState(null, null, '/posts');
     })
 
     btnHome.addEventListener("click", () => {
         setCurrentTab("home");
         home(feed, modal);
         modal.style.display = "none";
+        history.pushState(null, null, '/posts');
     });
 
     btnPost.addEventListener("click", () => {
@@ -150,6 +163,7 @@ export async function homeScript() {
         modal.style.display = "none";
         setCurrentTab("search");
         search(feed);
+        history.pushState(null, null, '/search');
     });
 
     btnFavorites.addEventListener("click", () => {
@@ -157,6 +171,7 @@ export async function homeScript() {
         setCurrentTab("favorite");
         console.log("fav?", getCurrentTab());
         favorites(feed, modal);
+        history.pushState(null, null, '/favorites');
     });
 
     btnPerfil.addEventListener('click', () => {
@@ -178,7 +193,7 @@ export async function homeScript() {
             .catch(err => {
                 console.error(err);
             })
-
+        history.pushState(null, null, '/perfil');
     })
 
 }
@@ -236,7 +251,7 @@ export function home(feed, modal) {
         headerSearchFavorite.style.display = "none";
         header.style.borderBottom = "1px solid #0000004f";
 
-        if (headerFollowing.classList.contains("selected")){
+        if (headerFollowing.classList.contains("selected")) {
             headerAll.classList.add("selected");
             headerFollowing.classList.remove("selected");
         }
@@ -274,14 +289,14 @@ export async function folowed(feed, modal) {
         headerSearchFavorite.style.display = "none";
         header.style.borderBottom = "1px solid #0000004f";
 
-        if (headerAll.classList.contains("selected")){
+        if (headerAll.classList.contains("selected")) {
             headerAll.classList.remove("selected");
             headerFollowing.classList.add("selected");
         }
     }
 
     recipesDataFollowers().then(data => {
-        console.log("data home follow",data)
+        console.log("data home follow", data)
         getPosts(data, data.data.length);
     }).catch(error => {
         console.error(error);

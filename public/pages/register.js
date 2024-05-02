@@ -1,3 +1,5 @@
+import event from './modules/event.js'
+
 export function registerPage() {
     const registerContent = document.createElement('div')
     registerContent.innerHTML = `
@@ -39,7 +41,17 @@ export function registerPage() {
                 <input type="password" placeholder="Senha" id="password-input" required>
                 <input type="password" placeholder="Confirme a senha" id="confirm-password-input" required>
                 <div class="submit-btn-div">
-                    <button class="roboto" type="submit" id="submit-button">Cadastrar</button>
+                    <button class="roboto" id="back-login-button">
+                        <i class='bx bx-arrow-back'></i>
+                    </button>
+
+                    <span id="message-register-span">
+                        
+                    </span>
+
+                    <button class="roboto" type="submit" id="submit-button">
+                        Cadastrar
+                        </button>
                 </div>
             </form>
         </main>
@@ -59,32 +71,64 @@ export function registerScript() {
     const inputPassword = document.getElementById("password-input");
     const inputConfirmPassword = document.getElementById("confirm-password-input");
     const buttonSubmit = document.getElementById('submit-button');
+    const message = document.getElementById('message-register-span')
+    const backButton = document.getElementById('back-login-button')
 
     inputUsename.addEventListener("blur", async () => {
-        const username = inputUsename.value;
         try {
+            const username = String(inputUsename.value);
+
+            if (username.trim() === "") {
+                message.style.color = '#B81E19'
+                message.innerText = 'Username não pode ser um campo vazio';
+                return
+            }
+
             const response = await fetch(`/api/user/register/username/${username}`);
-            const data = await response.json();
+            const data = await response.json()
 
             if (!response.ok) {
-                alert('Este username já está em uso. Por favor, escolha outro.');
+                message.style.color = '#B81E19'
+                message.innerText = data.error;
+                return 
             }
-        } catch (error) {
-            alert('Ocorreu um erro ao verificar o username.');
+
+            message.style.color = '#6EDA53'
+            message.innerText = 'Username disponível ✅'
+        } 
+        catch (error) {
+            message.style.color = '#B81E19'
+            message.innerText = 'Erro ao verificar o username.'
+            console.error(`Erro ao verificar o username: `, error);
         }
     });
 
     inputEmail.addEventListener("blur", async () => {
-        const email = inputEmail.value;
         try {
+            const email = String(inputEmail.value);
+
+            if (email.trim() === "") {
+                message.style.color = '#B81E19'
+                message.innerText = 'Email não pode ser um campo vazio';
+                return
+            }
+
             const response = await fetch(`/api/user/register/email/${email}`);
-            const data = await response.json();
+            const data = await response.json()
 
             if (!response.ok) {
-                alert('Este email já está cadastrado.');
+                message.style.color = '#B81E19'
+                message.innerText = data.error;
+                return 
             }
-        } catch (error) {
-            console.error('Ocorreu um erro ao verificar o email.');
+
+            message.style.color = '#6EDA53'
+            message.innerText = 'Email disponível ✅'
+        } 
+        catch (error) {
+            message.style.color = '#B81E19'
+            message.innerText = 'Erro ao verificar o email.'
+            console.error(`Erro ao verificar o email: `, error);
         }
     });
 
@@ -126,4 +170,9 @@ export function registerScript() {
         }
 
     });
+    backButton.addEventListener('click', (e) => {
+        e.preventDefault()
+        const switchPage = event('/login')
+        window.dispatchEvent(switchPage);
+    })
 }
