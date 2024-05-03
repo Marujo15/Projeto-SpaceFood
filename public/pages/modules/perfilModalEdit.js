@@ -93,6 +93,11 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
     })
     usernameInput.addEventListener('blur', async () => {
         try {
+            if(document.getElementById('perfil-modal-username-input').value.trim() === "") {
+                spanPerfilModalMessage.innerText = 'Nome de usuário não pode estar vazio.'
+                spanPerfilModalMessage.style.color = '#B81E19'
+                return;
+            }
             const response = await fetch(`/api/user/register/username/${document.getElementById('perfil-modal-username-input').value.trim()}`)
 
             const data1 = await response.json()
@@ -216,17 +221,19 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
                         "biography": String(newBiography)
                     }
 
+                    if(newDates.name === "" || newDates.username === "") {
+                        message.style.color = '#B81E19'
+                        message.innerText = "Nome ou nome de usuário não podem ser vazios."
+                        throw new Error("Nome ou nome de usuário não podem ser vazios.")
+                    }
+
                     const formData = new FormData();
                     formData.append('file', selectedFile);
                     formData.append('data', JSON.stringify(newDates));
 
-                    const bodyObj = selectedFile !== null ? formData : JSON.stringify(newDates)
-
-                    console.log("body: ", bodyObj);
-
                     const response = await fetch(`/api/user/${data.data.user_id}`, {
                         method: 'PUT',
-                        body: JSON.stringify(bodyObj)
+                        body: formData
                     });
 
                     if (!response.ok) {
@@ -284,7 +291,7 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
                 }
                 catch (error) {
                     message.style.color = '#B81E19'
-                    message.innerText = "Erro, por favor tente de novo"
+                    message.innerText = error || "Erro, por favor tente de novo"
                     console.error("Erro ao atualizar dados no banco de dados: ", error)
                 }
             }
