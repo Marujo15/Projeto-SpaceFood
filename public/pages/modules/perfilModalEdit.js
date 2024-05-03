@@ -59,15 +59,26 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
 
     perfilModalContainerImgInputs.appendChild(perfilModalNameUsername)
 
+    const nameLabel = document.createElement("label");
+    nameLabel.classList.add("perfil-modal-label-name-username")
     perfilModalNameUsername.classList.add('perfil-modal-name-username')
+    perfilModalNameUsername.appendChild(nameLabel)
     perfilModalNameUsername.appendChild(nameInput)
+
+    nameLabel.textContent = "Nome:"
 
     nameInput.type = "text"
     nameInput.placeholder = "Nome:"
     nameInput.value = data.data.user_name
     nameInput.id = 'perfil-modal-name-input'
 
+    const usernameLabel = document.createElement("label")
+    usernameLabel.classList.add("perfil-modal-label-name-username")
+
+    perfilModalNameUsername.appendChild(usernameLabel)
     perfilModalNameUsername.appendChild(usernameInput)
+
+    usernameLabel.textContent = "Nome de usuário:"
 
     usernameInput.type = "text"
     usernameInput.placeholder = "Nome de usuário:"
@@ -94,7 +105,7 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
                 spanPerfilModalMessage.style.color = '#6EDA53'
             }
             else if (!response.ok) {
-                spanPerfilModalMessage.innerText = 'Nome de usuário ja cadastrado'
+                spanPerfilModalMessage.innerText = 'Nome de usuário já cadastrado'
                 spanPerfilModalMessage.style.color = '#B81E19'
             }
             else {
@@ -144,7 +155,7 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
     perfilModalBio.appendChild(perfilModalButtonDiv)
 
     perfilModalBioInput.id = "perfil-modal-bio-input"
-    perfilModalBioInput.placeholder = "Bio:"
+    perfilModalBioInput.placeholder = "Biografia:"
     perfilModalBioInput.cols = "30"
     perfilModalBioInput.rows = "10"
     perfilModalBioInput.innerText = data.data.user_biography

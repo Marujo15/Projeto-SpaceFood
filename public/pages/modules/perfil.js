@@ -47,11 +47,16 @@ export async function perfil(feed, otherData, editOrFollow, modal, modalContent,
     headerSearchFavorite.innerText = "Perfil";
     headerSearchFavorite.classList.add("roboto", "searche-title");
 
+    const imgBanner = document.createElement("img")
+    imgBanner.src = "../static/svg/banner.jpg"
+    perfilHeader.style.backgroundImage = `url('${imgBanner.src}')`;
+    perfilHeader.style.backgroundSize = "cover";
+    perfilHeader.style.backgroundPosition = "center";
+
     perfilHeader.classList.add('perfil-header')
     perfilHeader.appendChild(perfilImgNameUsername)
     perfilHeader.appendChild(perfilBioFollowingFollowers)
     perfilHeader.appendChild(perfilButtonDiv)
-
 
     perfilImgNameUsername.classList.add('perfil-img-name-username')
     perfilImgNameUsername.appendChild(perfilImg)
@@ -85,6 +90,7 @@ export async function perfil(feed, otherData, editOrFollow, modal, modalContent,
 
     perfilBio.classList.add('perfil-bio')
     perfilBio.appendChild(bio)
+    bio.classList.add("bio");
 
     bio.innerText = otherData.data.user_biography
 

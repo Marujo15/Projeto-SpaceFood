@@ -222,8 +222,9 @@ export async function homeScript() {
             .catch(err => {
                 console.error(err);
             })
+        localStorage.removeItem('likeData');
+        localStorage.removeItem('favoriteData');
     })
-
 }
 
 export function favorites(feed, modal) {
