@@ -22,7 +22,7 @@ export const loginPage = () => {
 
 <main class="login-display">
     <form>
-        <input type="text" placeholder="Nome de usúario" id="username-input" required>
+        <input type="Email" placeholder="Email do usúario" id="email-input" required>
         <input type="password" placeholder="Senha" id="password-input" required>
         <div class="options">
             <button type="button" id="register-submit-button">Criar uma nova conta</button>
@@ -44,7 +44,7 @@ export const loginPage = () => {
 
 export async function loginScript() {
 
-    const inputUsername = document.getElementById("username-input");
+    const inputEmail = document.getElementById("email-input");
     const inputPassword = document.getElementById("password-input");
     const buttonRegister = document.getElementById("register-submit-button");
     const buttonLogin = document.getElementById("login-submit-button");
@@ -57,42 +57,51 @@ export async function loginScript() {
     });
 
     buttonLogin.addEventListener("click", async (e) => {
-        e.preventDefault();
-        const userData = {
-            "username": String(inputUsername.value),
-            "password": String(inputPassword.value),
-        };
 
-        try {
-            const response = await fetch('/api/user/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(userData)
-            });
-            const data = await response.json();
+        const verifyPassword = inputPassword.value === "" || inputPassword.value === undefined;
+        const verifyEmail = inputEmail.value === "" || inputEmail.value === undefined;
 
-            if (!response.ok) {
-                const errorMessage = data.error
-                throw 'Erro ao fazer login: ' + errorMessage;
+        if (verifyEmail || verifyPassword) {
+            message.innerText = "Por favor, preencha todos os campos."
+        } else {
+
+            e.preventDefault();
+            const userData = {
+                "email": String(inputEmail.value),
+                "password": String(inputPassword.value),
+            };
+
+            try {
+                const response = await fetch('/api/user/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(userData)
+                });
+                const data = await response.json();
+
+                if (!response.ok) {
+                    const errorMessage = data.error
+                    throw 'Erro ao fazer login: ' + errorMessage;
+                }
+
+                const favoriteData = await recipeFavoriteData();
+                localStorage.setItem('favoriteData', JSON.stringify(favoriteData));
+
+                const likeData = await getLike();
+                localStorage.setItem('likeData', JSON.stringify(likeData));
+
+                const switchPage = event('/');
+
+                window.dispatchEvent(switchPage);
+
+                return { data };
+
+            } catch (error) {
+                message.innerText = "Erro ao fazer login."
+                console.error(error);
             }
-            
-            const favoriteData = await recipeFavoriteData();
-            localStorage.setItem('favoriteData', JSON.stringify(favoriteData));
-            
-            const likeData = await getLike();
-            localStorage.setItem('likeData', JSON.stringify(likeData));
-
-            const switchPage = event('/');
-          
-            window.dispatchEvent(switchPage);
-
-            return {data};
-
-        } catch (error) {
-            message.innerText = "Erro ao fazer login."
-            console.error(error);
         }
     });
 }
