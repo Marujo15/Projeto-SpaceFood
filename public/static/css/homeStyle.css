@@ -996,10 +996,14 @@ input:focus {
 .comment-username {
     font-weight: 600;
     width: 300px;
+    font-size: 20px;
 }
 
 .info-user {
     padding: 0 4%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .image-user {
@@ -1010,15 +1014,15 @@ input:focus {
 
 .card-image-user {
     align-content: center;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
 }
 
 .card-image-user img {
     border: 1.5px solid var(--B1);
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
 }
 
 .card-user {
@@ -1030,6 +1034,7 @@ input:focus {
     font-weight: 100;
     font-size: small;
     color: var(--B2);
+    font-size: 16px;
 }
 
 /* --- Aside --- */
@@ -1205,11 +1210,11 @@ input:focus {
 
 .perfil-header {
     display: flex;
-    height: 40dvh;
+    justify-content: space-between;
+    height: 27dvh;
     background: #fff;
     font-family: 'Roboto';
     border-bottom: 1px solid #808080ad;
-    flex-direction: column;
     padding: 1% 5%;
 }
 
@@ -1218,15 +1223,18 @@ input:focus {
 
     display: flex;
     justify-content: space-between;
+    width: 430px;
     font-size: 18px;
 }
 
 .perfil-bio-following-followers {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: flex-end;
+    flex-direction: column;
     font-size: 18px;
     padding: 10px;
-    height: 50px;
+    height: 100%;
 }
 
 .perfil-img {
@@ -1247,32 +1255,28 @@ input:focus {
 
 .perfil-bio {
     text-wrap: wrap;
-    overflow-y: auto;
+    overflow-y: hidden;
     word-wrap: break-word;
     border-radius: 5px;
-    padding: 5px;
+    padding: 20px 0;
     height: 100px;
+    max-width: 300px;
     margin-bottom: 10px;
-    font-size: medium
+    font-size: medium;
 }
 
 .perfil-button-div {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: flex-end;
 }
 
 .perfil-button {
     width: fit-content;
     height: 100%;
-    margin-bottom: 15px;
-    position: relative;
 }
 
 .perfil-button button {
-    position: absolute;
-    right: 10px;
-    bottom: -75px;;
     width: 100px;
     height: 40px;
     font-size: 18px;
@@ -1292,9 +1296,9 @@ input:focus {
 .perfil-name-username,
 .perfil-following-followers {
     display: flex;
+    justify-content: space-around;
     flex-direction: column;
-    align-items: flex-end;
-    width: 50%;
+    width: fit-content;
 }
 .bio{
     background: var(--B4);
