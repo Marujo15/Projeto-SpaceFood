@@ -322,9 +322,9 @@ form {
     display: flex;
     flex-wrap: wrap;
     background: #f7f6f3;
-    min-width: 50%;
+    min-width: 56%;
     min-height: 50%;
-    margin: 1%;
+    margin: 1% 2%;
     border: solid #8080804d 2px;
 }
 
@@ -460,20 +460,23 @@ form {
     margin: 1%;
     display: flex;
     align-items: center;
-    height: 30px;
+    height: 35px;
 }
 
 .post-btn-add {
     border: white;
     border-radius: 50%;
     background: var(--C6);
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
+    margin: 1%;
     color: var(--B3);
+    font-size: larger;
 }
 
 .post-input-add {
     border: none;
+    height: 35px;
     width: 223px;
     border-radius: 15px;
     padding: 2.5%;
@@ -492,7 +495,7 @@ form {
     border: none;
     padding: 0.5%;
     margin: 2%;
-    height: 30px;
+    height: 33px;
     width: 80px;
     color: #fff;
 }
@@ -503,10 +506,10 @@ form {
     border: none;
     padding: 0.5%;
     margin: 1%;
-    height: 30px;
+    height: 33px;
     width: 150px;
     color: #fff;
-}
+}   
 
 input:focus {
     outline: none;
@@ -555,8 +558,9 @@ input:focus {
 .search-input {
     border: solid var(--B3) 1px;
     width: 252px;
+    height: 35px;
     border-radius: 15px;
-    padding: 0.75%;
+    padding: 1.5%;
     margin: 0 1%;
 }
 

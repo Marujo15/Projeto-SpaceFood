@@ -6,6 +6,10 @@ import { setCurrentTab } from "./tabIdentifier.js"
 export async function perfilModal(feed, data, editOrFollow, modalContent, modal, aside, perfilDiv) {
     modalContent.innerHTML = ""
 
+    modal.classList.remove("modal-post");
+    modal.classList.remove("modal-details");
+    modal.classList.add("modal");
+
     /* div's */
     const perfilModalEditDiv = document.createElement('div')
 
@@ -84,12 +88,12 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
     usernameInput.placeholder = "Nome de usuário:"
     usernameInput.value = data.data.user_username
     usernameInput.id = 'perfil-modal-username-input'
-    usernameInput,addEventListener('input', () => {
+    usernameInput, addEventListener('input', () => {
         usernameInput.value = usernameInput.value
             .toLowerCase()
             .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
             .replace(/[^a-z0-9]/g, "_");
-        
+
     })
     usernameInput.addEventListener('blur', async () => {
         try {
