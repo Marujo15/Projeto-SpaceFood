@@ -1,5 +1,3 @@
-/* const jwt = require('jsonwebtoken');
-const config = require('../.../src/config'); */
 import { search } from "./modules/search.js";
 import event from "./modules/event.js"
 import { createRecipeCard } from "./modules/postRecipe.js";
@@ -52,6 +50,10 @@ export const homePage = () => {
                                 <span id="user-username"></span>
                             </div>
                         </button>
+                        <button id="logout-button">
+                            <img class="logout-svg" src="../static/svg/logout.svg">
+                            <span>Sair</span>
+                        </button>
                     </div>
                 </aside>
                 <main class="posts">
@@ -84,6 +86,7 @@ export async function homeScript() {
     const modalContent = document.getElementById('recipe-content')
     const headerFollowing = document.getElementById("following");
     const btnAll = document.getElementById("all");
+    const logoutButton = document.getElementById('logout-button')
 
     async function getLogin() {
         try {
@@ -138,6 +141,7 @@ export async function homeScript() {
 
     headerFollowing.addEventListener("click", () => {
         folowed(feed, modal)
+        modal.style.display = "none";
         history.pushState(null, null, '/following');
     });
 
@@ -169,6 +173,7 @@ export async function homeScript() {
     });
 
     btnFavorites.addEventListener("click", () => {
+        feed.innerHTML = '';
         modal.style.display = "none";
         setCurrentTab("favorite");
         console.log("fav?", getCurrentTab());
@@ -177,6 +182,8 @@ export async function homeScript() {
     });
 
     btnPerfil.addEventListener('click', () => {
+        feed.innerHTML = '';
+        modal.style.display = "none";
         setCurrentTab("perfil");
 
         const header = document.getElementById("header-btn");
@@ -198,6 +205,26 @@ export async function homeScript() {
         history.pushState(null, null, '/perfil');
     })
 
+    logoutButton.addEventListener('click', () => {
+        fetch('/api/user/login', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                feed.innerHTML = ""
+                modal.style.display = "none";
+                const customEvent = event('/login')
+                window.dispatchEvent(customEvent)
+            })
+            .catch(err => {
+                console.error(err);
+            })
+        localStorage.removeItem('likeData');
+        localStorage.removeItem('favoriteData');
+    })
 }
 
 export function favorites(feed, modal) {

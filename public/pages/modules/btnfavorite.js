@@ -14,39 +14,56 @@ async function buttonSave(recipe, divButtons, recipesData, recipe_id) {
     textSave.classList.add("icone-space");
     imgSave.style.width = "20px";
 
-    
-    const favoriteData = await recipeFavoriteData();
-    const icon = await iconBtnFavorite(favoriteData, recipe);
+    const icon = await iconBtnFavorite(recipe);
     imgSave.src = icon.imgSave;
     textSave.innerText = icon.textSave;
 
     divSave.addEventListener("click", async () => {
-        const fav = await addFavorite(recipe_id, recipesData);
-        if (fav) {
-            imgSave.src = "../static/svg/bookmark_fav.svg";
-            textSave.innerText = "Favoritado";
-        } else {
-            await deleteFavorite(recipe_id, recipesData);
+        const favoriteData = JSON.parse(localStorage.getItem('favoriteData'));
+
+        const isFavorited = favoriteData.data.some(item => item.recipe_id === recipe_id);
+
+        if (isFavorited) {
+            deleteFavorite(recipe_id, recipesData);
+
             imgSave.src = "../static/svg/bookmark.svg";
             textSave.innerText = "Favoritar";
+
+            favoriteData.data = favoriteData.data.filter(item => item.recipe_id !== recipe_id);
+
+            localStorage.setItem('favoriteData', JSON.stringify(favoriteData));
 
             const currentTab = getCurrentTab();
             if (currentTab === "favorite") {
                 favorites(feed, modal);
-                
+
             }
+
+        } else {
+
+            addFavorite(recipe_id, recipesData);
+
+            imgSave.src = "../static/svg/bookmark_fav.svg";
+            textSave.innerText = "Favoritado";
+
+            const newFavorite = { "recipe_id": recipe_id, "recipe_name": recipe.recipe_name, "recipe_image": recipe.recipe_image };
+
+            favoriteData.data.push(newFavorite);
+
+            localStorage.setItem('favoriteData', JSON.stringify(favoriteData));
         }
     });
 
     document.addEventListener('modalFechado', async () => {
-        const favoriteData = await recipeFavoriteData();
-        const icon = await iconBtnFavorite(favoriteData, recipe);
+        const icon = await iconBtnFavorite(recipe);
         imgSave.src = icon.imgSave;
         textSave.innerText = icon.textSave;
     });
 }
 
-async function iconBtnFavorite(favoriteData, recipe) {
+async function iconBtnFavorite(recipe) {
+    const favoriteData = JSON.parse(localStorage.getItem('favoriteData'));
+
     const data = {
         imgSave: "",
         textSave: "",
@@ -104,7 +121,6 @@ async function deleteFavorite(recipe_id, recipesData) {
 
     } catch (error) {
         console.error('Erro ao recuperar dados da receita:', error.message);
-        // errorMessage.innerText = error.message;
     }
 }
 

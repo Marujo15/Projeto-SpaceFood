@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { SECRET_KEY, SESSION_DURATION } = require('../config');
-const fs = require('fs');
+const { exec } = require('child_process');
 const path = require('path');
 
 const userService = require('../service/userService');
@@ -36,6 +36,7 @@ const getPerfilById = async (req, res) => {
         const result = await userService.getPerfilService(user_id);
         res.status(200).json({ data: result, status: 200 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 }
@@ -94,6 +95,7 @@ const registerUser = async (req, res) => {
 
         res.status(201).json({ message: 'Usuário criado com sucesso', status: 201 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 };
@@ -166,11 +168,10 @@ const updatePerfil = async (req, res) => {
         if (updates.image) {
             if ((oldImage !== "DEFAULT.png") && oldImage) {
                 const image = path.join(__dirname, '..', 'uploads', oldImage);
-                fs.unlink(image, (err) => {
+                const comando = `rm -f ${image}`;
+                exec(comando, (err, stdout, stderr) => {
                     if (err) {
                         console.error('Erro ao excluir o imagem:', err);
-                    } else {
-                        console.log("Imagem excluída com sucesso.");
                     }
                 });
             }
@@ -179,13 +180,13 @@ const updatePerfil = async (req, res) => {
         res.status(200).json({ message: 'Usuário atualizado com sucesso', status: 200 });
 
     } catch (error) {
+        console.log("\nError:", error.message);
         if (req.file) {
             const image = path.join(__dirname, '..', 'uploads', req.file.filename);
-            fs.unlink(image, (err) => {
+            const comando = `rm -f ${image}`;
+            exec(comando, (err, stdout, stderr) => {
                 if (err) {
                     console.error('Erro ao excluir o imagem:', err);
-                } else {
-                    console.log('Imagem excluída com sucesso.');
                 }
             });
         }
@@ -217,6 +218,7 @@ const checkUsername = async (req, res) => {
 
         res.status(200).json({ exists });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 };
@@ -245,24 +247,25 @@ const checkEmail = async (req, res) => {
         const exists = await userService.checkEmailExistsService(email);
         res.status(200).json({ exists });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 };
 
 const login = async (req, res) => {
     try {
-        let { username, password } = req.body;
+        let { email, password } = req.body;
 
-        username = username.trim();
+        email = email.trim();
         password = password.trim();
 
-        if (validator.isEmpty(username) || validator.isEmpty(password)) {
+        if (validator.isEmpty(email) || validator.isEmpty(password)) {
             const error = new Error("Não pode ter campos vazios.");
             error.status = 400;
             throw error;
         }
 
-        const user = await userService.loginService(username, password);
+        const user = await userService.loginService(email, password);
         // Gera o token JWT
         const sessionToken = jwt.sign({ user }, SECRET_KEY, { expiresIn: SESSION_DURATION });
 
@@ -271,7 +274,7 @@ const login = async (req, res) => {
         res.status(200).json({ sessionToken });
 
     } catch (error) {
-        console.error('Erro ao tentar fazer login:', error);
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 };

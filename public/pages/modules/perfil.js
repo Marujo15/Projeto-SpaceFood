@@ -5,7 +5,6 @@ import { setCurrentTab } from "./tabIdentifier.js"
 
 export async function perfil(feed, otherData, editOrFollow, modal, modalContent, aside) {
 
-
     console.log('data perfil:', otherData)
 
     const perfilHeader = document.createElement('div')
@@ -34,14 +33,33 @@ export async function perfil(feed, otherData, editOrFollow, modal, modalContent,
 
     const button = document.createElement('button')
 
+    const header = document.getElementById("header-btn");
+    const headerAll = document.getElementById("all");
+    const headerFollowing = document.getElementById("following");
+    const headerSearchFavorite = document.getElementById("search-header");
+
+    header.style.display = "flex";
+    headerAll.style.display = "none";
+    headerFollowing.style.display = "none";
+    headerSearchFavorite.style.display = "block";
+
+    header.style.borderBottom = "1px solid #0000004f";
+    headerSearchFavorite.innerText = "Perfil";
+    headerSearchFavorite.classList.add("roboto", "searche-title");
+
+    const imgBanner = document.createElement("img")
+    imgBanner.src = "../static/svg/banner.jpg"
+    perfilHeader.style.backgroundImage = `url('${imgBanner.src}')`;
+    perfilHeader.style.backgroundSize = "cover";
+    perfilHeader.style.backgroundPosition = "center";
+
     perfilHeader.classList.add('perfil-header')
     perfilHeader.appendChild(perfilImgNameUsername)
     perfilHeader.appendChild(perfilBioFollowingFollowers)
-    perfilHeader.appendChild(perfilButtonDiv)
-
 
     perfilImgNameUsername.classList.add('perfil-img-name-username')
     perfilImgNameUsername.appendChild(perfilImg)
+    
     perfilImgNameUsername.appendChild(perfilNameUsername)
 
     perfilImg.classList.add('perfil-img')
@@ -53,25 +71,27 @@ export async function perfil(feed, otherData, editOrFollow, modal, modalContent,
     perfilNameUsername.classList.add('perfil-name-username')
     perfilNameUsername.appendChild(perfilClassName)
     perfilNameUsername.appendChild(perfilClassUsername)
+    perfilNameUsername.appendChild(perfilFollowingFollowers)
 
     perfilClassName.classList.add('perfil-class-name')
     perfilClassName.appendChild(perfilIdName)
 
     perfilIdName.innerText = otherData.data.user_name
-    perfilIdName.id = "user-name"
+    perfilIdName.id = "perfil-user-name"
 
     perfilClassUsername.classList.add('perfil-class-username')
     perfilClassUsername.appendChild(perfilIdUsername)
 
     perfilIdUsername.innerText = '@' + otherData.data.user_username
-    perfilIdUsername.id = 'user-username'
+    perfilIdUsername.id = 'perfil-user-username'
 
     perfilBioFollowingFollowers.classList.add('perfil-bio-following-followers')
     perfilBioFollowingFollowers.appendChild(perfilBio)
-    perfilBioFollowingFollowers.appendChild(perfilFollowingFollowers)
+    perfilBioFollowingFollowers.appendChild(perfilButtonDiv)
 
     perfilBio.classList.add('perfil-bio')
     perfilBio.appendChild(bio)
+    bio.classList.add("bio");
 
     bio.innerText = otherData.data.user_biography
 
@@ -84,7 +104,7 @@ export async function perfil(feed, otherData, editOrFollow, modal, modalContent,
     perfilFollowing.appendChild(perfilIdFollowing)
 
     perfilFollowingSpan.style.fontWeight = '600'
-    perfilFollowingSpan.innerText = 'Following: '
+    perfilFollowingSpan.innerText = 'Seguindo: '
 
     perfilIdFollowing.id = 'perfil-id-following'
     perfilIdFollowing.innerText = otherData.data.following_count
@@ -94,7 +114,7 @@ export async function perfil(feed, otherData, editOrFollow, modal, modalContent,
     perfilFollowers.appendChild(perfilIdFollowers)
 
     perfilFollowerSpan.style.fontWeight = '600'
-    perfilFollowerSpan.innerText = 'Followers: '
+    perfilFollowerSpan.innerText = 'Seguidores: '
 
     perfilIdFollowers.id = 'perfil-id-followers'
     perfilIdFollowers.innerText = otherData.data.followers_count

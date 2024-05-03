@@ -17,7 +17,6 @@ function createRecipeCard() {
     const divImage = document.createElement("div");
     const divButton = document.createElement("div");
     const divContent = document.createElement("div");
-    const divButtomIngredientMethodo = document.createElement("div");
     const textTitle = document.createElement("p");
     const inputTitleRcipe = document.createElement("input");
     const divTag = document.createElement("div");
@@ -40,10 +39,11 @@ function createRecipeCard() {
 
     errorMessage.classList.add("modal-error");
     errorMessage.innerText = '';
-    if (modal.classList.contains("modal")) {
-        modal.classList.remove("modal");
-        modal.classList.add("modal-post");
-    }
+
+    modal.classList.remove("modal-details");
+    modal.classList.remove("modal");
+    modal.classList.add("modal-post");
+
 
     divPost.classList.add("post-recipe");
     divDetails.classList.add("post-recipe-name-category");
@@ -131,15 +131,22 @@ function createRecipeCard() {
     });
 
     fileInput.addEventListener('change', (event) => {
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg']; // Tipos de arquivos de imagem permitidos
         selectedFile = event.target.files[0];
-        const tgt = event.target || window.event.srcElement;
-        const files = tgt.files;
-        const fr = new FileReader();
-        fr.onload = function () {
-            imageRecipeSelected.src = fr.result;
-            imageRecipeSelected.style.height = "100%";
+        if (selectedFile && allowedTypes.includes(selectedFile.type)) {
+            const fr = new FileReader();
+            fr.onload = function () {
+                imageRecipeSelected.src = fr.result;
+            }
+            fr.readAsDataURL(selectedFile);
+            errorMessage.style.display = "none";
+        } else {
+            errorMessage.style.display = "flex";
+            errorMessage.style.color = '#B81E19'
+            errorMessage.innerText = "O arquivo de imagem deve ser em JPEG, JPG ou PNG."
+            fileInput.value = '';
+            selectedFile = null;
         }
-        fr.readAsDataURL(files[0]);
     });
 
     formImage.addEventListener('submit', async (event) => {
@@ -277,7 +284,7 @@ function createRecipeCard() {
 
     buttonAddStep.addEventListener("click", () => {
         const inputValue = inputAddStep.value.trim();
-    
+
         if (inputValue !== "") {
             steps.push(inputValue);
             renderSteps();
@@ -286,10 +293,10 @@ function createRecipeCard() {
             inputAddStep.value = "";
         }
     });
-    
+
     function renderSteps() {
-        listStep.innerHTML = ""; 
-    
+        listStep.innerHTML = "";
+
         steps.forEach((step, index) => {
             const list = document.createElement("li");
             const container = document.createElement("div");
@@ -297,17 +304,17 @@ function createRecipeCard() {
             const deleteStep = document.createElement('div');
             const moveUpButton = document.createElement('div');
             const moveDownButton = document.createElement('div');
-    
+
             stepElement.innerText = step;
             deleteStep.innerText = "X";
             moveUpButton.innerText = "▲";
             moveDownButton.innerText = "▼";
-    
+
             deleteStep.addEventListener("click", () => {
                 steps.splice(index, 1);
                 renderSteps();
             });
-    
+
             moveDownButton.addEventListener("click", () => {
                 if (index < steps.length - 1) {
                     const temp = steps[index];
@@ -318,7 +325,7 @@ function createRecipeCard() {
                 console.log(steps);
 
             });
-    
+
             moveUpButton.addEventListener("click", () => {
                 if (index > 0) {
                     const temp = steps[index];
@@ -328,12 +335,12 @@ function createRecipeCard() {
                     console.log(steps);
                 }
             });
-    
+
             container.classList.add("post-recipe-list");
             deleteStep.classList.add("post-delete");
             moveUpButton.classList.add("post-move-list");
             moveDownButton.classList.add("post-move-list");
-    
+
             container.appendChild(stepElement);
             container.appendChild(moveUpButton);
             container.appendChild(moveDownButton);
@@ -343,9 +350,11 @@ function createRecipeCard() {
             list.appendChild(container);
             listStep.appendChild(list);
         });
-    }   
-    
+    }
+
     buttonAddRecipe.addEventListener("click", async () => {
+        imageRecipeSelected.alt = "Imagem de receita de " + inputTitleRcipe.value.toLowerCase();
+
         const recipeData = {
             "name": inputTitleRcipe.value,
             "ingredient": ingredients,
@@ -369,13 +378,14 @@ function createRecipeCard() {
             }
 
             const data = await response.json();
-            console.log("post-categories ", categories);
+
             home(feed, modal);
 
         } catch (error) {
             console.error('Erro ao cadastrar receita:', error.message);
 
             errorMessage.style.display = "flex";
+            errorMessage.style.color = '#B81E19'
             errorMessage.innerText = error.message;
             modal.appendChild(errorMessage);
             return error;
@@ -385,10 +395,10 @@ function createRecipeCard() {
     buttonExit.addEventListener("click", () => {
         modal.style.display = "none";
         errorMessage.innerText = "";
-        if (modal.classList.contains("modal-post")) {
-            modal.classList.remove("modal-post");
-            modal.classList.add("modal");
-        }
+        modal.classList.remove("modal-details");
+        modal.classList.remove("modal-post");
+        modal.classList.add("modal");
+
     });
 
 }

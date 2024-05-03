@@ -2,7 +2,7 @@ const recipeService = require('../service/recipeService');
 const validator = require('../utils/recipeValidator');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
-const fs = require('fs');
+const { exec } = require('child_process');
 const path = require('path');
 
 const getAllRecipes = async (req, res) => {
@@ -10,6 +10,7 @@ const getAllRecipes = async (req, res) => {
         const recipes = await recipeService.getAllRecipesService();
         res.status(200).json({ data: recipes, status: 200 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 }
@@ -20,6 +21,7 @@ const getRecipesByPerfil = async (req, res) => {
         const recipes = await recipeService.getRecipesByPerfilService(user_id);
         res.status(200).json({ data: recipes, status: 200 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 }
@@ -32,6 +34,7 @@ const getRecipeByFollowing = async (req, res) => {
         const recipes = await recipeService.getRecipeByFollowingService(user_id);
         res.status(200).json({ data: recipes, status: 200 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 }
@@ -42,6 +45,7 @@ const getRecipeDetailed = async (req, res) => {
         const recipe = await recipeService.getRecipeDetailedService(recipeid);
         res.status(200).json({ data: recipe, status: 200 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 }
@@ -53,6 +57,7 @@ const searchRecipes = async (req, res) => {
         const recipes = await recipeService.searchRecipeService(recipeName, categories);
         res.status(200).json({ data: recipes, status: 200 });
     } catch (error) {
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 }
@@ -64,7 +69,7 @@ const createRecipe = async (req, res) => {
             error.status = 400;
             throw error;
         }
-        const {name, ingredient, step, category } = JSON.parse(req.body.data);
+        const { name, ingredient, step, category } = JSON.parse(req.body.data);
         const image = req.file.filename;
 
         if (validator.isEmpty(name)) {
@@ -167,14 +172,14 @@ const createRecipe = async (req, res) => {
     } catch (error) {
         if (req.file) {
             const image = path.join(__dirname, '..', 'uploads', req.file.filename);
-            fs.unlink(image, (err) => {
+            const comando = `rm -f ${image}`;
+            exec(comando, (err, stdout, stderr) => {
                 if (err) {
                     console.error('Erro ao excluir o imagem:', err);
-                } else {
-                    console.log('Imagem excluída com sucesso.');
                 }
             });
         }
+        console.log("\nError:", error.message);
         res.status(error.status || 500).json({ error: error.message, status: error.status || 500 });
     }
 };

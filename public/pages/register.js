@@ -74,6 +74,12 @@ export function registerScript() {
     const message = document.getElementById('message-register-span')
     const backButton = document.getElementById('back-login-button')
 
+    inputUsename.addEventListener("input", () => {
+        inputUsename.value = inputUsename.value
+            .toLowerCase()
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .replace(/[^a-z0-9]/g, "_");
+    })
     inputUsename.addEventListener("blur", async () => {
         try {
             const username = String(inputUsename.value);
@@ -90,12 +96,12 @@ export function registerScript() {
             if (!response.ok) {
                 message.style.color = '#B81E19'
                 message.innerText = data.error;
-                return 
+                return
             }
 
             message.style.color = '#6EDA53'
             message.innerText = 'Username disponível ✅'
-        } 
+        }
         catch (error) {
             message.style.color = '#B81E19'
             message.innerText = 'Erro ao verificar o username.'
@@ -119,17 +125,27 @@ export function registerScript() {
             if (!response.ok) {
                 message.style.color = '#B81E19'
                 message.innerText = data.error;
-                return 
+                return
             }
 
             message.style.color = '#6EDA53'
             message.innerText = 'Email disponível ✅'
-        } 
+        }
         catch (error) {
             message.style.color = '#B81E19'
             message.innerText = 'Erro ao verificar o email.'
             console.error(`Erro ao verificar o email: `, error);
         }
+    });
+    inputPassword.addEventListener("blur", async () => {
+        const pass = String(inputPassword.value);
+
+        if (pass.trim() === "") {
+            message.style.color = '#B81E19'
+            message.innerText = 'Senha não pode ser um campo vazio';
+            return
+        }
+        message.innerText = ''
     });
 
     buttonSubmit.addEventListener("click", async (e) => {
@@ -145,7 +161,8 @@ export function registerScript() {
         const confirmPassword = inputConfirmPassword.value;
 
         if (userData.password !== confirmPassword) {
-            alert('As senhas não coincidem.');
+            message.style.color = '#B81E19'
+            message.innerText = 'As senhas não coincidem.';
             return;
         }
 
@@ -161,12 +178,13 @@ export function registerScript() {
                 throw new Error('Erro ao cadastrar usuário');
             }
 
-            const data = await response.json();
-            window.location.href = "/login";
+            const customEvent = event('/login')
+            window.dispatchEvent(customEvent) 
 
         } catch (error) {
-            console.error('Erro ao cadastrar usuário:', error.message);
-            console.error('Ocorreu um erro ao cadastrar o usuário.');
+
+            message.style.color = '#B81E19'
+            message.innerText = 'Erro ao cadastrar usuário.';
         }
 
     });

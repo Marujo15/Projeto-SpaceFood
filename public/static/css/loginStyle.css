@@ -68,7 +68,8 @@ body{
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
-    user-select: none;          
+    user-select: none;  
+    font-family: "Roboto", sans-serif;        
 }
 
 .fundo{
@@ -120,7 +121,6 @@ img{
 .txt-sp1{
     font-size: 35px;
     color: var(--B2);
-    width: 170px;
     position: absolute;
     left: 120px;
 }
@@ -162,7 +162,7 @@ form{
     margin-top: 100px; 
 }
 
-#username-input, #password-input{
+#email-input, #password-input{
     height: 50px;
     width: 80%;
     font-size: 25px;
@@ -176,7 +176,7 @@ form{
     padding-left: 20px;
 }
 
-#username-input{
+#email-input{
     margin-bottom: 15px;
 }
 
@@ -188,6 +188,7 @@ form{
     width: 80%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-top: 50px;
 }
 
@@ -200,17 +201,28 @@ form{
     transition: all 300ms ease;
 }
 
-.options button:hover, .options div:hover{
-    font-weight: 500;
-    scale: 1.01;
+.options button:first-child{
+    color: var(--B1);
+    background: transparent;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 10px;
 }
 
-.options button{
-    color: var(--C5);
+.options button:first-child:hover, .options div:hover{
+    text-decoration: underline 1px solid var(--B1);
+    scale: 1.05;
+}
+
+.submit-btn-div {
+    padding-top: 20px;
+}
+.error-message {
+    color: var(--C2);
+    font-size: 18px;
 }
 
 #login-submit-button{
-    margin-top: 30px;
     height: 40px;
     width: 130px;
     background: var(--C6);
@@ -223,7 +235,7 @@ form{
     transition: all 300ms ease;
 }
 
-#slogin-submit-button:hover{
+#login-submit-button:hover{
     scale: 1.03;
     background: var(--C5);
 }
