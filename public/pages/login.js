@@ -22,7 +22,7 @@ export const loginPage = () => {
 
 <main class="login-display">
     <form>
-        <input type="Email" placeholder="Email do usúario" id="email-input" required>
+        <input type="text" placeholder="Email do usúario" id="email-input" required>
         <input type="password" placeholder="Senha" id="password-input" required>
         <div class="options">
             <button type="button" id="register-submit-button">Criar uma nova conta</button>
@@ -57,7 +57,6 @@ export async function loginScript() {
     });
 
     buttonLogin.addEventListener("click", async (e) => {
-
         const verifyPassword = inputPassword.value === "" || inputPassword.value === undefined;
         const verifyEmail = inputEmail.value === "" || inputEmail.value === undefined;
 
