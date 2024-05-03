@@ -10,6 +10,7 @@ const getPerfilQuery = async (user_id) => {
                 users.username AS user_username,
                 users.biography AS user_biography,
                 users.image AS user_image,
+                users.email AS user_email,
                 (
                     SELECT COUNT(*) 
                     FROM followed_follower 

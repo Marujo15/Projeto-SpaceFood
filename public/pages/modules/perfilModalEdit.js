@@ -134,15 +134,23 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
     inputPerfilPhoto.id = 'input-perfil-photo'
     inputPerfilPhoto.type = 'file'
     let selectedFile = null
+    const message = spanPerfilModalMessage
     inputPerfilPhoto.addEventListener('change', (e) => {
-        selectedFile = e.target.files[0]
-        const photo = e.target.files;
-        const fr = new FileReader();
-        fr.onload = function () {
-            img.src = fr.result;
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg']; // Tipos de arquivos de imagem permitidos
+        selectedFile = e.target.files[0];
+        if (selectedFile && allowedTypes.includes(selectedFile.type)) {
+            const fr = new FileReader();
+            fr.onload = function () {
+                img.src = fr.result;
+            }
+            fr.readAsDataURL(selectedFile);
+        } else {
+            message.style.color = '#B81E19'
+            message.innerText = "O arquivo de imagem deve ser em JPEG, JPG ou PNG."
+            inputPerfilPhoto.value = '';
+            selectedFile = null;
         }
-        fr.readAsDataURL(photo[0]);
-    })
+    });
 
     perfilModalInput.appendChild(spanPerfilModalMessage)
 
@@ -173,19 +181,17 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
     perfilModalButton.addEventListener('click', async (e) => {
         e.preventDefault()
 
-        const message = spanPerfilModalMessage
-
         const newName = String(nameInput.value)
         const newUsername = String(usernameInput.value)
         const newBiography = String(perfilModalBioInput.value)
         const password = perfilModalPasswordInput.value
 
-        const oldUsername = String(data.data.user_username)
+        const email = String(data.data.user_email)
 
         /* Primeiro ele verifica se a senha esta correta */
         try {
             const loginObj = {
-                "username": String(oldUsername),
+                "email": String(email),
                 "password": String(password).trim()
             }
 
@@ -216,9 +222,11 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
 
                     const bodyObj = selectedFile !== null ? formData : JSON.stringify(newDates)
 
+                    console.log("body: ", bodyObj);
+
                     const response = await fetch(`/api/user/${data.data.user_id}`, {
                         method: 'PUT',
-                        body: bodyObj
+                        body: JSON.stringify(bodyObj)
                     });
 
                     if (!response.ok) {
@@ -236,7 +244,7 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
                         */
                         try {
                             const loginObj2 = {
-                                username: newUsername,
+                                email: email,
                                 password: password
                             }
 
