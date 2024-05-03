@@ -75,11 +75,11 @@ const checkEmailExists = async (email) => {
     }
 };
 
-const loginQuery = async (username) => {
-    const query = 'SELECT * FROM users WHERE username = $1';
+const loginQuery = async (email) => {
+    const query = 'SELECT * FROM users WHERE email = $1';
     const client = await connectToDatabase();
     try {
-        const result = await client.query(query, [username]);
+        const result = await client.query(query, [email]);
         return result;
     } catch (error) {
         console.error('Erro ao tentar fazer login:', error);

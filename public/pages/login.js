@@ -22,7 +22,7 @@ export const loginPage = () => {
 
 <main class="login-display">
     <form>
-        <input type="text" placeholder="Nome de usúario" id="username-input" required>
+        <input type="text" placeholder="Email do usúario" id="email-input" required>
         <input type="password" placeholder="Senha" id="password-input" required>
         <div class="options">
             <button type="button" id="register-submit-button">Criar uma nova conta</button>
@@ -44,7 +44,7 @@ export const loginPage = () => {
 
 export async function loginScript() {
 
-    const inputUsername = document.getElementById("username-input");
+    const inputEmail = document.getElementById("email-input");
     const inputPassword = document.getElementById("password-input");
     const buttonRegister = document.getElementById("register-submit-button");
     const buttonLogin = document.getElementById("login-submit-button");
@@ -59,7 +59,7 @@ export async function loginScript() {
     buttonLogin.addEventListener("click", async (e) => {
         e.preventDefault();
         const userData = {
-            "username": String(inputUsername.value),
+            "email": String(inputEmail.value),
             "password": String(inputPassword.value),
         };
 

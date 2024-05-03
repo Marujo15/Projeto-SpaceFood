@@ -162,7 +162,7 @@ form{
     margin-top: 100px; 
 }
 
-#username-input, #password-input{
+#email-input, #password-input{
     height: 50px;
     width: 80%;
     font-size: 25px;
@@ -176,7 +176,7 @@ form{
     padding-left: 20px;
 }
 
-#username-input{
+#email-input{
     margin-bottom: 15px;
 }
 
