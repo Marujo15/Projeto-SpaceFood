@@ -254,18 +254,18 @@ const checkEmail = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        let { username, password } = req.body;
+        let { email, password } = req.body;
 
-        username = username.trim();
+        email = email.trim();
         password = password.trim();
 
-        if (validator.isEmpty(username) || validator.isEmpty(password)) {
+        if (validator.isEmpty(email) || validator.isEmpty(password)) {
             const error = new Error("Não pode ter campos vazios.");
             error.status = 400;
             throw error;
         }
 
-        const user = await userService.loginService(username, password);
+        const user = await userService.loginService(email, password);
         // Gera o token JWT
         const sessionToken = jwt.sign({ user }, SECRET_KEY, { expiresIn: SESSION_DURATION });
 
