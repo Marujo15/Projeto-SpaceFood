@@ -140,11 +140,9 @@ function generateComments(recipe, card, recipe_id, divComment) {
 
     function showComments(commentary, divComment) {
         divPublishedComments.innerHTML = '';
-        console.log("data showComments  :", commentary.data);
 
         for (let i = 0; i <= commentary.data.length ; i++) {
             const data = commentary.data[i];
-            console.log("comentário  :", data.commentary_text);
 
             const comment = document.createElement("div");
             const imagUserComment = document.createElement("div");
@@ -161,17 +159,12 @@ function generateComments(recipe, card, recipe_id, divComment) {
             publishedComment.innerText = elapseTime(data.commentary_date);
             publishedComment.classList.add("card-published")
             
-
-            if (data.user_image === null) {
-                imageUser.src = "static/svg/newUser.svg"
-            } else {
-                imageUser.src = `./assets/${recipe.user_image}`;
-            }
+            imageUser.src = `./assets/${data.user_image}`;
 
             imagUserComment.appendChild(imageUser);
 
             divinfo.appendChild(divUser);
-            divinfo.appendChild(publishedComment);
+            divinfo.appendChild(publishedComment);  
             divinfo.appendChild(divUserComment);
             divinfo.classList.add("info-user");
 
@@ -192,7 +185,6 @@ function generateComments(recipe, card, recipe_id, divComment) {
             comment.classList.add("comment-details");
                 comentary.classList.add("comment-txt-details");
             }
-
             comment.appendChild(imagUserComment);
 
             comment.appendChild(divinfo);

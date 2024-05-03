@@ -165,7 +165,7 @@ header {
 
 /* --- Main --- */
 main {
-    background: white;
+    background: var(--B3);
     grid-column: 2;
     position: relative;
     display: flex;
@@ -187,9 +187,10 @@ main span {
     flex-direction: column;
     justify-content: space-between;
     width: 550px;
-    height: 400px;
+    /* height: 420px; */
     margin: 0.5% 0;
     padding: 2.5%;
+    padding-bottom: 1%;
     background: #FFFEFC;
     border-radius: 10px;
     font-family: "Roboto", sans-serif;
@@ -211,13 +212,13 @@ main span {
 }
 
 .details-image-user {
-    height: 40px;
-    width: 40px;
+    height: 50px;
+    width: 50px;
 }
 
 .details-container-image-user {
-    height: 42px;
-    width: 42px;
+    height: 50px;
+    width: 50px;
     border-radius: 50%;
     margin: 0 1% 0 0;
 }
@@ -614,18 +615,16 @@ input:focus {
 
 /* Show Details */
 .modal {
-    background: var(--B4);
-
+    background: #f7f6f3;
     display: none;
     position: fixed;
     z-index: 2;
-
     flex-direction: column;
     top: 50%;
     left: 50%;
-    transform: translate(-45%, -45%);
-    min-height: 60%;
-    max-height: 80%;
+    transform: translate(-50%, -50%);
+    min-height: 90%;
+    max-height: 90%;
     min-width: 60%;
     max-width: 70%;
     padding: 20px;
@@ -826,6 +825,7 @@ input:focus {
 
 .comments-feed {
     width: 300px;
+    /* height: 420px; */
     position: relative;
     left: 1px;
     margin-top: 0.5%;
@@ -867,7 +867,7 @@ input:focus {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-top: 16%;
+    margin-top: 5%;
 }
 
 .write-comment input {
@@ -926,7 +926,7 @@ input:focus {
 }
 
 .details-info-username-date {
-    margin: 0 1%;
+    margin: 0 2%;
 }
 
 .write-comment-btn-details {
@@ -935,7 +935,7 @@ input:focus {
 
 .published-comments {
     background-color: #f4ebeb21;
-    height: 300px;
+    height: 340px;
     border-radius: 10px;
     overflow-x: hidden;
     padding: 1%;
@@ -973,7 +973,7 @@ input:focus {
 }
 
 .comment-user-image img {
-    border: 3px solid var(--B1);
+    border: 1px solid var(--B1);
     border-radius: 50%;
 }
 
@@ -995,7 +995,7 @@ input:focus {
 }
 
 .info-user {
-    padding: 0 2%;
+    padding: 0 4%;
 }
 
 .image-user {
@@ -1006,11 +1006,15 @@ input:focus {
 
 .card-image-user {
     align-content: center;
+    width: 50px;
+    height: 50px;
 }
 
 .card-image-user img {
     border: 1.5px solid var(--B1);
     border-radius: 50%;
+    width: 50px;
+    height: 50px;
 }
 
 .card-user {
@@ -1195,53 +1199,36 @@ input:focus {
     background: white;
 }
 
-/* .posts-feed div{
-    border: none;
-} */
-
-/* .perfil header,
-.perfil-page {
-    border: 5px solid red;
-} */
-
 .perfil-header {
-    /* border: 5px solid blue; */
     display: flex;
     height: 40dvh;
     background: #fff;
     font-family: 'Roboto';
-    border-bottom: 2px solid black;
+    border-bottom: 1px solid #808080ad;
     flex-direction: column;
-    padding: 10px 0 0 10px;
+    padding: 1% 5%;
 }
 
 
 .perfil-img-name-username {
-    /* border: 5px solid yellow; */
+
     display: flex;
     justify-content: space-between;
     font-size: 18px;
 }
 
 .perfil-bio-following-followers {
-    /* border: 5px solid rgb(186, 186, 0); */
     display: flex;
     justify-content: space-between;
     font-size: 18px;
     padding: 10px;
+    height: 50px;
 }
-
-/* .perfil-img,
-.perfil-bio,
-.perfil-button {
-    border: 5px solid rgb(4, 255, 0);
-} */
 
 .perfil-img {
     height: 160px;
     width: 160px;
     border-radius: 50%;
-    background: var(--B1);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1250,6 +1237,7 @@ input:focus {
 .perfil-img img {
     height: 157px;
     width: 157px;
+    border: 1px black solid;
     border-radius: 50%;
 }
 
@@ -1259,9 +1247,9 @@ input:focus {
     word-wrap: break-word;
     border-radius: 5px;
     padding: 5px;
-    width: 50%;
     height: 100px;
     margin-bottom: 10px;
+    font-size: medium
 }
 
 .perfil-button-div {
@@ -1280,7 +1268,7 @@ input:focus {
 .perfil-button button {
     position: absolute;
     right: 10px;
-    bottom: -65px;
+    bottom: -75px;;
     width: 100px;
     height: 40px;
     font-size: 18px;
@@ -1299,13 +1287,14 @@ input:focus {
 
 .perfil-name-username,
 .perfil-following-followers {
-    /* border: 5px solid rgb(3, 194, 0); */
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     width: 50%;
 }
-
+.bio{
+    background: var(--B4);
+}
 .perfil-name-username {
     margin: 10px;
     margin-right: 30px;
@@ -1313,14 +1302,9 @@ input:focus {
 
 .perfil-following-followers {
     display: flex;
-    margin: 0 30px 30px 0;
+    margin: 0 2% 0 1%;
     justify-content: flex-end;
 }
-
-/* .perfil-class-name,
-.perfil-following {
-    border: 5px solid rgb(255, 0, 191);
-} */
 
 .perfil-class-name {
     height: 40px;
@@ -1329,12 +1313,14 @@ input:focus {
 #perfil-user-name {
     font-size: 2em;
     font-weight: 500;
+    background: var(--B4);
 }
 
 #perfil-user-username {
     font-family: 'Roboto', sans-serif;
     font-size: 1.5em;
     font-weight: 300;
+    background: var(--B4);
 }
 
 .perfil-class-username {
@@ -1360,7 +1346,7 @@ input:focus {
     width: 100%;
     z-index: -1;
     height: 90%;
-    padding: 20px;
+    padding: 6%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -1376,7 +1362,6 @@ input:focus {
 .perfil-modal-img {
     height: 150px;
     width: 150px;
-    background-color: var(--B2);
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -1398,7 +1383,7 @@ input:focus {
 
 .perfil-modal-name-username input {
     height: 100%;
-    margin: 10px;
+    margin: 5px;
     padding-left: 30px;
     padding-right: 30px;
     border-radius: 15px;
@@ -1406,6 +1391,9 @@ input:focus {
     font-size: 18px;
     border: 1px solid var(--B1);
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+.perfil-modal-label-name-username{
+    padding: 4% 4% 0 4%;
 }
 
 .perfil-modal-input {
@@ -1444,30 +1432,31 @@ input:focus {
 }
 
 .perfil-modal-bio {
-    margin-top: 40px;
+    margin: 1% 0 0 0;
     display: flex;
+    flex-direction: column;
 }
 
 #perfil-modal-bio-input {
     width: 100%;
+    height: 100px;
     font-size: 18px;
     padding: 10px;
-
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     resize: none;
     outline: none;
+    margin: 2% 0;
 }
 
 .perfil-modal-button-div {
-    /* border: 5px solid orange; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 30%;
-    margin-left: 30px;
-    margin-right: 20px;
-}
+ 
+    padding: 1% 0;
 
+    align-items: center;
+}
 .perfil-modal-button-div input {
     padding-left: 15px;
     border: 1px solid var(--B2);
@@ -1476,6 +1465,7 @@ input:focus {
     font-size: 16px;
     width: 190px;
     height: 40px;
+    margin-bottom: 2%;
 }
 
 #perfil-modal-button {
