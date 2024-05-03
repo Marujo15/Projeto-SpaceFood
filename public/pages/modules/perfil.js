@@ -56,10 +56,10 @@ export async function perfil(feed, otherData, editOrFollow, modal, modalContent,
     perfilHeader.classList.add('perfil-header')
     perfilHeader.appendChild(perfilImgNameUsername)
     perfilHeader.appendChild(perfilBioFollowingFollowers)
-    perfilHeader.appendChild(perfilButtonDiv)
 
     perfilImgNameUsername.classList.add('perfil-img-name-username')
     perfilImgNameUsername.appendChild(perfilImg)
+    
     perfilImgNameUsername.appendChild(perfilNameUsername)
 
     perfilImg.classList.add('perfil-img')
@@ -71,6 +71,7 @@ export async function perfil(feed, otherData, editOrFollow, modal, modalContent,
     perfilNameUsername.classList.add('perfil-name-username')
     perfilNameUsername.appendChild(perfilClassName)
     perfilNameUsername.appendChild(perfilClassUsername)
+    perfilNameUsername.appendChild(perfilFollowingFollowers)
 
     perfilClassName.classList.add('perfil-class-name')
     perfilClassName.appendChild(perfilIdName)
@@ -86,7 +87,7 @@ export async function perfil(feed, otherData, editOrFollow, modal, modalContent,
 
     perfilBioFollowingFollowers.classList.add('perfil-bio-following-followers')
     perfilBioFollowingFollowers.appendChild(perfilBio)
-    perfilBioFollowingFollowers.appendChild(perfilFollowingFollowers)
+    perfilBioFollowingFollowers.appendChild(perfilButtonDiv)
 
     perfilBio.classList.add('perfil-bio')
     perfilBio.appendChild(bio)
