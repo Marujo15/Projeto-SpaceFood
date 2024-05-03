@@ -112,7 +112,6 @@ function generateComments(recipe, card, recipe_id, divComment) {
             getComments(recipe_id);
         } catch (error) {
             console.error('Erro ao tentar publicar comentário:', error.message);
-            alert('Erro ao tentar publicar comentário', error.message);
         }
 
     });
