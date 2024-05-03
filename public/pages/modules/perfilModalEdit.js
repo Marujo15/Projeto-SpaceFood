@@ -93,6 +93,11 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
     })
     usernameInput.addEventListener('blur', async () => {
         try {
+            if(document.getElementById('perfil-modal-username-input').value.trim() === "") {
+                spanPerfilModalMessage.innerText = 'Nome de usuário não pode estar vazio.'
+                spanPerfilModalMessage.style.color = '#B81E19'
+                return;
+            }
             const response = await fetch(`/api/user/register/username/${document.getElementById('perfil-modal-username-input').value.trim()}`)
 
             const data1 = await response.json()
@@ -134,15 +139,23 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
     inputPerfilPhoto.id = 'input-perfil-photo'
     inputPerfilPhoto.type = 'file'
     let selectedFile = null
+    const message = spanPerfilModalMessage
     inputPerfilPhoto.addEventListener('change', (e) => {
-        selectedFile = e.target.files[0]
-        const photo = e.target.files;
-        const fr = new FileReader();
-        fr.onload = function () {
-            img.src = fr.result;
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg']; // Tipos de arquivos de imagem permitidos
+        selectedFile = e.target.files[0];
+        if (selectedFile && allowedTypes.includes(selectedFile.type)) {
+            const fr = new FileReader();
+            fr.onload = function () {
+                img.src = fr.result;
+            }
+            fr.readAsDataURL(selectedFile);
+        } else {
+            message.style.color = '#B81E19'
+            message.innerText = "O arquivo de imagem deve ser em JPEG, JPG ou PNG."
+            inputPerfilPhoto.value = '';
+            selectedFile = null;
         }
-        fr.readAsDataURL(photo[0]);
-    })
+    });
 
     perfilModalInput.appendChild(spanPerfilModalMessage)
 
@@ -173,19 +186,17 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
     perfilModalButton.addEventListener('click', async (e) => {
         e.preventDefault()
 
-        const message = spanPerfilModalMessage
-
         const newName = String(nameInput.value)
         const newUsername = String(usernameInput.value)
         const newBiography = String(perfilModalBioInput.value)
         const password = perfilModalPasswordInput.value
 
-        const oldUsername = String(data.data.user_username)
+        const email = String(data.data.user_email)
 
         /* Primeiro ele verifica se a senha esta correta */
         try {
             const loginObj = {
-                "username": String(oldUsername),
+                "email": String(email),
                 "password": String(password).trim()
             }
 
@@ -210,15 +221,19 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
                         "biography": String(newBiography)
                     }
 
+                    if(newDates.name === "" || newDates.username === "") {
+                        message.style.color = '#B81E19'
+                        message.innerText = "Nome ou nome de usuário não podem ser vazios."
+                        throw new Error("Nome ou nome de usuário não podem ser vazios.")
+                    }
+
                     const formData = new FormData();
                     formData.append('file', selectedFile);
                     formData.append('data', JSON.stringify(newDates));
 
-                    const bodyObj = selectedFile !== null ? formData : JSON.stringify(newDates)
-
                     const response = await fetch(`/api/user/${data.data.user_id}`, {
                         method: 'PUT',
-                        body: bodyObj
+                        body: formData
                     });
 
                     if (!response.ok) {
@@ -236,7 +251,7 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
                         */
                         try {
                             const loginObj2 = {
-                                username: newUsername,
+                                email: email,
                                 password: password
                             }
 
@@ -276,7 +291,7 @@ export async function perfilModal(feed, data, editOrFollow, modalContent, modal,
                 }
                 catch (error) {
                     message.style.color = '#B81E19'
-                    message.innerText = "Erro, por favor tente de novo"
+                    message.innerText = error || "Erro, por favor tente de novo"
                     console.error("Erro ao atualizar dados no banco de dados: ", error)
                 }
             }
