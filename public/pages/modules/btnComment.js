@@ -1,11 +1,11 @@
 import { elapseTime } from "./recipesCard.js";
 import { getCurrentTab } from "./tabIdentifier.js";
 
-function toggleCommentButton(divComment, add, eventHandler) {
+function toggleCommentButton(divComment, add) {
     if (add) {
-        divComment.addEventListener("click", eventHandler);
+        divComment.style.pointerEvents = "auto";
     } else {
-        divComment.removeEventListener("click", eventHandler);
+        divComment.style.pointerEvents = "none";
     }
 }
 
@@ -21,14 +21,11 @@ function buttonComment(recipe, divButtons, divCard, recipe_id) {
     imgComemnt.style.width = "20px";
     textComment.innerText = "Comentários";
     textComment.classList.add("icone-space");
-    toggleCommentButton(divComment, true, () => eventButton(recipe, divCard, recipe_id, divComment));
-
+    divComment.addEventListener("click", function () {
+        generateComments(recipe, divCard, recipe_id, divComment);
+        toggleCommentButton(divComment, false);
+    });
     divButtons.appendChild(divComment);
-}
-
-function eventButton(recipe, divCard, recipe_id, divComment) {
-    generateComments(recipe, divCard, recipe_id, divComment);
-    toggleCommentButton(divComment, false, () => eventButton(recipe, divCard, recipe_id, divComment));
 }
 
 function generateComments(recipe, card, recipe_id, divComment) {
@@ -37,6 +34,7 @@ function generateComments(recipe, card, recipe_id, divComment) {
     const divWriteComent = document.createElement("div");
     const inputComment = document.createElement("input");
     const btnComment = document.createElement("button");
+    const messageError = document.createElement("span");
     const divPublishedComments = document.createElement("div");
     const btnClose = document.createElement("button");
 
@@ -46,7 +44,7 @@ function generateComments(recipe, card, recipe_id, divComment) {
 
     btnClose.addEventListener("click", () => {
         divComments.remove();
-        toggleCommentButton(divComment, true, () => eventButton(recipe, divCard, recipe_id, divComment));
+        toggleCommentButton(divComment, true);
     });
 
     divWriteComent.appendChild(inputComment);
@@ -98,6 +96,9 @@ function generateComments(recipe, card, recipe_id, divComment) {
             "commentary": inputComment.value,
         }
         try {
+            if(data.commentary.trim() === "") {
+                throw new Error("Não é permitido comentário vazio.")
+            }
             const response = await fetch(`/api/commentary/${recipe_id}`, {
                 method: 'POST',
                 headers: {
@@ -107,8 +108,9 @@ function generateComments(recipe, card, recipe_id, divComment) {
             });
             if (!response.ok) {
                 const error = await response.json();
-                console.error(error.error);
+                throw new Error(error.error)
             }
+            inputComment.value = "";
             getComments(recipe_id);
         } catch (error) {
             console.error('Erro ao tentar publicar comentário:', error.message);
