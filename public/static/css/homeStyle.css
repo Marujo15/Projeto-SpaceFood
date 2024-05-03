@@ -1219,7 +1219,7 @@ input:focus {
 
     display: flex;
     justify-content: space-between;
-    width: 430px;
+    width: fit-content;
     font-size: 18px;
 }
 
@@ -1256,7 +1256,7 @@ input:focus {
     border-radius: 5px;
     padding: 20px 0;
     height: 100px;
-    max-width: 300px;
+    max-width: 400px;
     margin-bottom: 10px;
     font-size: medium;
 }
@@ -1295,6 +1295,8 @@ input:focus {
     justify-content: space-around;
     flex-direction: column;
     width: fit-content;
+    overflow: hidden;
+    text-wrap: nowrap;
 }
 .bio{
     background: var(--B4);
