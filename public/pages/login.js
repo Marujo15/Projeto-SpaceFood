@@ -57,42 +57,50 @@ export async function loginScript() {
     });
 
     buttonLogin.addEventListener("click", async (e) => {
-        e.preventDefault();
-        const userData = {
-            "email": String(inputEmail.value),
-            "password": String(inputPassword.value),
-        };
+        const verifyPassword = inputPassword.value === "" || inputPassword.value === undefined;
+        const verifyEmail = inputEmail.value === "" || inputEmail.value === undefined;
 
-        try {
-            const response = await fetch('/api/user/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(userData)
-            });
-            const data = await response.json();
+        if (verifyEmail || verifyPassword) {
+            message.innerText = "Por favor, preencha todos os campos."
+        } else {
 
-            if (!response.ok) {
-                const errorMessage = data.error
-                throw 'Erro ao fazer login: ' + errorMessage;
+            e.preventDefault();
+            const userData = {
+                "email": String(inputEmail.value),
+                "password": String(inputPassword.value),
+            };
+
+            try {
+                const response = await fetch('/api/user/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(userData)
+                });
+                const data = await response.json();
+
+                if (!response.ok) {
+                    const errorMessage = data.error
+                    throw 'Erro ao fazer login: ' + errorMessage;
+                }
+
+                const favoriteData = await recipeFavoriteData();
+                localStorage.setItem('favoriteData', JSON.stringify(favoriteData));
+
+                const likeData = await getLike();
+                localStorage.setItem('likeData', JSON.stringify(likeData));
+
+                const switchPage = event('/');
+
+                window.dispatchEvent(switchPage);
+
+                return { data };
+
+            } catch (error) {
+                message.innerText = "Erro ao fazer login."
+                console.error(error);
             }
-            
-            const favoriteData = await recipeFavoriteData();
-            localStorage.setItem('favoriteData', JSON.stringify(favoriteData));
-            
-            const likeData = await getLike();
-            localStorage.setItem('likeData', JSON.stringify(likeData));
-
-            const switchPage = event('/');
-          
-            window.dispatchEvent(switchPage);
-
-            return {data};
-
-        } catch (error) {
-            message.innerText = "Erro ao fazer login."
-            console.error(error);
         }
     });
 }
