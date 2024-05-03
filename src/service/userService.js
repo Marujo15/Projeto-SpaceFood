@@ -75,9 +75,9 @@ const checkUsernameExistsService = async (username) => {
     }
 };
 
-const loginService = async (username, password) => {
+const loginService = async (email, password) => {
     try {
-        const result = await userRepository.loginQuery(username);
+        const result = await userRepository.loginQuery(email);
 
         if (result.rows.length > 0) {
             const user = result.rows[0];
